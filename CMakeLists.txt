@@ -71,16 +71,16 @@ IF(${DOXYGEN})
 	add_custom_target(docs COMMAND ${DOXYGEN_BINARY} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs")
 ENDIF()
 
-option(FORMAT "determines to create make format that performes format all files !!! IN SOURCE DIR !!!" OFF)
+option(FORMAT "determines to create make format that performes format all files !!! IN SOURCE DIR !!!" ON)
 IF(${FORMAT})
 
 	# get all files to format
-	file(GLOB_RECURSE FILES_TO_FORMAT LIST_DIRECTORIES false RELATIVE ${CMAKE_SOURCE_DIR} *.hpp *.cpp *.h *.test.h *.cpp.in)
+	file(GLOB_RECURSE FILES_TO_FORMAT LIST_DIRECTORIES false RELATIVE ${CMAKE_SOURCE_DIR} *.hpp *.cpp *.h *.test.h)
 
 	# filter out direcotries
 	set(FILES_FOR_CLANG_FORMAT)
 	foreach(x ${FILES_TO_FORMAT})
-		if(x MATCHES "antybiurokrata/gen/.*" OR x MATCHES "tests/src/tests.cpp.in" OR x MATCHES "libraries/QtXlsxWriter/.*")
+		if(x MATCHES "tests/src/tests.cpp.in")
 			continue() 
 		endif()
 		list(APPEND FILES_FOR_CLANG_FORMAT "${x}")
