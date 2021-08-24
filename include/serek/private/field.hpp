@@ -20,34 +20,13 @@ namespace serek
 {
 	namespace detail
 	{
-		template<typename T>
-		concept field_impl_field_t_req = requires
-		{
-			requires !std::is_fundamental_v<T>;
-			requires !std::is_final_v<T>;
-		};
-
-		template<typename T>
-		concept fundamental_req = requires
-		{
-			requires std::is_fundamental_v<T>;
-		};
-
-		using visitor_result_t = visitors::result_t;
-		inline constexpr visitor_result_t get_end_visitor_result() { return false; }
-
-		template<typename T>
-		concept acceptor_worker_req = requires(T x)
-		{
-			std::same_as<decltype(x.result), visitor_result_t>;
-		};
-
+		using namespace requirements::detail;
 		struct acceptor_base
 		{
 			visitor_result_t result{};
 
 		 protected:
-			template<visitors::visitor_req visitor_t>
+			template<visitor_req visitor_t>
 			void validate_visitator(visitor_t* visitor) const
 			{
 				if(visitor == nullptr) throw std::invalid_argument{"visitor cannot be nullptr"};
@@ -58,7 +37,7 @@ namespace serek
 
 		struct basic_acceptor_worker : public acceptor_base
 		{
-			template<visitors::visitor_req visitor_t>
+			template<visitor_req visitor_t>
 			explicit basic_acceptor_worker(visitor_t* visitor)
 			{
 				validate_visitator(visitor);
@@ -68,7 +47,7 @@ namespace serek
 		template<typename class_t, auto value>
 		struct forward_acceptor_worker : public acceptor_base
 		{
-			template<visitors::visitor_req visitor_t>
+			template<visitor_req visitor_t>
 			explicit forward_acceptor_worker(visitor_t* visitor)
 			{
 				validate_visitator(visitor);
@@ -82,12 +61,12 @@ namespace serek
 
 		template<acceptor_worker_req acceptor_worker_t> struct acceptor_core_impl
 		{
-			template<visitors::visitor_req visitor_t> visitor_result_t accept(visitor_t* visitor)
+			template<visitor_req visitor_t> visitor_result_t accept(visitor_t* visitor)
 			{
 				return acceptor_worker_t{visitor}.result;
 			}
 
-			template<visitors::visitor_req visitor_t>
+			template<visitor_req visitor_t>
 			visitor_result_t accept(visitor_t* visitor) const
 			{
 				return acceptor_worker_t{visitor}.result;
