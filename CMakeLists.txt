@@ -47,10 +47,6 @@ else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts-diagnostics-depth=5")
 endif()
 
-# setup threads
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-
 # create library
 add_library( ${PROJECT_NAME} ${SOURCE_PATH}/serek.cpp)
 target_include_directories( ${PROJECT_NAME} PUBLIC ${HEADER_PATH})
