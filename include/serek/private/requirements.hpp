@@ -2,6 +2,7 @@
 
 #include <concepts>
 #include "types.hpp"
+#include "fundamental_type_holder.hpp"
 
 namespace serek
 {
@@ -23,23 +24,44 @@ namespace serek
 			};
 
 			template<typename T>
-			concept acceptor_worker_req = requires(T x)
+			concept fundamental_wrapper_req = requires
 			{
-				std::same_as<decltype(x.result), visitor_result_t>;
-			};
-
-			template<typename acceptor_t>
-			concept acceptor_req = requires(acceptor_t* x)
-			{
-				std::same_as<decltype(x->accept(nullptr)), visitor_result_t>;
+				typename T::_____fundamental_type_wrapper;
+				typename T::value_t;
 			};
 
 			template<typename visitor_t>
 			concept visitor_req = requires(visitor_t* x)
 			{
-				std::same_as<decltype(x->visit(nullptr)), visitor_result_t>;
+				std::same_as<decltype(x->template visit(
+									  new serek::detail::fundamental_type_holder<int>)),
+								 visitor_result_t>;
 				std::same_as<decltype(x->last_result), visitor_result_t>;
 				std::same_as<decltype(x->that), void*>;
+			};
+
+			namespace acceptor_req_details
+			{
+				struct ex_vis
+				{
+					visitor_result_t last_result;
+					void* that;
+					template<typename T> visitor_result_t visit(T*) { return visitor_result_t{}; }
+				};
+			}	 // namespace acceptor_req_details
+
+			template<typename acceptor_t>
+			concept acceptor_req = requires(acceptor_t* x)
+			{
+				std::same_as<decltype(x->template accept(new acceptor_req_details::ex_vis)),
+								 visitor_result_t>;
+			};
+
+			template<typename T>
+			concept acceptor_worker_req = requires(T x)
+			{
+				{T{nullptr, new acceptor_req_details::ex_vis}};
+				std::same_as<decltype(x.result), visitor_result_t>;
 			};
 
 		}	 // namespace detail
