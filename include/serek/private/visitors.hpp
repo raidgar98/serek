@@ -28,7 +28,7 @@ namespace serek
 			struct base_visitor_members
 			{
 				void* that;
-				result_t last_result;
+			visitor_result_t last_result;
 			};
 
 			struct inline_base_visitor : public base_visitor_members
@@ -41,7 +41,7 @@ namespace serek
 		}	 // namespace helpers
 
 		template<visitor_req visitor_t, acceptor_req acceptor_t>
-		result_t visit(visitor_t* vis, acceptor_t* object)
+		visitor_result_t visit(visitor_t* vis, acceptor_t* object)
 		{
 			assert(object != nullptr);
 			// assert( vis != nullptr );
