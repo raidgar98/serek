@@ -5,7 +5,6 @@
 
 struct print_visitor
 {
-
 };
 
 struct DUPA
@@ -13,7 +12,7 @@ struct DUPA
 	int dudud;
 };
 
-struct dupa 
+struct dupa
 {
 	serek::ffield<int> gg;
 	serek::field<&dupa::gg, DUPA> y{};
@@ -24,15 +23,14 @@ struct my_vis : public serek::visitors::base_visitor_members
 {
 	using res_t = serek::visitor_result_t;
 
-	template<serek::reqs::fundamental_wrapper_req T>
-	res_t visit(T* v)
+	template<serek::reqs::fundamental_wrapper_req T> res_t visit(T* v)
 	{
-		std::cout << boost::typeindex::type_id<typename T::value_t>().pretty_name() << ": " << *v << std::endl;
+		std::cout << boost::typeindex::type_id<typename T::value_t>().pretty_name() << ": " << *v
+					 << std::endl;
 		return true;
 	}
 
-	template<typename T>
-	res_t visit(T*)
+	template<typename T> res_t visit(T*)
 	{
 		std::cout << boost::typeindex::type_id<T>().pretty_name() << std::endl;
 		return true;
@@ -42,7 +40,7 @@ struct my_vis : public serek::visitors::base_visitor_members
 
 int main()
 {
-	dupa x{ .gg{2}, .z{21.37f}};
+	dupa x{.gg{2}, .z{21.37f}};
 
 	// using x_x_t = decltype(x.gg);
 	// using x_y_t = decltype(x.y);
@@ -55,12 +53,12 @@ int main()
 	// std::cout << (x.gg < 1) << std::endl;
 	// std::cout << (20 - x.gg) << std::endl;
 	// std::cout << x.gg << std::endl;
-	
+
 	// std::cout << x.z << std::endl;
 
 	my_vis vv{&x};
 	// vv.template visit<int>(nullptr);
-	serek::visitors::visit( &vv, &x.z);
+	serek::visitors::visit(&vv, &x.z);
 
 	return 0;
 }
