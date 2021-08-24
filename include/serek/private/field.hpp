@@ -20,10 +20,7 @@ namespace serek
 {
 	namespace detail
 	{
-		using namespace requirements::detail;
-		struct acceptor_base
-		{
-			visitor_result_t result{};
+		template<typename current_field_t, reqs::acceptor_worker_req acceptor_worker_t>
 
 		 protected:
 			template<visitor_req visitor_t>
@@ -35,10 +32,8 @@ namespace serek
 			}
 		};
 
-		struct basic_acceptor_worker : public acceptor_base
-		{
-			template<visitor_req visitor_t>
-			explicit basic_acceptor_worker(visitor_t* visitor)
+		template<reqs::field_impl_field_t_req current_field_t,
+					reqs::acceptor_worker_req acceptor_worker_t>
 			{
 				validate_visitator(visitor);
 				result = visitor->visit(this);
@@ -59,7 +54,7 @@ namespace serek
 			}
 		};
 
-		template<acceptor_worker_req acceptor_worker_t> struct acceptor_core_impl
+		template<reqs::fundamental_req current_field_t, reqs::acceptor_worker_req acceptor_worker_t>
 		{
 			template<visitor_req visitor_t> visitor_result_t accept(visitor_t* visitor)
 			{

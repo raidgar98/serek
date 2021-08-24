@@ -44,4 +44,6 @@ namespace serek
 
 		}	 // namespace detail
 	}		 // namespace requirements
+
+	namespace reqs = requirements::detail;
 }	 // namespace serek
