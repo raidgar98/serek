@@ -1,44 +1,21 @@
 #pragma once
 
-#include <concepts>
 #include <functional>
 #include <cassert>
+
+#include "requirements.hpp"
 
 namespace serek
 {
 	namespace visitors
 	{
-		using result_t = bool;
-		template<typename acceptor_t>
-		concept acceptor_req = requires(acceptor_t* x)
-		{
-			{ x->accept(nullptr) } -> std::same_as<result_t>;
-		};
+		using namespace requirements::detail;
 
-		template<typename visitor_t>
-		concept visitor_req = requires(visitor_t* x)
+		struct base_visitor_members
 		{
-			{ x->visit(nullptr) } -> std::same_as<result_t>;
-			{ x->last_result } -> std::same_as<result_t>;
-			{ x->that } -> std::same_as<void*>;
-		};
-
-		namespace helpers
-		{
-			struct base_visitor_members
-			{
-				void* that;
+			void* that;
 			visitor_result_t last_result;
-			};
-
-			struct inline_base_visitor : public base_visitor_members
-			{
-				using visitor_fun_t = std::function<result_t(void*)>;
-				visitor_fun_t foo;
-
-				template<typename acceptor_t> result_t visit(acceptor_t* object) { return foo(object); }
-			};
-		}	 // namespace helpers
+		};
 
 		template<visitor_req visitor_t, acceptor_req acceptor_t>
 		visitor_result_t visit(visitor_t* vis, acceptor_t* object)
