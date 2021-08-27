@@ -16,12 +16,21 @@ namespace serek
 			{
 				return acceptor_worker_t<child_t>{
 					 reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)),
-					 visitor}.result;
+					 visitor}
+					 .result;
 			}
 		};
 
 		namespace workers
 		{
+			namespace
+			{
+				inline auto call_visitator(auto* visitator, auto* acceptor)
+				{
+					return (*visitator)(acceptor);
+				}
+			}	 // namespace
+
 			template<typename child_t> struct acceptor_worker_base
 			{
 				visitor_result_t result{};
@@ -42,7 +51,7 @@ namespace serek
 				basic_acceptor_worker(child_t* acceptor, visitor_t* visitor)
 				{
 					this->validate_visitator(visitor);
-					this->result = visitor->template operator()<child_t>(acceptor);
+					this->result = call_visitator(visitor, acceptor);
 				}
 			};
 
@@ -53,7 +62,7 @@ namespace serek
 				finalize_acceptor_worker(child_t* acceptor, visitor_t* visitor)
 				{
 					this->validate_visitator(visitor);
-					visitor->template operator()<child_t>(acceptor);
+					call_visitator(visitor, acceptor);
 					this->result = false;
 				}
 			};
@@ -70,10 +79,10 @@ namespace serek
 					forward_acceptor_worker_impl(child_t* acceptor, visitor_t* visitor)
 					{
 						this->validate_visitator(visitor);
-						visitor->last_result = visitors::template visit<visitor_t, next_field_t>(
-							 visitor,
+						visitor->last_result
+							 = visitors::visit(visitor,
 							 &(reinterpret_cast<class_t*>(visitor->that)->*value));
-						this->result = visitor->template operator()<child_t>(acceptor);
+						this->result = call_visitator(visitor, acceptor);
 					}
 				};
 			};
