@@ -76,9 +76,21 @@ else()
 	add_compiler_flags( -fconcepts-diagnostics-depth=5 )
 endif()
 
+# pre-configuring boost
+	# stacktrace
+	add_compile_definitions(BOOST_STACKTRACE_USE_BACKTRACE)
+	IF( ${CMAKE_BUILD_TYPE} STREQUAL "Debug" OR ${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo" )
+		message("attachibng debug symbols")
+		add_compiler_flags(-g3)
+	ENDIF()
+
+# adding boost
+find_library(BOOST_STACKTRACE_BACKTRACE_LIBRARY NAMES boost_stacktrace_backtrace)
+
 # create library
-add_library( ${PROJECT_NAME} ${SOURCE_PATH}/serek.cpp)
-target_include_directories( ${PROJECT_NAME} PUBLIC ${HEADER_PATH})
+add_library( ${PROJECT_NAME} STATIC ${SOURCE_PATH}/serek.cpp)
+target_include_directories( ${PROJECT_NAME} PUBLIC ${HEADER_PATH} PRIVATE ${Boost_INCLUDE_DIRS} )
+target_link_libraries(serek PRIVATE dl ${Boost_LIBRARIES} backtrace )
 
 # doxygen
 option(DOXYGEN "determines to generate docs or not" OFF)
