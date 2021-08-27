@@ -12,12 +12,11 @@ namespace serek
 		template<template<typename T> typename acceptor_worker_t, typename child_t>
 		struct acceptor_impl<acceptor_worker_t<child_t>>
 		{
-			template<reqs::visitor_req visitor_t> visitor_result_t accept(visitor_t* visitor)
+			template<reqs::visitor_req visitor_t> visitor_result_t visit(visitor_t* visitor)
 			{
 				return acceptor_worker_t<child_t>{
 					 reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)),
-					 visitor}
-					 .result;
+					 visitor}.result;
 			}
 		};
 
@@ -43,7 +42,7 @@ namespace serek
 				basic_acceptor_worker(child_t* acceptor, visitor_t* visitor)
 				{
 					this->validate_visitator(visitor);
-					this->result = visitor->template visit<child_t>(acceptor);
+					this->result = visitor->template operator()<child_t>(acceptor);
 				}
 			};
 
@@ -54,7 +53,7 @@ namespace serek
 				finalize_acceptor_worker(child_t* acceptor, visitor_t* visitor)
 				{
 					this->validate_visitator(visitor);
-					visitor->template visit<child_t>(acceptor);
+					visitor->template operator()<child_t>(acceptor);
 					this->result = false;
 				}
 			};
@@ -74,7 +73,7 @@ namespace serek
 						visitor->last_result = visitors::template visit<visitor_t, next_field_t>(
 							 visitor,
 							 &(reinterpret_cast<class_t*>(visitor->that)->*value));
-						this->result = visitor->template visit<child_t>(acceptor);
+						this->result = visitor->template operator()<child_t>(acceptor);
 					}
 				};
 			};
