@@ -22,7 +22,7 @@ namespace serek
 		{
 			assert(object != nullptr);
 			// assert( vis != nullptr );
-			return object->accept(vis);
+			return object->visit(vis);
 		}
 	}	 // namespace visitors
 }	 // namespace serek

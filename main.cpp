@@ -19,14 +19,14 @@ struct my_vis : public serek::visitors::base_visitor_members
 {
 	using res_t = serek::visitor_result_t;
 
-	template<serek::reqs::fundamental_wrapper_req T> res_t visit(T* v)
+	template<serek::reqs::fundamental_wrapper_req T> res_t operator()(T* v)
 	{
 		std::cout << boost::typeindex::type_id<typename T::value_t>().pretty_name() << ": " << *v
 					 << std::endl;
 		return true;
 	}
 
-	template<typename T> res_t visit(T*)
+	template<typename T> res_t operator()(T*)
 	{
 		std::cout << boost::typeindex::type_id<T>().pretty_name() << std::endl;
 		return true;
