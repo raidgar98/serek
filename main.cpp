@@ -38,6 +38,9 @@ int main()
 {
 	sample_class x{.gg{2}, .z{21.37f}};
 
+	serek::exceptions::exception_base ex{};
+	std::cout << ex.what() << std::endl;
+
 	// using x_x_t = decltype(x.gg);
 	// using x_y_t = decltype(x.y);
 
