@@ -3,10 +3,6 @@
 
 #include <boost/type_index.hpp>
 
-struct print_visitor
-{
-};
-
 struct Sample
 {
 	int dudud;
