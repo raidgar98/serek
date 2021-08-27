@@ -107,6 +107,7 @@ IF(${DOXYGEN})
 	add_custom_target(docs COMMAND ${DOXYGEN_BINARY} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs")
 ENDIF()
 
+# formatting
 option(FORMAT "determines to create make format that performes format all files !!! IN SOURCE DIR !!!" ON)
 IF(${FORMAT})
 
