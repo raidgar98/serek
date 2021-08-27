@@ -7,16 +7,16 @@ struct print_visitor
 {
 };
 
-struct DUPA
+struct Sample
 {
 	int dudud;
 };
 
-struct dupa
+struct sample_class
 {
 	serek::ffield<int> gg;
-	serek::field<&dupa::gg, DUPA> y{};
-	serek::field<&dupa::y, float> z{2.67f};
+	serek::field<&sample_class::gg, Sample> y{};
+	serek::field<&sample_class::y, float> z{2.67f};
 };
 
 struct my_vis : public serek::visitors::base_visitor_members
@@ -40,7 +40,7 @@ struct my_vis : public serek::visitors::base_visitor_members
 
 int main()
 {
-	dupa x{.gg{2}, .z{21.37f}};
+	sample_class x{.gg{2}, .z{21.37f}};
 
 	// using x_x_t = decltype(x.gg);
 	// using x_y_t = decltype(x.y);
