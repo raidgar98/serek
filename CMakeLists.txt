@@ -119,7 +119,7 @@ IF(${DOXYGEN})
 	# Adding target
 	find_program(DOXYGEN_BINARY doxygen HINTS /usr/bin)
 	# To run: `make docs`
-	add_custom_target(docs COMMAND ${DOXYGEN_BINARY} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs")
+	add_custom_target(docs COMMAND ${DOXYGEN_BINARY} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
 ENDIF()
 
 # formatting
@@ -142,11 +142,11 @@ IF(${FORMAT})
 	find_program(CLANG_FORMAT_BINARY clang-format HINTS /usr/bin)
 
 	# To run: `make format` in build directory
-	add_custom_target(format COMMAND ${CLANG_FORMAT_BINARY} -style=file -i ${FILES_FOR_CLANG_FORMAT} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+	add_custom_target(format COMMAND ${CLANG_FORMAT_BINARY} -style=file -i ${FILES_FOR_CLANG_FORMAT} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMENT "formating sources...")
 ENDIF()
 
 # cppcheck
-option(STATIC_CHECK "if set to on [default] create target 'static_check' that allows to execute static code analysis of profect" ON)
+option(STATIC_CHECK "if set to ON [default] create target 'static_check' that allows to execute static code analysis of profect" ON)
 if(${STATIC_CHECK})
 	find_program (CPPCHECK "cppcheck")
 	find_program(PYTHON "python")
@@ -164,12 +164,11 @@ if(${STATIC_CHECK})
 							--output-file=${CPP_CHECK_OUTPUT_FILE}
 							--report-progress
 							--error-exitcode=-1
+							COMMENT "performing static code analysis..."
 	)
 endif()
 
-# add tests
-# add_subdirectory(tests)
-
+# handle workbook
 if( EXISTS ${CMAKE_SOURCE_DIR}/workbook.cpp )
 	add_executable(main ${CMAKE_SOURCE_DIR}/workbook.cpp)
 	target_link_libraries(main PRIVATE serek)
