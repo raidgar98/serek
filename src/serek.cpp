@@ -8,7 +8,7 @@
 
 namespace
 {
-	void save_stacktrace(std::unique_ptr<std::string>& out)
+	void save_stacktrace(std::unique_ptr<serek::str>& out)
 	{
 		const auto frames{boost::stacktrace::stacktrace().as_vector()};
 		std::stringstream stream{};
@@ -17,16 +17,15 @@ namespace
 	}
 }	 // namespace
 #else
-void save_stacktrace(std::string& out) {}
+void save_stacktrace(str& out) {}
 #endif
 
-serek::exceptions::exception_base::exception_base(const char* msg) :
-	 message{std::make_unique<std::string>(msg)}
+	exceptions::exception_base::exception_base(str_v msg) : message{std::make_unique<str>(msg)}
 {
 	save_stacktrace(this->stacktrace);
 }
 
-std::string serek::exceptions::exception_base::pretty() const noexcept
+	str exceptions::exception_base::pretty() const noexcept
 {
 	std::stringstream ss;
 	ss << "exception message: " << this->what() << "\n"
