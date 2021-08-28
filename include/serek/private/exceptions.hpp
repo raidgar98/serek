@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <memory>
 
-#include <serek/private/types.hpp>
+#include <serek/private/requirements.hpp>
 
 namespace serek
 {

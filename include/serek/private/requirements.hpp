@@ -1,8 +1,9 @@
 #pragma once
 
 #include <concepts>
-#include "types.hpp"
-#include "fundamental_type_holder.hpp"
+
+#include <serek/private/types.hpp>
+#include <serek/private/fundamental_type_holder.hpp>
 
 namespace serek
 {

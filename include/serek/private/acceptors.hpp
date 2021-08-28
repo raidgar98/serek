@@ -1,6 +1,6 @@
 #pragma once
 
-#include "requirements.hpp"
+#include <serek/private/requirements.hpp>
 
 namespace serek
 {

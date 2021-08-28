@@ -13,9 +13,9 @@
 
 #include <concepts>
 #include <stdexcept>
-#include "fundamental_type_holder.hpp"
-#include "visitors.hpp"
-#include "acceptors.hpp"
+#include <serek/private/fundamental_type_holder.hpp>
+#include <serek/private/visitors.hpp>
+#include <serek/private/acceptors.hpp>
 
 namespace serek
 {

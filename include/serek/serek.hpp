@@ -1,6 +1,7 @@
 #pragma once
 
-#include "private/field.hpp"
+#include <serek/private/exceptions.hpp>
+#include <serek/private/field.hpp>
 
 namespace serek
 {

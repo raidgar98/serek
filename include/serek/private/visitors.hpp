@@ -3,7 +3,7 @@
 #include <functional>
 #include <cassert>
 
-#include "requirements.hpp"
+#include <serek/private/requirements.hpp>
 
 namespace serek
 {
