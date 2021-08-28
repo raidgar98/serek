@@ -8,6 +8,9 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
 	message(FATAL_ERROR "In-source builds are not allowed, remove CMakeFiles and CMakeCache.txt")
 endif()
 
+# setup cmake
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # update submodules
 find_program(GIT_PROGRAM git)
 if(NOT GIT_PROGRAM)
@@ -142,9 +145,32 @@ IF(${FORMAT})
 	add_custom_target(format COMMAND ${CLANG_FORMAT_BINARY} -style=file -i ${FILES_FOR_CLANG_FORMAT} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 ENDIF()
 
+# cppcheck
+option(STATIC_CHECK "if set to on [default] create target 'static_check' that allows to execute static code analysis of profect" ON)
+if(${STATIC_CHECK})
+	find_program (CPPCHECK "cppcheck")
+	find_program(PYTHON "python")
+	set( CPP_CHECK_OUTPUT_FILE cpp_check.log )
+
+	add_custom_target (static_check
+							COMMAND cppcheck
+							--enable=all
+							--std=c++20
+							--suppress=missingIncludeSystem
+							--project=compile_commands.json
+							--check-config
+							--verbose
+							--check-library
+							--output-file=${CPP_CHECK_OUTPUT_FILE}
+							--report-progress
+							--error-exitcode=-1
+	)
+endif()
+
 # add tests
 # add_subdirectory(tests)
 
+# TODO: delete after adding tests
 add_executable(main main.cpp)
 target_link_libraries(main PRIVATE serek)
 
