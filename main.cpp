@@ -8,12 +8,14 @@ struct Sample
 	int dudud;
 };
 
-struct sample_class
+struct sample_class_impl
 {
 	serek::ffield<int> gg;
-	serek::field<&sample_class::gg, Sample> y{};
-	serek::field<&sample_class::y, float> z{2.67f};
+	serek::field<&sample_class_impl::gg, Sample> y{};
+	serek::field<&sample_class_impl::y, float> z{2.67f};
 };
+
+using sample_class = serek::pack<&sample_class_impl::z>;
 
 struct my_vis : public serek::visitors::base_visitor_members
 {
@@ -40,7 +42,7 @@ template<> void foo<0>() { serek::require(nullptr); }
 
 int main()
 {
-	sample_class x{.gg{2}, .z{21.37f}};
+	sample_class x{2};
 
 	try
 	{
@@ -68,7 +70,7 @@ int main()
 
 	my_vis vv{&x};
 	// vv.template visit<int>(nullptr);
-	serek::visitors::visit(&vv, &x.z);
+	serek::visitors::visit(&vv, &x);
 
 	return 0;
 }
