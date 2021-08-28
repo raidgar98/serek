@@ -100,7 +100,7 @@ option(DOXYGEN "determines to generate docs or not" OFF)
 IF(${DOXYGEN})
 
 	# Preparing tree driectory
-	set(DOXYFILE_PATH_SOURCE "${CMAKE_SOURCE_DIR}/gen/docs/Doxyfile.in")
+	set(DOXYFILE_PATH_SOURCE "${CMAKE_SOURCE_DIR}/docs/Doxyfile.in")
 	set(DOXYFILE_PATH_DEST "${CMAKE_BINARY_DIR}/docs")
 	file(MAKE_DIRECTORY ${DOXYFILE_PATH_DEST})
 	file(COPY ${DOXYFILE_PATH_SOURCE} DESTINATION ${DOXYFILE_PATH_DEST})
@@ -108,9 +108,9 @@ IF(${DOXYGEN})
 	file(RENAME ${DOXYFILE_PATH_DEST}.in ${DOXYFILE_PATH_DEST})
 
 	# Setting up sources
-	file(APPEND ${DOXYFILE_PATH_DEST} "\nINPUT = ${CMAKE_SOURCE_DIR}/libraries ${CMAKE_SOURCE_DIR}/windows \n")
+	file(APPEND ${DOXYFILE_PATH_DEST} "\nINPUT = ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src \n")
 	file(APPEND ${DOXYFILE_PATH_DEST} "OUTPUT_DIRECTORY = ${CMAKE_BINARY_DIR}/docs \n")
-	file(APPEND ${DOXYFILE_PATH_DEST} "EXCLUDE_PATTERNS = ${CMAKE_SOURCE_DIR}/libraries/QtXlsxWriter \n")
+	# file(APPEND ${DOXYFILE_PATH_DEST} "EXCLUDE_PATTERNS = \n")
 	
 	# Image
 	file(APPEND ${DOXYFILE_PATH_DEST} "PROJECT_LOGO = \"${CMAKE_SOURCE_DIR}/gen/docs/image.png\" \n")
