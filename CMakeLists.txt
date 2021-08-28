@@ -174,3 +174,10 @@ if( EXISTS ${CMAKE_SOURCE_DIR}/workbook.cpp )
 	target_link_libraries(main PRIVATE serek)
 endif()
 
+# add tests
+option(BUILD_TESTS "if set to ON [default] creates tests and adds target 'test' which run all tests" ON)
+if(${BUILD_TESTS})
+	enable_testing()
+	include(Dart)
+	add_subdirectory(tests)
+endif()
