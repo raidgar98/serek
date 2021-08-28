@@ -11,18 +11,15 @@ namespace serek
 	{
 		struct exception_base : public std::exception
 		{
-			exception_base(const char* msg = "unknown");
+			exception_base(str_v msg = "unknown");
 
 			virtual const char* what() const noexcept;
-			virtual std::string pretty() const noexcept;
-			inline friend std::ostream& operator<<(std::ostream& os, const exception_base& ex)
-			{
-				return os << ex.pretty();
-			}
+			virtual str pretty() const noexcept;
 
 		 private:
-			std::unique_ptr<std::string> message;
-			std::unique_ptr<std::string> stacktrace;
+			std::unique_ptr<str> message;
+			std::unique_ptr<str> stacktrace;
+		};
 		};
 	}	 // namespace exceptions
 }	 // namespace serek
