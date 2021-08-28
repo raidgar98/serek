@@ -170,7 +170,8 @@ endif()
 # add tests
 # add_subdirectory(tests)
 
-# TODO: delete after adding tests
-add_executable(main main.cpp)
-target_link_libraries(main PRIVATE serek)
+if( EXISTS ${CMAKE_SOURCE_DIR}/workbook.cpp )
+	add_executable(main ${CMAKE_SOURCE_DIR}/workbook.cpp)
+	target_link_libraries(main PRIVATE serek)
+endif()
 
