@@ -7,7 +7,8 @@ namespace serek
 {
 	namespace detail
 	{
-		template<typename T> struct fundamental_type_holder
+		template<typename T>
+		struct fundamental_type_holder
 		{
 			using _____fundamental_type_wrapper = std::true_type;
 			using value_t								= T;

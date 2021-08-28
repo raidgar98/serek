@@ -7,17 +7,16 @@ namespace serek
 	namespace acceptors
 	{
 
-		template<reqs::acceptor_worker_req acceptor_worker_t> struct acceptor_impl;
+		template<reqs::acceptor_worker_req acceptor_worker_t>
+		struct acceptor_impl;
 
 		template<template<typename T> typename acceptor_worker_t, typename child_t>
 		struct acceptor_impl<acceptor_worker_t<child_t>>
 		{
-			template<reqs::visitor_req visitor_t> visitor_result_t visit(visitor_t* visitor)
+			template<reqs::visitor_req visitor_t>
+			visitor_result_t visit(visitor_t* visitor)
 			{
-				return acceptor_worker_t<child_t>{
-					 reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)),
-					 visitor}
-					 .result;
+				return acceptor_worker_t<child_t>{reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)), visitor}.result;
 			}
 		};
 
@@ -25,18 +24,17 @@ namespace serek
 		{
 			namespace
 			{
-				inline auto call_visitator(auto* visitator, auto* acceptor)
-				{
-					return (*visitator)(acceptor);
-				}
+				inline auto call_visitator(auto* visitator, auto* acceptor) { return (*visitator)(acceptor); }
 			}	 // namespace
 
-			template<typename child_t> struct acceptor_worker_base
+			template<typename child_t>
+			struct acceptor_worker_base
 			{
 				visitor_result_t result{};
 
 			 protected:
-				template<reqs::visitor_req visitor_t> void validate_visitator(visitor_t* visitor) const
+				template<reqs::visitor_req visitor_t>
+				void validate_visitator(visitor_t* visitor) const
 				{
 					require(visitor, "visitor cannot be nullptr");
 					require(visitor->that, "`that` in visitor cannot be nullptr");
@@ -66,7 +64,8 @@ namespace serek
 				}
 			};
 
-			template<auto value> struct forward_acceptor_creator;
+			template<auto value>
+			struct forward_acceptor_creator;
 
 			template<typename class_t, typename next_field_t, next_field_t class_t::*value>
 			struct forward_acceptor_creator<value>
@@ -78,10 +77,8 @@ namespace serek
 					forward_acceptor_worker_impl(child_t* acceptor, visitor_t* visitor)
 					{
 						this->validate_visitator(visitor);
-						visitor->last_result
-							 = visitors::visit(visitor,
-													 &(reinterpret_cast<class_t*>(visitor->that)->*value));
-						this->result = call_visitator(visitor, acceptor);
+						visitor->last_result = visitors::visit(visitor, &(reinterpret_cast<class_t*>(visitor->that)->*value));
+						this->result			= call_visitator(visitor, acceptor);
 					}
 				};
 			};

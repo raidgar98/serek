@@ -17,8 +17,8 @@ namespace serek
 			virtual str pretty() const noexcept;
 
 		 private:
-			std::unique_ptr<str> message;
-			std::unique_ptr<str> stacktrace;
+			std::shared_ptr<str> message;
+			std::shared_ptr<str> stacktrace;
 		};
 
 		struct assert_exception : public exception_base
@@ -32,17 +32,16 @@ namespace serek
 		};
 	}	 // namespace exceptions
 
-	template<typename exception_t = typename exceptions::assert_exception>
+	template<reqs::throwable_req exception_t = typename exceptions::assert_exception>
 	void require(const bool result, const str_v error_message = "failed on check!")
 	{
 		if(!result) throw exception_t{error_message};
 	}
 
-	template<reqs::comparable_as_pointer_req pointer_t,
-				typename exception_t = typename exceptions::pointer_was_null_exception>
+	template<reqs::comparable_as_pointer_req pointer_t>
 	void require(const pointer_t& result, const str_v error_message = "given pointer was null!")
 	{
-		if(result == nullptr) throw exception_t{error_message};
+		if(result == nullptr) throw exceptions::pointer_was_null_exception{error_message};
 	}
 }	 // namespace serek
 
