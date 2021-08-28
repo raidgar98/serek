@@ -34,12 +34,23 @@ struct my_vis : public serek::visitors::base_visitor_members
 };
 
 
+template<int N> void foo() { foo<N - 1>(); }
+
+template<> void foo<0>() { serek::require(nullptr); }
+
 int main()
 {
 	sample_class x{.gg{2}, .z{21.37f}};
 
-	serek::exceptions::exception_base ex{};
-	std::cout << ex.what() << std::endl;
+	try
+	{
+		foo<10>();
+		// serek::require( nullptr );
+	}
+	catch(const serek::exceptions::exception_base& ex)
+	{
+		std::cout << ex.pretty() << std::endl;
+	}
 
 	// using x_x_t = decltype(x.gg);
 	// using x_y_t = decltype(x.y);
