@@ -25,6 +25,10 @@ namespace serek
 		{
 			using exception_base::exception_base;
 		};
+
+		struct pointer_was_null_exception : public exception_base
+		{
+			using exception_base::exception_base;
 		};
 	}	 // namespace exceptions
 
@@ -32,6 +36,13 @@ namespace serek
 	void require(const bool result, const str_v error_message = "failed on check!")
 	{
 		if(!result) throw exception_t{error_message};
+	}
+
+	template<reqs::comparable_as_pointer_req pointer_t,
+				typename exception_t = typename exceptions::pointer_was_null_exception>
+	void require(const pointer_t& result, const str_v error_message = "given pointer was null!")
+	{
+		if(result == nullptr) throw exception_t{error_message};
 	}
 }	 // namespace serek
 
