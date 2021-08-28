@@ -53,15 +53,9 @@ namespace serek
 			};
 
 			template<typename child_t>
-			struct finalize_acceptor_worker : public acceptor_worker_base<child_t>
+			struct finalize_acceptor_worker : public basic_acceptor_worker<child_t>
 			{
-				template<reqs::visitor_req visitor_t>
-				finalize_acceptor_worker(child_t* acceptor, visitor_t* visitor)
-				{
-					this->validate_visitator(visitor);
-					call_visitator(visitor, acceptor);
-					this->result = false;
-				}
+				using basic_acceptor_worker<child_t>::basic_acceptor_worker;
 			};
 
 			template<auto value>
