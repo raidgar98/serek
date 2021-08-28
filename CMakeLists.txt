@@ -132,7 +132,7 @@ IF(${FORMAT})
 	# filter out direcotries
 	set(FILES_FOR_CLANG_FORMAT)
 	foreach(x ${FILES_TO_FORMAT})
-		if(x MATCHES "tests/src/tests.cpp.in")
+		if(x MATCHES "tests/ut/*")
 			continue() 
 		endif()
 		list(APPEND FILES_FOR_CLANG_FORMAT "${x}")
