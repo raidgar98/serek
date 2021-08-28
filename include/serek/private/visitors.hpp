@@ -20,8 +20,7 @@ namespace serek
 		template<visitor_req visitor_t, acceptor_req acceptor_t>
 		visitor_result_t visit(visitor_t* vis, acceptor_t* object)
 		{
-			assert(object != nullptr);
-			// assert( vis != nullptr );
+			serek::require(object);
 			return object->visit(vis);
 		}
 	}	 // namespace visitors
