@@ -65,6 +65,12 @@ namespace serek
 				std::same_as<decltype(x.result), visitor_result_t>;
 			};
 
+			template<typename T>
+			concept comparable_as_pointer_req = requires(T x)
+			{
+				std::same_as<decltype(x == nullptr), bool>;
+			};
+
 		}	 // namespace detail
 	}		 // namespace requirements
 

@@ -38,9 +38,8 @@ namespace serek
 			 protected:
 				template<reqs::visitor_req visitor_t> void validate_visitator(visitor_t* visitor) const
 				{
-					if(nullptr == visitor) throw std::invalid_argument{"visitor cannot be nullptr"};
-					assert(nullptr == visitor->that);
-					// throw std::invalid_argument{"that in visitor cannot be nullptr"};
+					require(visitor, "visitor cannot be nullptr");
+					require(visitor->that, "`that` in visitor cannot be nullptr");
 				}
 			};
 
@@ -81,7 +80,7 @@ namespace serek
 						this->validate_visitator(visitor);
 						visitor->last_result
 							 = visitors::visit(visitor,
-							 &(reinterpret_cast<class_t*>(visitor->that)->*value));
+													 &(reinterpret_cast<class_t*>(visitor->that)->*value));
 						this->result = call_visitator(visitor, acceptor);
 					}
 				};
