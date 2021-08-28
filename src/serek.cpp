@@ -35,7 +35,7 @@ void save_stacktrace(str& out) {}
 	return ss.str();
 }
 
-const char* serek::exceptions::exception_base::what() const noexcept
+std::ostream& operator<<(std::ostream& os, const serek::exceptions::exception_base& ex)
 {
-	return this->message->c_str();
+	return os << ex.pretty();
 }

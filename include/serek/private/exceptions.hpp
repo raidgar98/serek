@@ -34,3 +34,5 @@ namespace serek
 		if(!result) throw exception_t{error_message};
 	}
 }	 // namespace serek
+
+std::ostream& operator<<(std::ostream& os, const serek::exceptions::exception_base& ex);
