@@ -53,10 +53,7 @@ namespace serek
 			};
 
 			template<typename child_t>
-			struct finalize_acceptor_worker : public basic_acceptor_worker<child_t>
-			{
-				using basic_acceptor_worker<child_t>::basic_acceptor_worker;
-			};
+			using finalize_acceptor_worker = basic_acceptor_worker<child_t>;
 
 			template<auto value>
 			struct forward_acceptor_creator;
