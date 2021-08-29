@@ -95,7 +95,7 @@ target_include_directories( ${PROJECT_NAME} PUBLIC ${HEADER_PATH} PRIVATE ${Boos
 target_link_libraries(serek PRIVATE dl ${Boost_LIBRARIES} backtrace )
 
 # doxygen
-option(DOXYGEN "determines to generate docs or not" OFF)
+option(DOXYGEN "determines to generate docs or not" ON)
 IF(${DOXYGEN})
 
 	# Preparing tree driectory
@@ -112,7 +112,7 @@ IF(${DOXYGEN})
 	# file(APPEND ${DOXYFILE_PATH_DEST} "EXCLUDE_PATTERNS = \n")
 	
 	# Image
-	file(APPEND ${DOXYFILE_PATH_DEST} "PROJECT_LOGO = \"${CMAKE_SOURCE_DIR}/gen/docs/image.png\" \n")
+	# file(APPEND ${DOXYFILE_PATH_DEST} "PROJECT_LOGO = \"${CMAKE_SOURCE_DIR}/gen/docs/image.png\" \n")
 
 
 	# Adding target
