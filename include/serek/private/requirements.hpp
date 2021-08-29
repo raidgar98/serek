@@ -36,7 +36,8 @@ namespace serek
 			{
 				std::same_as<decltype(x->template operator()(new serek::detail::fundamental_type_holder<int>)), visitor_result_t>;
 				std::same_as<decltype(x->last_result), visitor_result_t>;
-				std::same_as<decltype(x->that), void*>;
+				std::same_as<decltype(x->that()), void*>;
+				{x->that(static_cast<void*>(NULL))};
 			};
 
 			namespace acceptor_req_details
@@ -44,13 +45,21 @@ namespace serek
 				struct ex_vis
 				{
 					visitor_result_t last_result;
-					void* that;
+
+					void* that() const { return const_cast<void*>(m_that); }
+					void that(void* input) { m_that = input; }
+
 					template<typename T>
 					visitor_result_t operator()(T*)
 					{
 						return visitor_result_t{};
 					}
+
+				 private:
+					volatile void* m_that = nullptr;
 				};
+				static_assert(visitor_req<ex_vis>);
+
 			}	 // namespace acceptor_req_details
 
 			template<typename acceptor_t>

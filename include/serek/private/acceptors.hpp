@@ -37,7 +37,7 @@ namespace serek
 				void validate_visitator(visitor_t* visitor) const
 				{
 					require(visitor, "visitor cannot be nullptr");
-					require(visitor->that, "`that` in visitor cannot be nullptr");
+					require(visitor->that(), "`that` in visitor cannot be nullptr");
 				}
 			};
 
@@ -68,7 +68,7 @@ namespace serek
 					forward_acceptor_worker_impl(child_t* acceptor, visitor_t* visitor)
 					{
 						this->validate_visitator(visitor);
-						visitor->last_result = visitors::visit(visitor, &(reinterpret_cast<class_t*>(visitor->that)->*value));
+						visitor->last_result = visitors::visit(visitor, &(visitor->template that<class_t>()->*value));
 						this->result			= call_visitator(visitor, acceptor);
 					}
 				};
