@@ -52,6 +52,13 @@ namespace serek
 	}
 
 	const char* exceptions::exception_base::what() const noexcept { return this->message->c_str(); }
+
+	str exceptions::comprasion_fail_exception::pretty() const noexcept
+	{
+		using namespace std::literals::string_literals;
+		return (*this->comprasion_result) + "\n"s + exception_base::pretty();
+	}
+
 }	 // namespace serek
 
 std::ostream& operator<<(std::ostream& os, const serek::exceptions::exception_base& ex) { return os << ex.pretty(); }
