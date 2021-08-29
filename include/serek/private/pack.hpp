@@ -14,8 +14,10 @@ namespace serek
 		template<typename owner_t, typename previous_field_t, previous_field_t owner_t::*value>
 		struct pack_impl<value> : public owner_t
 		{
-			template<typename ... Argv>
-			explicit pack_impl( Argv&& ... argv ) : owner_t{ {std::forward<Argv>(argv)}... } {}
+			template<typename... Argv>
+			explicit pack_impl(Argv&&... argv) : owner_t{{std::forward<Argv>(argv)}...}
+			{
+			}
 
 			template<reqs::visitor_req visitor_t>
 			visitor_result_t visit(visitor_t* v)
