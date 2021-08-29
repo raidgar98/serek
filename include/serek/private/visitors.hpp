@@ -1,8 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <cassert>
 
+#include <serek/private/exceptions.hpp>
 #include <serek/private/requirements.hpp>
 
 namespace serek
