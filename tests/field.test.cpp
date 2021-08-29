@@ -28,6 +28,7 @@ namespace
 	struct test_struct_3
 	{
 		ffield<serek::str> field_0;
+		inline friend std::ostream& operator<<(std::ostream& os, const test_struct_3& str) { return os << str.field_0; }
 	};
 
 	struct test_struct_4
@@ -60,6 +61,7 @@ namespace
 
 	struct trivial_serializer : public serek::visitors::base_visitor_members
 	{
+		using base_visitor_members::base_visitor_members;
 		using res_t = serek::visitor_result_t;
 
 		template<typename T>
@@ -84,15 +86,21 @@ namespace
 		template<typename... Argv>
 		explicit validate_order(const serek::str expected, Argv&&... args)
 		{
-			test_struct obj{{std::forward<Argv>(args)}...};
-			trivial_serializer visitor;
+			test_struct obj{std::forward<Argv>(args)...};
+			trivial_serializer visitor{&obj};
 			but::expect(serek::visitors::visit(&visitor, &((&obj)->*value)));
 			but::expect(expected == visitor.result());
 		}
 	};
 
 	but::suite proper_order = [] {
-		"order_0"_test = [] { validate_order<&test_struct_0::field_0>{"0", 0}; }; 
-		"order_1"_test = [] { validate_order<&test_struct_1::field_1>{"12", 1, 2.0f}; }; 
+		"order_0"_test = [] { validate_order<&test_struct_0::field_0>{"0", 0}; };
+		"order_1"_test = [] { validate_order<&test_struct_1::field_1>{"12", 1, 2.0f}; };
+		"order_2"_test = [] { validate_order<&test_struct_2::field_2>{"12c", 1, 2.0f, 'c'}; };
+		"order_3"_test = [] { validate_order<&test_struct_3::field_0>{"aaa", "aaa"}; };
+		"order_4"_test = [] { validate_order<&test_struct_4::field_0>{"aaa", "aaa" /* implicit conversion to test_struct_3 */}; };
+		"order_5"_test = [] { validate_order<&test_struct_5::field_2>{"13", 1, 2, 3.0f}; };
+		"order_6"_test = [] { validate_order<&test_struct_6::field_4>{"01234"}; };
+		"order_7"_test = [] { validate_order<&test_struct_7::field_2>{"02", 0, 1, 2}; };
 	};
 }	 // namespace
