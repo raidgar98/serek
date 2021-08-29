@@ -1,18 +1,52 @@
+/**
+ * @file acceptors.hpp
+ * @author Krzysztof Mochocki (raidgar98@onet.pl)
+ * @brief Contains declarations and definition of classes that handles visitors
+ * @version 0.1
+ * @date 2021-08-29
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #include <serek/private/requirements.hpp>
 
 namespace serek
 {
+	/**
+	 * @brief Contains declarations and definitions of visitor handlers
+	 */
 	namespace acceptors
 	{
 
+		/**
+		 * @brief Predeclaration of acceptor_impl
+		 * 
+		 * @tparam acceptor_worker_t statically checks is given worker is valid
+		 */
 		template<reqs::acceptor_worker_req acceptor_worker_t>
 		struct acceptor_impl;
 
+		/**
+		 * @brief Most common visitor handler, which just evaluates worker
+		 * 
+		 * @tparam acceptor_worker_t worker to call
+		 * @tparam child_t type forwarded to worker; type from derivation tree of this class
+		 */
 		template<template<typename T> typename acceptor_worker_t, typename child_t>
 		struct acceptor_impl<acceptor_worker_t<child_t>>
 		{
+			/**
+			 * @brief performs actuall job (invokes worker)
+			 * 
+			 * @tparam visitor_t type of visitor to invoker
+			 * @param visitor visitor to invoke
+			 * @return visitor_result_t
+			 * 
+			 * @see visitor_req
+			 */
 			template<reqs::visitor_req visitor_t>
 			visitor_result_t visit(visitor_t* visitor)
 			{
@@ -20,19 +54,44 @@ namespace serek
 			}
 		};
 
+		/**
+		 * @brief Contains declarations and definitions of handling visitors
+		 */
 		namespace workers
 		{
 			namespace
 			{
-				inline auto call_visitator(auto* visitator, auto* acceptor) { return (*visitator)(acceptor); }
+				/**
+				 * @brief helper function, that invokes visitor
+				 * 
+				 * @param visitor visitor to invoke
+				 * @param acceptor object to pass to visitor
+				 * @return visitor_result_t 
+				 */
+				inline visitor_result_t call_visitator(auto* visitor, auto* acceptor) { return (*visitor)(acceptor); }
 			}	 // namespace
 
+			/**
+			 * @brief base for further acceptor workers
+			 * 
+			 * @tparam child_t type that is currently handled
+			 */
 			template<typename child_t>
 			struct acceptor_worker_base
 			{
+				/**
+				 * @brief temporary storage for result of processing visitor
+				 */
 				visitor_result_t result{};
 
 			 protected:
+
+				/**
+				 * @brief helper method that validates 
+				 * 
+				 * @tparam visitor_t type of visitor
+				 * @param visitor visitor to check
+				 */
 				template<reqs::visitor_req visitor_t>
 				void validate_visitator(visitor_t* visitor) const
 				{
@@ -41,9 +100,21 @@ namespace serek
 				}
 			};
 
+			/**
+			 * @brief most common worker, that just invokes visitor
+			 * 
+			 * @tparam child_t currently processed type
+			 */
 			template<typename child_t>
 			struct basic_acceptor_worker : public acceptor_worker_base<child_t>
 			{
+				/**
+				 * @brief Construct a new basic acceptor worker object and actally performs action
+				 * 
+				 * @tparam visitor_t type of visitor
+				 * @param acceptor object to handle via visitor
+				 * @param visitor visitor to call
+				 */
 				template<reqs::visitor_req visitor_t>
 				basic_acceptor_worker(child_t* acceptor, visitor_t* visitor)
 				{
@@ -52,18 +123,47 @@ namespace serek
 				}
 			};
 
+			/**
+			 * @brief alias for acceptor that is in first member in struct
+			 * 
+			 * @tparam child_t given type of first member
+			 */
 			template<typename child_t>
 			using finalize_acceptor_worker = basic_acceptor_worker<child_t>;
 
+			/**
+			 * @brief predeclaration is used here to extract type further in specialisation
+			 * 
+			 * @tparam value static pointer to field
+			 */
 			template<auto value>
 			struct forward_acceptor_creator;
 
-			template<typename class_t, typename next_field_t, next_field_t class_t::*value>
+			/**
+			 * @brief type wrapper for `forward_acceptor_worker_impl`
+			 * 
+			 * @tparam class_t type of top level owner of field
+			 * @tparam prev_field_t type of previous memeber
+			 * @tparam value static pointer to previous member
+			 */
+			template<typename class_t, typename prev_field_t, prev_field_t class_t::*value>
 			struct forward_acceptor_creator<value>
 			{
+				/**
+				 * @brief actual implementation of acceptor worker, which forward visitor to previous member
+				 * 
+				 * @tparam child_t type of current field
+				 */
 				template<typename child_t>
 				struct forward_acceptor_worker_impl : public acceptor_worker_base<child_t>
 				{
+					/**
+					 * @brief Construct a new forward acceptor worker impl object and evaluates visitor
+					 * 
+					 * @tparam visitor_t type of visitor
+					 * @param acceptor object to pass to visitor
+					 * @param visitor visito to call
+					 */
 					template<reqs::visitor_req visitor_t>
 					forward_acceptor_worker_impl(child_t* acceptor, visitor_t* visitor)
 					{
