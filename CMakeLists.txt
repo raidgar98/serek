@@ -43,7 +43,6 @@ endif()
 # C++ setup
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_compiler_flags( -fcoroutines )
 add_compiler_flags(
 	-Werror
 	-Wall
