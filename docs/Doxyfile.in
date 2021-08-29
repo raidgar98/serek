@@ -1,6 +1,6 @@
 
 PROJECT_NAME = serek
-PROJECT_BRIEF = This library provides no-macro full-template serialization
+PROJECT_BRIEF = provides macro-free full-template serialization
 HTML_OUTPUT = html
 HTML_FILE_EXTENSION = .html
 GENERATE_HTML = YES
@@ -15,3 +15,7 @@ FILE_PATTERNS = *.hpp *.h *.cpp *.c
 GENERATE_LATEX = NO
 GENERATE_MAN = YES
 CLASS_DIAGRAMS = YES
+GENERATE_HTML = NO
+GENERATE_XML = YES
+XML_PROGRAMLISTING = NO
+M_SHOW_UNDOCUMENTED = YES

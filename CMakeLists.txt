@@ -99,26 +99,33 @@ option(DOXYGEN "determines to generate docs or not" ON)
 IF(${DOXYGEN})
 
 	# Preparing tree driectory
-	set(DOXYFILE_PATH_SOURCE "${CMAKE_SOURCE_DIR}/docs/Doxyfile.in")
+	set(DOXYFILE_SOURCE_DIRECTORY "${CMAKE_SOURCE_DIR}/docs")
+	set(DOXYFILE_PATH_SOURCE "${DOXYFILE_SOURCE_DIRECTORY}/Doxyfile.in")
 	set(DOXYFILE_PATH_DEST "${CMAKE_BINARY_DIR}/docs")
 	file(MAKE_DIRECTORY ${DOXYFILE_PATH_DEST})
 	file(COPY ${DOXYFILE_PATH_SOURCE} DESTINATION ${DOXYFILE_PATH_DEST})
 	set(DOXYFILE_PATH_DEST "${DOXYFILE_PATH_DEST}/Doxyfile")
 	file(RENAME ${DOXYFILE_PATH_DEST}.in ${DOXYFILE_PATH_DEST})
+	set(README_MD_PATH ${CMAKE_SOURCE_DIR}/README.md)
 
 	# Setting up sources
-	file(APPEND ${DOXYFILE_PATH_DEST} "\nINPUT = ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src \n")
+	file(APPEND ${DOXYFILE_PATH_DEST} "\nINPUT = ${README_MD_PATH} ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src \n")
 	file(APPEND ${DOXYFILE_PATH_DEST} "OUTPUT_DIRECTORY = ${CMAKE_BINARY_DIR}/docs \n")
+	file(APPEND ${DOXYFILE_PATH_DEST} "USE_MDFILE_AS_MAINPAGE = ${README_MD_PATH} \n")
 	# file(APPEND ${DOXYFILE_PATH_DEST} "EXCLUDE_PATTERNS = \n")
 	
 	# Image
 	# file(APPEND ${DOXYFILE_PATH_DEST} "PROJECT_LOGO = \"${CMAKE_SOURCE_DIR}/gen/docs/image.png\" \n")
 
+	# Setting up theme
+	# docs: https://mcss.mosra.cz/documentation/doxygen/
+	set(DOXYGEN_THEME_PATH "${DOXYFILE_SOURCE_DIRECTORY}/theme")
+	set(DOXYGEN_GENERATION_SCRIPT "${DOXYGEN_THEME_PATH}/documentation/doxygen.py")
 
 	# Adding target
-	find_program(DOXYGEN_BINARY doxygen HINTS /usr/bin)
+	find_program(PYTHON python)
 	# To run: `make docs`
-	add_custom_target(docs COMMAND ${DOXYGEN_BINARY} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
+	add_custom_target(docs COMMAND ${PYTHON_BINARY} ${DOXYGEN_GENERATION_SCRIPT} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
 ENDIF()
 
 # formatting
