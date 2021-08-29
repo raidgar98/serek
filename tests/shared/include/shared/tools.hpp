@@ -11,6 +11,7 @@ namespace serek
 		struct number_t
 		{
 			static inline constexpr size_t N = _N;
+			inline friend std::ostream& operator<<(std::ostream& os, const number_t&) { return os << number_t::N; }
 		};
 	}	 // namespace tests
 }	 // namespace serek
