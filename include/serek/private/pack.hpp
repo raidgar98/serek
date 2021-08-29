@@ -20,10 +20,10 @@ namespace serek
 			template<reqs::visitor_req visitor_t>
 			visitor_result_t visit(visitor_t* v)
 			{
-				void* i_prev						= v->that;
-				v->that								= reinterpret_cast<void*>(this);
+				void* i_prev = v->that();
+				v->that(this);
 				const visitor_result_t result = visitors::visit(v, &(dynamic_cast<owner_t*>(this)->*value));
-				v->that								= i_prev;
+				v->that(i_prev);
 				return result;
 			}
 		};
