@@ -1,7 +1,11 @@
 #pragma once
 
-#include <stdexcept>
 #include <memory>
+#include <stdexcept>
+#include <sstream>
+#include <functional>
+
+#include <boost/type_index.hpp>
 
 #include <serek/private/requirements.hpp>
 
@@ -37,17 +41,19 @@ namespace serek
 
 			virtual str pretty() const noexcept override;
 
-			template<typename operator_t, typename T>
-			static str format_fail_comprasion(const T& l_value, const T& r_value)
-			{
-				std::stringstream ss;
-				ss << "comprasion via functor: " << boost::typeindex::type_id<operator_t>().pretty_name() << "{}( `" << l_value << "`, `" << r_value << "` ) returned false!";
-				return ss.str();
-			}
-
 		 private:
 			std::shared_ptr<str> comprasion_result;
 		};
+		namespace
+		{
+			template<typename operator_t, typename T>
+			str format_fail_comprasion(const T& l_value, const T& r_value)
+			{
+				std::stringstream ss;
+				ss << "comprasion via functor: " << boost::typeindex::template type_id<operator_t>().pretty_name() << "{}( `" << l_value << "`, `" << r_value << "` ) returned false!";
+				return ss.str();
+			}
+		}
 	}	 // namespace exceptions
 
 	template<reqs::throwable_req exception_t = typename exceptions::assert_exception>
@@ -59,9 +65,8 @@ namespace serek
 	template<template<typename T> typename operator_t, typename T>
 	void require(const T& l_value, const T& r_value, const str_v error_message = "comprasion failed!")
 	{
-		if(!operator_t<T>{}(l_value, r_value)) throw typename exceptions::comprasion_fail_exception{
-			error_message, exceptions::comprasion_fail_exception::template format_fail_comprasion<operator_t<T>>(l_value, r_value)
-		};
+		using operator_with_type = operator_t<T>;
+		if(!operator_with_type{}(l_value, r_value)) throw typename exceptions::comprasion_fail_exception{error_message, exceptions::template format_fail_comprasion<operator_with_type>(l_value, r_value)};
 	}
 
 	template<reqs::comparable_as_pointer_req pointer_t>
