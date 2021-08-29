@@ -3,7 +3,7 @@
 #include <concepts>
 
 #include <serek/private/types.hpp>
-#include <serek/private/fundamental_type_holder.hpp>
+#include <serek/private/type_holders.hpp>
 
 namespace serek
 {

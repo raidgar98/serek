@@ -13,7 +13,7 @@
 
 #include <concepts>
 #include <stdexcept>
-#include <serek/private/fundamental_type_holder.hpp>
+#include <serek/private/type_holders.hpp>
 #include <serek/private/visitors.hpp>
 #include <serek/private/acceptors.hpp>
 
@@ -31,13 +31,14 @@ namespace serek
 		struct field_impl;
 
 		template<reqs::field_impl_field_t_req current_field_t, template<typename T> typename acceptor_worker_t>
-		struct field_impl_value_handler<current_field_t, acceptor_worker_t> : public current_field_t, public acceptor_impl<acceptor_worker_t<current_field_t>>
+		struct field_impl_value_handler<current_field_t, acceptor_worker_t> : public detail::type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<current_field_t>>
 		{
 		};
 
 		template<reqs::fundamental_req current_field_t, template<typename T> typename acceptor_worker_t>
 		struct field_impl_value_handler<current_field_t, acceptor_worker_t> : public detail::fundamental_type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<detail::fundamental_type_holder<current_field_t>>>
 		{
+			using fundamental_type_holder<current_field_t>::fundamental_type_holder;
 		};
 
 		template<typename owner_t, typename previous_field_t, previous_field_t owner_t::*value, typename current_field_t>

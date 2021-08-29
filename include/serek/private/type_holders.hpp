@@ -8,6 +8,15 @@ namespace serek
 	namespace detail
 	{
 		template<typename T>
+		struct type_holder : public T
+		{
+			template<typename... other_types>
+			type_holder(other_types&&... argv) : T{std::forward<other_types>(argv)...}
+			{
+			}
+		};
+
+		template<typename T>
 		struct fundamental_type_holder
 		{
 			using _____fundamental_type_wrapper = std::true_type;
@@ -25,9 +34,10 @@ namespace serek
 
 			// forward all constructors
 			template<typename... other_types>
-			fundamental_type_holder(other_types... argv) : value{std::forward<other_types>(argv)...}
+			fundamental_type_holder(other_types&&... argv) : value{std::forward<other_types>(argv)...}
 			{
 			}
+
 
 			// comprasion operators
 			template<typename other_t>
