@@ -76,4 +76,62 @@ namespace
 		"custom_exception"_test		  = [] { but::expect(perform_throw<example_exception_child>()); };
 		"full_custom_exception"_test = [] { but::expect(perform_throw<example_exception_native>()); };
 	};
-}	 // namespace
+
+	template<template<typename T> typename operator_t, typename T>
+	void compare(const T& v1, const T& v2)
+	{
+		serek::require<operator_t>(v1, v2);
+	}
+
+	template<template<typename T> typename operator_t, typename T>
+	void compare_nothrow(const T& v1, const T& v2)
+	{
+		but::expect(but::nothrow([&] { compare<operator_t>(v1, v2); }));
+	}
+
+	template<template<typename T> typename operator_t, typename T>
+	void compare_throw(const T& v1, const T& v2)
+	{
+		but::expect(but::throws<except::comprasion_fail_exception>([&] { compare<operator_t>(v1, v2); }));
+	}
+
+	template<typename T>
+	struct custom_comparator
+	{
+		bool operator()(const T& t1, const T& t2) const { return (t1 + t2) == 0; }
+	};
+
+	but::suite verbose_print = [] {
+		"integers"_test = [] {
+			compare_nothrow<std::equal_to>(12, 12);
+			compare_throw<std::equal_to>(2, 4);
+			compare_throw<std::equal_to>(4, 2);
+
+			compare_nothrow<std::less>(0, 2);
+			compare_throw<std::less>(2, 0);
+
+			compare_nothrow<custom_comparator>(1, -1);
+			compare_throw<custom_comparator>(1, 1);
+		};
+
+		"doubles"_test = [] {
+			compare_nothrow<std::not_equal_to>(2.0, 4.0);
+			compare_nothrow<std::not_equal_to>(4.0, 2.0);
+			compare_throw<std::not_equal_to>(2.0, 2.0);
+
+			compare_nothrow<std::greater>(4.0, 2.0);
+			compare_throw<std::greater>(2.0, 4.0);
+		};
+
+		"string"_test = [] {
+			using namespace std::literals::string_literals;
+			compare_nothrow<std::equal_to>("aaa"s, "aaa"s);
+			compare_throw<std::equal_to>("aaa"s, "bbb"s);
+			compare_throw<std::equal_to>("bbb"s, "aaa"s);
+
+			compare_nothrow<std::not_equal_to>("aaa"s, "bbb"s);
+			compare_nothrow<std::not_equal_to>("bbb"s, "aaa"s);
+			compare_throw<std::not_equal_to>("aaa"s, "aaa"s);
+		};
+	};
+} // namespace
