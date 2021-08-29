@@ -27,7 +27,7 @@ set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include)
 
 #includes
 include("${CUSTOM_CMAKE_SCRIPTS_DIR}/attach_package.cmake")
-include("${CUSTOM_CMAKE_SCRIPTS_DIR}/add_compiler_flags.cmake")
+include("${CUSTOM_CMAKE_SCRIPTS_DIR}/add_flags.cmake")
 
 # setup threads
 set(THREADS_PREFER_PTHREAD_FLAG ON)

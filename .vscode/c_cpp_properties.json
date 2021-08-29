@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/tests/shared/include"
             ],
             "defines": [
                 "BOOST_STACKTRACE_USE_BACKTRACE"
