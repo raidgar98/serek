@@ -1,7 +1,7 @@
 /**
  * @file serek.hpp
  * @author Krzysztof Mochocki (raidgar98@onet.pl)
- * @brief Interface for other programmers
+ * @brief Proxy file and accessor for library
  * @version 0.1
  * @date 2021-08-29
  * 
