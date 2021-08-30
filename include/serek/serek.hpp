@@ -13,6 +13,9 @@
 
 #include <serek/private/pack.hpp>
 
+/**
+ * @brief `serek` library namespace
+ */
 namespace serek
 {
 }	 // namespace serek
