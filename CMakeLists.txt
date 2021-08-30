@@ -101,10 +101,10 @@ IF(${DOXYGEN})
 	# Preparing tree driectory
 	set(DOXYFILE_SOURCE_DIRECTORY "${CMAKE_SOURCE_DIR}/docs")
 	set(DOXYFILE_PATH_SOURCE "${DOXYFILE_SOURCE_DIRECTORY}/Doxyfile.in")
-	set(DOXYFILE_PATH_DEST "${CMAKE_BINARY_DIR}/docs")
-	file(MAKE_DIRECTORY ${DOXYFILE_PATH_DEST})
-	file(COPY ${DOXYFILE_PATH_SOURCE} DESTINATION ${DOXYFILE_PATH_DEST})
-	set(DOXYFILE_PATH_DEST "${DOXYFILE_PATH_DEST}/Doxyfile")
+	set(DOXYFILE_PATH_DEST_DIR "${CMAKE_BINARY_DIR}/docs")
+	file(MAKE_DIRECTORY ${DOXYFILE_PATH_DEST_DIR})
+	file(COPY ${DOXYFILE_PATH_SOURCE} DESTINATION ${DOXYFILE_PATH_DEST_DIR})
+	set(DOXYFILE_PATH_DEST "${DOXYFILE_PATH_DEST_DIR}/Doxyfile")
 	file(RENAME ${DOXYFILE_PATH_DEST}.in ${DOXYFILE_PATH_DEST})
 	set(README_MD_PATH ${CMAKE_SOURCE_DIR}/README.md)
 
@@ -125,7 +125,8 @@ IF(${DOXYGEN})
 	# Adding target
 	find_program(PYTHON python)
 	# To run: `make docs`
-	add_custom_target(docs COMMAND ${PYTHON_BINARY} ${DOXYGEN_GENERATION_SCRIPT} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
+	add_custom_target(docs_impl COMMAND ${PYTHON_BINARY} ${DOXYGEN_GENERATION_SCRIPT} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
+	add_custom_target(docs COMMENT "docs avaiable under link: file://${DOXYFILE_PATH_DEST_DIR}/html/index.html" DEPENDS docs_impl)
 ENDIF()
 
 # formatting
