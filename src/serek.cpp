@@ -1,3 +1,14 @@
+/**
+ * @file serek.cpp
+ * @author Krzysztof Mochocki (raidgar98@onet.pl)
+ * @brief Contains implementations of few methods and functions
+ * @version 0.1
+ * @date 2021-08-30
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #include <sstream>
 
 #include <serek/serek.hpp>
@@ -12,6 +23,14 @@ namespace
 
 	inline constexpr size_t STACKTRACE_OFFSET{4};
 
+	/**
+	 * @brief generates stacktrace. requires backtrace to work
+	 * 
+	 * @param out result will be saved, into given shared pointer
+	 * 
+	 * @warning std::make_shared<str> will be executed on given reference
+	 * @note stacktrace format: #0000	at ${function_name} in file ${source_file}:${source_line_no}\n
+	 */
 	void save_stacktrace(std::shared_ptr<serek::str>& out)
 	{
 		std::stringstream stream{};
