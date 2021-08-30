@@ -35,19 +35,19 @@ namespace serek
 			/**
 			 * @brief Construct a new exception base object
 			 * 
-			 * @param msg message to print on ::what()
+			 * @param msg message to print on what()
 			 */
 			explicit exception_base(str_v msg = "unknown");
 
 			/**
-			 * @brief accessor to @ref message
+			 * @brief accessor to `message`
 			 * 
 			 * @return const char* 
 			 */
 			virtual const char* what() const noexcept;
 
 			/**
-			 * @brief returns ::what() with stacktrace
+			 * @brief returns `exception_base::what()` with stacktrace
 			 * 
 			 * @return str 
 			 */
@@ -88,7 +88,7 @@ namespace serek
 			explicit comprasion_fail_exception(const str_v i_what, const str& i_comprasion_result = str{}) : assert_exception{i_what}, comprasion_result{new str{i_comprasion_result}} {}
 
 			/**
-			 * @brief overrides default pretty, by preinserting @ref comprasion_result
+			 * @brief overrides default pretty, by preinserting `i_comprasion_result`
 			 * 
 			 * @return str 
 			 */

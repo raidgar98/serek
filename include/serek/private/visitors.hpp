@@ -49,7 +49,6 @@ namespace serek
 			}
 
 			/**
-			 * @link that_getter @endlink
 			 * @brief returns pointer to that
 			 * 
 			 * @return void* 
@@ -57,7 +56,6 @@ namespace serek
 			void* that() const { return const_cast<void*>(m_that); }
 
 			/**
-			 * @link that_setter @endlink
 			 * @brief sets that pointer
 			 * 
 			 * @param input pointer to set as that
@@ -65,12 +63,12 @@ namespace serek
 			void that(volatile void* input) { m_that = input; }
 
 			/**
-			 * @copydoc that_setter
+			 * @copydoc base_visitor_members::that(volatile void* input)
 			 */
 			void that(void* input) { that(const_cast<volatile void*>(input)); }
 
 			/**
-			 * @link that_getter @endlink
+			 * @copydoc base_visitor_members::that() const
 			 * 
 			 * @tparam Any type to cast `that` to
 			 * @return Any* 
@@ -82,8 +80,8 @@ namespace serek
 			}
 
 			/**
-			 * @link that_setter @endlink
-
+			 * @copydoc base_visitor_members::that(volatile void* input)
+			 * 
 			 * @tparam Any type of input pointer
 			 */
 			template<typename Any>

@@ -1,7 +1,7 @@
 /**
- * @file serializer.hpp
+ * @file field.hpp
  * @author Krzysztof Mochocki (raidgar98@onet.pl)
- * @brief Contains implementation of serializtion for single field
+ * @brief Contains implementation of field template representation
  * @version 0.1
  * @date 2021-08-03
  * 
