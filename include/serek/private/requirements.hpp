@@ -1,3 +1,14 @@
+/**
+ * @file requirements.hpp
+ * @author Krzysztof Mochocki (raidgar98@onet.pl)
+ * @brief Contatins declarations and definitions of concepts
+ * @version 0.1
+ * @date 2021-08-30
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #include <concepts>
@@ -7,10 +18,16 @@
 
 namespace serek
 {
+	/**
+	 * @brief Contaitns concepts declarations
+	 */
 	namespace requirements
 	{
 		namespace detail
 		{
+			/**
+			 * @brief checks is given type `T` can be used as type for serialization
+			 */
 			template<typename T>
 			concept field_impl_field_t_req = requires
 			{
@@ -18,6 +35,10 @@ namespace serek
 				requires !std::is_final_v<T>;
 			};
 
+			/**
+			 * @brief checks is given type `T` is fundamental
+			 * @see https://en.cppreference.com/w/cpp/types/is_fundamental
+			 */
 			template<typename T>
 			concept fundamental_req = requires
 			{
