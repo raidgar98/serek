@@ -1,3 +1,14 @@
+/**
+ * @file visitors.hpp
+ * @author Krzysztof Mochocki (raidgar98@onet.pl)
+ * @brief Contains declarations of visitors
+ * @version 0.1
+ * @date 2021-08-30
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #pragma once
 
 #include <functional>
@@ -7,29 +18,74 @@
 
 namespace serek
 {
+	/**
+	 * @brief Contatins declaration of visitor base class (interface)
+	 * 
+	 */
 	namespace visitors
 	{
 		using namespace requirements::detail;
 
+		/**
+		 * @brief base class for further visitors
+		 * 
+		 * @note derive from this class to fullfill most of `reqs::visitor_req` concept
+		 */
 		struct base_visitor_members
 		{
 			visitor_result_t last_result;
 
+			/**
+			 * @brief Construct a new base visitor members object
+			 * 
+			 * @tparam Any type of opinter
+			 * @param i_that pointer to object that will be visited
+			 * @todo rethink is `i_that` required in base class, maybe it should be in something like `base_field_iterable_visitor_t`?
+			 */
 			template<typename Any>
 			explicit base_visitor_members(Any* i_that = nullptr)
 			{
 				that(i_that);
 			}
 
+			/**
+			 * @link that_getter @endlink
+			 * @brief returns pointer to that
+			 * 
+			 * @return void* 
+			 */
 			void* that() const { return const_cast<void*>(m_that); }
+
+			/**
+			 * @link that_setter @endlink
+			 * @brief sets that pointer
+			 * 
+			 * @param input pointer to set as that
+			 */
 			void that(volatile void* input) { m_that = input; }
+
+			/**
+			 * @copydoc that_setter
+			 */
 			void that(void* input) { that(const_cast<volatile void*>(input)); }
 
+			/**
+			 * @link that_getter @endlink
+			 * 
+			 * @tparam Any type to cast `that` to
+			 * @return Any* 
+			 */
 			template<typename Any>
 			Any* that() const
 			{
 				return reinterpret_cast<Any*>(that());
 			}
+
+			/**
+			 * @link that_setter @endlink
+
+			 * @tparam Any type of input pointer
+			 */
 			template<typename Any>
 			void that(Any* input)
 			{
@@ -53,6 +109,16 @@ namespace serek
 			// verifies that `base_visitor_members` fullfils `visitor_req` concept
 			static_assert( reqs::visitor_req<dummy_visitor> );
 		}
+
+		/**
+		 * @brief This function should be called to visit objects
+		 * 
+		 * @tparam visitor_t type of visitor
+		 * @tparam acceptor_t type of object to be visitred
+		 * @param vis visitor that will be passed to `object`
+		 * @param object acceptor that will get `vis` via `::visit()` method
+		 * @return visitor_result_t 
+		 */
 		template<visitor_req visitor_t, acceptor_req acceptor_t>
 		visitor_result_t visit(visitor_t* vis, acceptor_t* object)
 		{
