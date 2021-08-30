@@ -36,7 +36,7 @@ namespace serek
 				that(reinterpret_cast<void*>(input));
 			}
 
-		 private:
+		private:
 			volatile void* m_that = nullptr;
 		};
 
