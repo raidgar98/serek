@@ -50,7 +50,8 @@ namespace serek
 			template<reqs::visitor_req visitor_t>
 			visitor_result_t visit(visitor_t* visitor)
 			{
-				return acceptor_worker_t<child_t>{reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)), visitor}.result;
+				return acceptor_worker_t<child_t>{}(reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)), visitor);
+			}
 			}
 		};
 
@@ -79,11 +80,7 @@ namespace serek
 			template<typename child_t>
 			struct acceptor_worker_base
 			{
-				/**
-				 * @brief temporary storage for result of processing visitor
-				 */
-				visitor_result_t result{};
-
+				using value_t = child_t;
 			 protected:
 
 				/**
@@ -116,10 +113,12 @@ namespace serek
 				 * @param visitor visitor to call
 				 */
 				template<reqs::visitor_req visitor_t>
-				basic_acceptor_worker(child_t* acceptor, visitor_t* visitor)
+				visitor_result_t operator()(child_t* acceptor, visitor_t* visitor) const
 				{
 					this->validate_visitator(visitor);
-					this->result = call_visitator(visitor, acceptor);
+					return call_visitator(visitor, acceptor);
+				}
+
 				}
 			};
 
@@ -165,11 +164,13 @@ namespace serek
 					 * @param visitor visito to call
 					 */
 					template<reqs::visitor_req visitor_t>
-					forward_acceptor_worker_impl(child_t* acceptor, visitor_t* visitor)
+					visitor_result_t operator()(child_t* acceptor, visitor_t* visitor) const
 					{
 						this->validate_visitator(visitor);
 						visitor->last_result = visitors::visit(visitor, &(visitor->template that<class_t>()->*value));
-						this->result			= call_visitator(visitor, acceptor);
+						return call_visitator(visitor, acceptor);
+					}
+
 					}
 				};
 			};
