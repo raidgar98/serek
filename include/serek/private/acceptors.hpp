@@ -89,8 +89,8 @@ namespace serek
 			struct acceptor_worker_base
 			{
 				using value_t = child_t;
-			 protected:
 
+			 protected:
 				/**
 				 * @brief helper method that validates 
 				 * 

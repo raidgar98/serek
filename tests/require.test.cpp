@@ -134,4 +134,4 @@ namespace
 			compare_throw<std::not_equal_to>("aaa"s, "aaa"s);
 		};
 	};
-} // namespace
+}	 // namespace

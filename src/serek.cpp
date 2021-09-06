@@ -54,7 +54,7 @@ namespace
 	}
 }	 // namespace
 #else
-	void save_stacktrace(std::shared_ptr<serek::str>& out) {}
+void save_stacktrace(std::shared_ptr<serek::str>& out) {}
 #endif
 
 namespace serek

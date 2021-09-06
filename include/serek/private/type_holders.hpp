@@ -132,7 +132,7 @@ namespace serek
 			// template<typename other_t> inline friend auto operator<<(other_t other, fundamental_type_holder me) { return other << me.value; }
 			// template<typename other_t> inline friend auto operator>>(other_t other, fundamental_type_holder me) { return other >> me.value; }
 
-		private:
+		 private:
 			inline constexpr T& get() { return value; }
 			inline constexpr const T& get() const { return value; }
 

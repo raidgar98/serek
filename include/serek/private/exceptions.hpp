@@ -116,7 +116,7 @@ namespace serek
 				ss << "comprasion via functor: " << boost::typeindex::template type_id<operator_t>().pretty_name() << "{}( `" << l_value << "`, `" << r_value << "` ) returned false!";
 				return ss.str();
 			}
-		}	 // namespace detail
+		}	 // namespace
 	}		 // namespace exceptions
 
 	/**

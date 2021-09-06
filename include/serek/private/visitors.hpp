@@ -99,23 +99,27 @@ namespace serek
 				that(reinterpret_cast<void*>(const_cast<Any*>(input)));
 			}
 
-		private:
+		 private:
 			volatile void* m_that = nullptr;
 		};
 
-		namespace{
+		namespace
+		{
 			/**
 			 * @brief dummy struct just to validate is base_visitor_members is properly implemented
 			 */
 			struct dummy_visitor : public base_visitor_members
 			{
 				template<typename Any>
-				visitor_result_t operator()(Any*) { return visitor_result_t{}; }
+				visitor_result_t operator()(Any*)
+				{
+					return visitor_result_t{};
+				}
 			};
 
 			// verifies that `base_visitor_members` fullfils `visitor_req` concept
-			static_assert( reqs::visitor_req<dummy_visitor> );
-		}
+			static_assert(reqs::visitor_req<dummy_visitor>);
+		}	 // namespace
 
 		/**
 		 * @brief This function should be called to visit objects
