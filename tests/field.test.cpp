@@ -178,4 +178,45 @@ namespace
 			but::expect( not std::is_polymorphic_v<decltype(some_non_virtual_child_class::field_1)> );
 		};
 	};
+
+	but::suite proper_cv = [] {
+
+		// theese lambdas are to fool -Wunused-varriabble-warning
+		const auto c_dummy = [] (const auto&) {return;};
+		const auto v_dummy = [] (volatile auto&) {return;};
+		const auto cv_dummy = [] (const volatile auto&) {return;};
+
+		"const_initialization"_test = [&] {
+			{const test_struct_0 s{}; c_dummy(s);}
+			{const test_struct_1 s{}; c_dummy(s);}
+			{const test_struct_2 s{}; c_dummy(s);}
+			{const test_struct_3 s{}; c_dummy(s);}
+			{const test_struct_4 s{}; c_dummy(s);}
+			{const test_struct_5 s{}; c_dummy(s);}
+			{const test_struct_6 s{}; c_dummy(s);}
+			{const test_struct_7 s{}; c_dummy(s);}
+		};
+
+		"volatile_initialization"_test = [&] {
+			{volatile test_struct_0 s{}; v_dummy(s);}
+			{volatile test_struct_1 s{}; v_dummy(s);}
+			{volatile test_struct_2 s{}; v_dummy(s);}
+			{volatile test_struct_3 s{}; v_dummy(s);}
+			{volatile test_struct_4 s{}; v_dummy(s);}
+			{volatile test_struct_5 s{}; v_dummy(s);}
+			{volatile test_struct_6 s{}; v_dummy(s);}
+			{volatile test_struct_7 s{}; v_dummy(s);}
+		};
+
+		"const_volatile_initialization"_test = [&] {
+			{const volatile test_struct_0 s{}; cv_dummy(s);}
+			{const volatile test_struct_1 s{}; cv_dummy(s);}
+			{const volatile test_struct_2 s{}; cv_dummy(s);}
+			{const volatile test_struct_3 s{}; cv_dummy(s);}
+			{const volatile test_struct_4 s{}; cv_dummy(s);}
+			{const volatile test_struct_5 s{}; cv_dummy(s);}
+			{const volatile test_struct_6 s{}; cv_dummy(s);}
+			{const volatile test_struct_7 s{}; cv_dummy(s);}
+		};
+	};
 }	 // namespace
