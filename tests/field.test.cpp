@@ -103,4 +103,32 @@ namespace
 		"order_6"_test = [] { validate_order<&test_struct_6::field_4>{"01234"}; };
 		"order_7"_test = [] { validate_order<&test_struct_7::field_2>{"02", 0, 1, 2}; };
 	};
+
+
+	template<typename T1, typename T2>
+	inline constexpr void compare_size()
+	{
+		but::expect(but::eq(sizeof(T1), sizeof(T2)));
+	}
+
+	but::suite proper_size = [] {
+		struct test_struct_6_helper
+		{
+			number_t<0> n0;
+			number_t<1> n1;
+			number_t<2> n2;
+			number_t<3> n3;
+			number_t<4> n4;
+		};
+
+		"sizeof_0"_test = [] { compare_size<test_struct_0, std::tuple<int>>(); };
+		"sizeof_1"_test = [] { compare_size<test_struct_1, std::tuple<int, float>>(); };
+		"sizeof_2"_test = [] { compare_size<test_struct_2, std::tuple<int, float, char>>(); };
+		"sizeof_3"_test = [] { compare_size<test_struct_3, std::tuple<serek::str>>(); };
+		"sizeof_4"_test = [] { compare_size<test_struct_4, std::tuple<test_struct_3>>(); };
+		"sizeof_5"_test = [] { compare_size<test_struct_5, std::tuple<int, float, int>>(); };
+		"sizeof_6"_test = [] { compare_size<test_struct_6, test_struct_6_helper>(); };
+		"sizeof_7"_test = [] { compare_size<test_struct_7, std::tuple<int, int, int>>(); };
+	};
+
 }	 // namespace
