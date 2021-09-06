@@ -91,17 +91,19 @@ namespace serek
 
 			namespace acceptor_worker_req_detail
 			{
-				template<typename T, typename ... Argv>
-				concept acceptor_worker_req_helper = requires(T x, Argv&& ... args)
+				template<typename T, typename... Argv>
+				concept acceptor_worker_req_helper = requires(T x, Argv && ... args)
 				{
-					{ x(std::forward<Argv>(args)...) };
+					{x(std::forward<Argv>(args)...)};
 				};
-			}
+			}	 // namespace acceptor_worker_req_detail
 
 			template<typename T>
-			concept acceptor_worker_req = requires{ typename T::value_t; } &&
-				acceptor_worker_req_detail::acceptor_worker_req_helper<T, typename T::value_t*, acceptor_req_details::ex_vis*> ||
-				acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
+			concept acceptor_worker_req = requires
+			{
+				typename T::value_t;
+			}
+			&&acceptor_worker_req_detail::acceptor_worker_req_helper<T, typename T::value_t*, acceptor_req_details::ex_vis*> || acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
 
 			template<typename T>
 			concept comparable_as_pointer_req = requires(T x)
