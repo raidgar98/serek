@@ -131,4 +131,51 @@ namespace
 		"sizeof_7"_test = [] { compare_size<test_struct_7, std::tuple<int, int, int>>(); };
 	};
 
+	namespace pol_detail
+	{
+		struct some_virtual_base_class
+		{
+			serek::ffield<test_struct_0> field_0;
+			virtual int do_something() const { return 0; };
+			virtual ~some_virtual_base_class() {}
+		};
+
+		struct some_virtual_child_class : public some_virtual_base_class
+		{
+			serek::field<&some_virtual_child_class::field_0, some_virtual_base_class> field_1;
+			virtual int do_something() const override { return 1; };
+		};
+
+		struct some_non_virtual_base_class
+		{
+			serek::ffield<some_virtual_child_class> field_0;
+			int do_something() const { return 0; }
+		};
+
+		struct some_non_virtual_child_class : public some_non_virtual_base_class
+		{
+			serek::field<&some_non_virtual_base_class::field_0, some_non_virtual_base_class> field_1;
+			int do_something() const { return 1; }
+		};
+	}	 // namespace pol_detail
+
+	but::suite polimorphism_fluctuation = [] {
+		using namespace pol_detail;
+
+		"is_virtual_first"_test = [] {
+			but::expect( std::is_polymorphic_v<some_virtual_base_class> );
+			but::expect( not std::is_polymorphic_v<decltype(some_virtual_base_class::field_0)> );
+			but::expect( std::is_polymorphic_v<some_virtual_child_class> );
+			but::expect( not std::is_polymorphic_v<decltype(some_virtual_child_class::field_0)> );
+			but::expect( std::is_polymorphic_v<decltype(some_virtual_child_class::field_1)> );
+		};
+
+		"is_virtual_second"_test = [] {
+			but::expect( not std::is_polymorphic_v<some_non_virtual_base_class> );
+			but::expect( std::is_polymorphic_v<decltype(some_non_virtual_base_class::field_0)> );
+			but::expect( not std::is_polymorphic_v<some_non_virtual_child_class> );
+			but::expect( std::is_polymorphic_v<decltype(some_non_virtual_child_class::field_0)> );
+			but::expect( not std::is_polymorphic_v<decltype(some_non_virtual_child_class::field_1)> );
+		};
+	};
 }	 // namespace
