@@ -52,6 +52,14 @@ namespace serek
 			{
 				return acceptor_worker_t<child_t>{}(reinterpret_cast<child_t*>(const_cast<acceptor_impl*>(this)), visitor);
 			}
+
+			/**
+			 * @copydoc acceptor_impl::visit
+			 */
+			template<reqs::visitor_req visitor_t>
+			visitor_result_t visit(visitor_t* visitor) const
+			{
+				return acceptor_worker_t<child_t>{}(reinterpret_cast<const child_t*>(this), visitor);
 			}
 		};
 
@@ -119,6 +127,14 @@ namespace serek
 					return call_visitator(visitor, acceptor);
 				}
 
+				/**
+				 * @copydoc basic_acceptor_worker::operator()
+				 */
+				template<reqs::visitor_req visitor_t>
+				visitor_result_t operator()(const child_t* acceptor, visitor_t* visitor) const
+				{
+					this->validate_visitator(visitor);
+					return call_visitator(visitor, acceptor);
 				}
 			};
 
@@ -171,6 +187,15 @@ namespace serek
 						return call_visitator(visitor, acceptor);
 					}
 
+					/**
+					 * @copydoc forward_acceptor_worker_impl::operator()
+					 */
+					template<reqs::visitor_req visitor_t>
+					visitor_result_t operator()(const child_t* acceptor, visitor_t* visitor) const
+					{
+						this->validate_visitator(visitor);
+						visitor->last_result = visitors::visit(visitor, &(visitor->template that<class_t>()->*value));
+						return call_visitator(visitor, acceptor);
 					}
 				};
 			};

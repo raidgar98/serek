@@ -90,6 +90,15 @@ namespace serek
 				that(reinterpret_cast<void*>(input));
 			}
 
+			/**
+			 * @copydoc base_visitor_members::that(Any*)
+			 */
+			template<typename Any>
+			void that(const Any* input)
+			{
+				that(reinterpret_cast<void*>(const_cast<Any*>(input)));
+			}
+
 		private:
 			volatile void* m_that = nullptr;
 		};
@@ -119,6 +128,15 @@ namespace serek
 		 */
 		template<visitor_req visitor_t, acceptor_req acceptor_t>
 		visitor_result_t visit(visitor_t* vis, acceptor_t* object)
+		{
+			serek::require(object);
+			return object->visit(vis);
+		}
+		/**
+		 * @copydoc visit
+		 */
+		template<visitor_req visitor_t, acceptor_req acceptor_t>
+		visitor_result_t visit(visitor_t* vis, const acceptor_t* object)
 		{
 			serek::require(object);
 			return object->visit(vis);

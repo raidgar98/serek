@@ -28,6 +28,16 @@ namespace serek
 				v->that(i_prev);
 				return result;
 			}
+
+			template<reqs::visitor_req visitor_t>
+			visitor_result_t visit(visitor_t* v) const
+			{
+				const void* i_prev = v->that();
+				v->that(this);
+				const visitor_result_t result = visitors::visit(v, &(dynamic_cast<const owner_t*>(this)->*value));
+				v->that(i_prev);
+				return result;
+			}
 		};
 	}	 // namespace detail
 
