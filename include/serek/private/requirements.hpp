@@ -89,12 +89,19 @@ namespace serek
 				std::same_as<decltype(x->template visit(new acceptor_req_details::ex_vis)), visitor_result_t>;
 			};
 
-			template<typename T>
-			concept acceptor_worker_req = requires(T x)
+			namespace acceptor_worker_req_detail
 			{
-				{T{nullptr, new acceptor_req_details::ex_vis}};
-				std::same_as<decltype(x.result), visitor_result_t>;
-			};
+				template<typename T, typename ... Argv>
+				concept acceptor_worker_req_helper = requires(T x, Argv&& ... args)
+				{
+					{ x(std::forward<Argv>(args)...) };
+				};
+			}
+
+			template<typename T>
+			concept acceptor_worker_req = requires{ typename T::value_t; } &&
+				acceptor_worker_req_detail::acceptor_worker_req_helper<T, typename T::value_t*, acceptor_req_details::ex_vis*> ||
+				acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
 
 			template<typename T>
 			concept comparable_as_pointer_req = requires(T x)
