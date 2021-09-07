@@ -33,6 +33,18 @@ namespace serek
 			static inline constexpr size_t N = _N;
 			inline friend std::ostream& operator<<(std::ostream& os, const number_t&) { return os << number_t::N; }
 		};
+
+		/**
+		 * @brief verifies that both typesd has same size
+		 * 
+		 * @tparam T1 first type to get sizeof
+		 * @tparam T2 second type to get sizeof
+		 */
+		template<typename T1, typename T2>
+		inline constexpr void compare_size()
+		{
+			boost::ut::expect(boost::ut::eq(sizeof(T1), sizeof(T2)));
+		}
 	}	 // namespace tests
 }	 // namespace serek
 

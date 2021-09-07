@@ -52,6 +52,15 @@ namespace example_structs
 		field<&test_struct_6::field_3, number_t<4>> field_4;
 	};
 
+	struct test_struct_6_raw
+	{
+		number_t<0> n0;
+		number_t<1> n1;
+		number_t<2> n2;
+		number_t<3> n3;
+		number_t<4> n4;
+	};
+
 	struct test_struct_7
 	{
 		ffield<int> field_0;
