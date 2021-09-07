@@ -59,5 +59,31 @@ namespace example_structs
 		field<&test_struct_7::field_0, int> field_2;
 	};
 
+	namespace polimorphic
+	{
+		struct some_virtual_base_class
+		{
+			serek::ffield<test_struct_0> field_0;
+			virtual int do_something() const { return 0; };
+			virtual ~some_virtual_base_class() {}
+		};
 
+		struct some_virtual_child_class : public some_virtual_base_class
+		{
+			serek::field<&some_virtual_child_class::field_0, some_virtual_base_class> field_1;
+			virtual int do_something() const override { return 1; };
+		};
+
+		struct some_non_virtual_base_class
+		{
+			serek::ffield<some_virtual_child_class> field_0;
+			int do_something() const { return 0; }
+		};
+
+		struct some_non_virtual_child_class : public some_non_virtual_base_class
+		{
+			serek::field<&some_non_virtual_base_class::field_0, some_non_virtual_base_class> field_1;
+			int do_something() const { return 1; }
+		};
+	}	 // namespace polimorphic
 }	 // namespace example_structs
