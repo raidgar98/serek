@@ -50,3 +50,8 @@ jobs:
     - name: generate docs
       working-directory: ${{github.workspace}}/build
       run: make docs
+    - uses: actions/upload-artifact@v2
+      with:
+        name: documentation
+        path: ${{github.workspace}}/build/docs # or path/to/artifact
+        retention-days: 5
