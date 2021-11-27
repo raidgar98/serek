@@ -125,13 +125,14 @@ IF(${DOXYGEN})
 
 	# find programs
 	# if not passing: build and install following version: https://github.com/doxygen/doxygen/tree/Release_1_8_20
-	find_package(Doxygen 1.8.20 EXACT REQUIRED)
+	find_package(Doxygen 1.8.17...1.8.20 REQUIRED)
 	find_package(Python3 REQUIRED)
 
 	# Adding target
 	# To run: `make docs`
 	add_custom_target(docs_impl COMMAND ${PYTHON} ${DOXYGEN_GENERATION_SCRIPT} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
 	add_custom_target(docs COMMENT "docs avaiable under link: file://${DOXYFILE_PATH_DEST_DIR}/html/index.html" DEPENDS docs_impl)
+	add_custom_target(browse_docs COMMAND $ENV{BROWSER} "file://${DOXYFILE_PATH_DEST_DIR}/html/index.html" COMMENT "opens documentation in default browser")
 ENDIF()
 
 # formatting
