@@ -24,21 +24,13 @@ namespace serek
 		using namespace acceptors;
 		using namespace acceptors::workers;
 
-		template<typename current_field_t, template<typename T> typename acceptor_worker_t>
-		struct field_impl_value_handler;
-
 		template<auto ref_to_prev_member, typename T>
 		struct field_impl;
 
-		template<reqs::field_impl_field_t_req current_field_t, template<typename T> typename acceptor_worker_t>
-		struct field_impl_value_handler<current_field_t, acceptor_worker_t> : public detail::type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<current_field_t>>
+		template<typename current_field_t, template<typename T> typename acceptor_worker_t>
+		struct field_impl_value_handler : public detail::type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<current_field_t>>
 		{
-		};
-
-		template<reqs::fundamental_req current_field_t, template<typename T> typename acceptor_worker_t>
-		struct field_impl_value_handler<current_field_t, acceptor_worker_t> : public detail::fundamental_type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<detail::fundamental_type_holder<current_field_t>>>
-		{
-			using fundamental_type_holder<current_field_t>::fundamental_type_holder;
+			using detail::type_holder<current_field_t>::type_holder;
 		};
 
 		template<typename owner_t, typename previous_field_t, previous_field_t owner_t::*value, typename current_field_t>

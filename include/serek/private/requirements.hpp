@@ -26,26 +26,6 @@ namespace serek
 		namespace detail
 		{
 			/**
-			 * @brief checks is given type `T` can be used as type for serialization
-			 */
-			template<typename T>
-			concept field_impl_field_t_req = requires
-			{
-				requires !std::is_fundamental_v<T>;
-				requires !std::is_final_v<T>;
-			};
-
-			/**
-			 * @brief checks is given type `T` is fundamental
-			 * @see https://en.cppreference.com/w/cpp/types/is_fundamental
-			 */
-			template<typename T>
-			concept fundamental_req = requires
-			{
-				requires std::is_fundamental_v<T>;
-			};
-
-			/**
 			 * @brief checks is given type is fundamental wrapper
 			 *
 			 * @tparam T type to check
