@@ -113,19 +113,24 @@ IF(${DOXYGEN})
 	file(APPEND ${DOXYFILE_PATH_DEST} "OUTPUT_DIRECTORY = ${CMAKE_BINARY_DIR}/docs \n")
 	file(APPEND ${DOXYFILE_PATH_DEST} "USE_MDFILE_AS_MAINPAGE = ${README_MD_PATH} \n")
 	# file(APPEND ${DOXYFILE_PATH_DEST} "EXCLUDE_PATTERNS = \n")
-	
+
 	# Image
 	# file(APPEND ${DOXYFILE_PATH_DEST} "PROJECT_LOGO = \"${CMAKE_SOURCE_DIR}/gen/docs/image.png\" \n")
 
 	# Setting up theme
 	# docs: https://mcss.mosra.cz/documentation/doxygen/
 	set(DOXYGEN_THEME_PATH "${DOXYFILE_SOURCE_DIRECTORY}/theme")
+	set(DOXYGEN_PREPARATION_SCRIPT "${DOXYFILE_SOURCE_DIRECTORY}/pre_generate.py")
 	set(DOXYGEN_GENERATION_SCRIPT "${DOXYGEN_THEME_PATH}/documentation/doxygen.py")
 
+	# find programs
+	# if not passing: build and install following version: https://github.com/doxygen/doxygen/tree/Release_1_8_20
+	find_package(Doxygen 1.8.20 EXACT REQUIRED)
+	find_package(Python3 REQUIRED)
+
 	# Adding target
-	find_program(PYTHON python)
 	# To run: `make docs`
-	add_custom_target(docs_impl COMMAND ${PYTHON_BINARY} ${DOXYGEN_GENERATION_SCRIPT} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
+	add_custom_target(docs_impl COMMAND ${PYTHON} ${DOXYGEN_GENERATION_SCRIPT} ${DOXYFILE_PATH_DEST} WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/docs" COMMENT "generating documentation via doxygen...")
 	add_custom_target(docs COMMENT "docs avaiable under link: file://${DOXYFILE_PATH_DEST_DIR}/html/index.html" DEPENDS docs_impl)
 ENDIF()
 
@@ -140,7 +145,7 @@ IF(${FORMAT})
 	set(FILES_FOR_CLANG_FORMAT)
 	foreach(x ${FILES_TO_FORMAT})
 		if(x MATCHES "tests/ut/*" OR x MATCHES "docs/theme/*")
-			continue() 
+			continue()
 		endif()
 		list(APPEND FILES_FOR_CLANG_FORMAT "${x}")
 	endforeach()
