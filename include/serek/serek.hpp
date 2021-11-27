@@ -4,9 +4,9 @@
  * @brief Proxy file and accessor for library
  * @version 0.1
  * @date 2021-08-29
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once

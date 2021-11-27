@@ -4,9 +4,9 @@
  * @brief Contatins declarations and definitions of concepts
  * @version 0.1
  * @date 2021-08-30
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once
@@ -47,7 +47,7 @@ namespace serek
 
 			/**
 			 * @brief checks is given type is fundamental wrapper
-			 * 
+			 *
 			 * @tparam T type to check
 			 */
 			template<typename T>
@@ -59,13 +59,13 @@ namespace serek
 
 			/**
 			 * @brief checks is given type fullfils visitor requirements
-			 * 
+			 *
 			 * @tparam visitor_t type to check
 			 */
 			template<typename visitor_t>
 			concept visitor_req = requires(visitor_t* x)
 			{
-				std::same_as<decltype(x->template operator()(new serek::detail::fundamental_type_holder<int>)), visitor_result_t>;
+				std::same_as<decltype(x->template operator()(new serek::detail::type_holder<int>)), visitor_result_t>;
 				std::same_as<decltype(x->last_result), visitor_result_t>;
 				std::same_as<decltype(x->that()), void*>;
 				{x->that(static_cast<void*>(NULL))};
@@ -101,8 +101,8 @@ namespace serek
 
 			/**
 			 * @brief checks is given type can be used as accptor
-			 * 
-			 * @tparam acceptor_t 
+			 *
+			 * @tparam acceptor_t
 			 */
 			template<typename acceptor_t>
 			concept acceptor_req = requires(acceptor_t* x)
@@ -117,7 +117,7 @@ namespace serek
 			{
 				/**
 				 * @brief own imlementation of std::is_invocable
-				 * 
+				 *
 				 * @tparam T type to check is invocable
 				 * @tparam Argv invocable argument types
 				 */
@@ -130,7 +130,7 @@ namespace serek
 
 			/**
 			 * @brief checks is given type can be used as acceptor worker
-			 * 
+			 *
 			 * @tparam T type to check
 			 */
 			template<typename T>
@@ -142,7 +142,7 @@ namespace serek
 
 			/**
 			 * @brief checks is given type can be compared like pointerr
-			 * 
+			 *
 			 * @tparam T type to check
 			 */
 			template<typename T>
@@ -154,7 +154,7 @@ namespace serek
 			/**
 			 * @brief checks is given type can be used as exception
 			 * @note it just need to be constructible from std::string_view
-			 * 
+			 *
 			 * @tparam T type to check
 			 */
 			template<typename T>

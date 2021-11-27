@@ -4,9 +4,9 @@
  * @brief Header file for usefull tools for testing
  * @version 0.1
  * @date 2021-08-30
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once
@@ -18,13 +18,13 @@ namespace serek
 {
 	/**
 	 * @brief Contatins shared structures used in many diffrent tests
-	 * 
+	 *
 	 */
 	namespace tests
 	{
 		/**
 		 * @brief stores numbers
-		 * 
+		 *
 		 * @tparam _N stored number
 		 */
 		template<size_t _N>
@@ -36,7 +36,7 @@ namespace serek
 
 		/**
 		 * @brief verifies that both typesd has same size
-		 * 
+		 *
 		 * @tparam T1 first type to get sizeof
 		 * @tparam T2 second type to get sizeof
 		 */

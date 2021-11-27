@@ -4,9 +4,9 @@
  * @brief Contains implementation of wrapper for class
  * @version 0.1
  * @date 2021-09-07
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once
@@ -24,7 +24,7 @@ namespace serek
 	{
 		/**
 		 * @brief can be used to wrap class to be iterable over fields
-		 * 
+		 *
 		 * @tparam last_field last field
 		 */
 		template<auto last_field>
@@ -32,7 +32,7 @@ namespace serek
 
 		/**
 		 * @copydoc pack_impl
-		 * 
+		 *
 		 * @tparam owner_t type of class that is wrapped
 		 * @tparam previous_field_t type of last field
 		 * @tparam owner_t::*value static pointer to last field
@@ -50,10 +50,10 @@ namespace serek
 
 			/**
 			 * @brief forwards visitor to last field
-			 * 
+			 *
 			 * @tparam visitor_t type of visitor to forward
 			 * @param v visitor to forward
-			 * @return visitor_result_t 
+			 * @return visitor_result_t
 			 */
 			template<reqs::visitor_req visitor_t>
 			visitor_result_t visit(visitor_t* v)
