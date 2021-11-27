@@ -39,6 +39,12 @@ namespace serek
 		struct acceptor_impl<acceptor_worker_t<child_t>>
 		{
 			/**
+			 * @brief construct a new acceptor impl object
+			 *
+			 */
+			acceptor_impl() = default;
+
+			/**
 			 * @brief performs actuall job (invokes worker)
 			 *
 			 * @tparam visitor_t type of visitor to invoker
