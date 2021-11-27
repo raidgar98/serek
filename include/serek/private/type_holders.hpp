@@ -4,9 +4,9 @@
  * @brief Contatins declarations and definitions of structures responsible for accessing contained value
  * @version 0.1
  * @date 2021-08-30
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once

@@ -4,9 +4,9 @@
  * @brief Contains declarations of exception mechanism
  * @version 0.1
  * @date 2021-08-29
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once
@@ -34,22 +34,22 @@ namespace serek
 		{
 			/**
 			 * @brief Construct a new exception base object
-			 * 
+			 *
 			 * @param msg message to print on what()
 			 */
 			explicit exception_base(str_v msg = "unknown");
 
 			/**
 			 * @brief accessor to `message`
-			 * 
-			 * @return const char* 
+			 *
+			 * @return const char*
 			 */
 			virtual const char* what() const noexcept;
 
 			/**
 			 * @brief returns `exception_base::what()` with stacktrace
-			 * 
-			 * @return str 
+			 *
+			 * @return str
 			 */
 			virtual str pretty() const noexcept;
 
@@ -81,7 +81,7 @@ namespace serek
 		{
 			/**
 			 * @brief Construct a new comprasion fail exception object
-			 * 
+			 *
 			 * @param i_what forwarded to parent (what())
 			 * @param i_comprasion_result string to set as comprasion result
 			 */
@@ -89,8 +89,8 @@ namespace serek
 
 			/**
 			 * @brief overrides default pretty, by preinserting `i_comprasion_result`
-			 * 
-			 * @return str 
+			 *
+			 * @return str
 			 */
 			virtual str pretty() const noexcept override;
 
@@ -102,12 +102,12 @@ namespace serek
 		{
 			/**
 			 * @brief generates message of failed comprasion
-			 * 
+			 *
 			 * @tparam operator_t functor type
 			 * @tparam T type of element that was compared
 			 * @param l_value left operand
 			 * @param r_value right operand
-			 * @return str 
+			 * @return str
 			 */
 			template<typename operator_t, typename T>
 			str format_fail_comprasion(const T& l_value, const T& r_value)
@@ -121,7 +121,7 @@ namespace serek
 
 	/**
 	 * @brief alternative to assert
-	 * 
+	 *
 	 * @tparam exceptions::assert_exception exception type to throw
 	 * @param result result from some action
 	 * @param error_message message to forwrd to exception
@@ -134,7 +134,7 @@ namespace serek
 
 	/**
 	 * @brief overload of above, allows additionally print given values
-	 * 
+	 *
 	 * @tparam operator_t functor that will be used for comprasion ( @see std::less )
 	 * @tparam T type of compared elements
 	 * @param l_value left operand
@@ -150,7 +150,7 @@ namespace serek
 
 	/**
 	 * @brief overload of above, specialized for checking pointers
-	 * 
+	 *
 	 * @tparam pointer_t type of pointer to validate
 	 * @param ptr pointer to check
 	 * @param error_message message to forwrd to exception
@@ -164,9 +164,9 @@ namespace serek
 
 /**
  * @brief operator to easly print exceptions
- * 
+ *
  * @param os stream
  * @param ex exception
- * @return std::ostream& 
+ * @return std::ostream&
  */
 std::ostream& operator<<(std::ostream& os, const serek::exceptions::exception_base& ex);

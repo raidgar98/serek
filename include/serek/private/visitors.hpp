@@ -4,9 +4,9 @@
  * @brief Contains declarations of visitors
  * @version 0.1
  * @date 2021-08-30
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once
@@ -20,7 +20,7 @@ namespace serek
 {
 	/**
 	 * @brief Contatins declaration of visitor base class (interface)
-	 * 
+	 *
 	 */
 	namespace visitors
 	{
@@ -28,7 +28,7 @@ namespace serek
 
 		/**
 		 * @brief base class for further visitors
-		 * 
+		 *
 		 * @note derive from this class to fullfill most of `reqs::visitor_req` concept
 		 */
 		struct base_visitor_members
@@ -37,7 +37,7 @@ namespace serek
 
 			/**
 			 * @brief Construct a new base visitor members object
-			 * 
+			 *
 			 * @tparam Any type of opinter
 			 * @param i_that pointer to object that will be visited
 			 * @todo rethink is `i_that` required in base class, maybe it should be in something like `base_field_iterable_visitor_t`?
@@ -50,14 +50,14 @@ namespace serek
 
 			/**
 			 * @brief returns pointer to that
-			 * 
-			 * @return void* 
+			 *
+			 * @return void*
 			 */
 			void* that() const { return const_cast<void*>(m_that); }
 
 			/**
 			 * @brief sets that pointer
-			 * 
+			 *
 			 * @param input pointer to set as that
 			 */
 			void that(volatile void* input) { m_that = input; }
@@ -69,9 +69,9 @@ namespace serek
 
 			/**
 			 * @copydoc base_visitor_members::that() const
-			 * 
+			 *
 			 * @tparam Any type to cast `that` to
-			 * @return Any* 
+			 * @return Any*
 			 */
 			template<typename Any>
 			Any* that() const
@@ -81,7 +81,7 @@ namespace serek
 
 			/**
 			 * @copydoc base_visitor_members::that(volatile void* input)
-			 * 
+			 *
 			 * @tparam Any type of input pointer
 			 */
 			template<typename Any>
@@ -123,12 +123,12 @@ namespace serek
 
 		/**
 		 * @brief This function should be called to visit objects
-		 * 
+		 *
 		 * @tparam visitor_t type of visitor
 		 * @tparam acceptor_t type of object to be visitred
 		 * @param vis visitor that will be passed to `object`
 		 * @param object acceptor that will get `vis` via `::visit()` method
-		 * @return visitor_result_t 
+		 * @return visitor_result_t
 		 */
 		template<visitor_req visitor_t, acceptor_req acceptor_t>
 		visitor_result_t visit(visitor_t* vis, acceptor_t* object)

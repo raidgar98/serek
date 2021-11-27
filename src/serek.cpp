@@ -4,9 +4,9 @@
  * @brief Contains implementations of few methods and functions
  * @version 0.1
  * @date 2021-08-30
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #include <sstream>
@@ -25,9 +25,9 @@ namespace
 
 	/**
 	 * @brief generates stacktrace. requires backtrace to work
-	 * 
+	 *
 	 * @param out result will be saved, into given shared pointer
-	 * 
+	 *
 	 * @warning std::make_shared<str> will be executed on given reference
 	 * @note stacktrace format: #0000	at ${function_name} in file ${source_file}:${source_line_no}\n
 	 */

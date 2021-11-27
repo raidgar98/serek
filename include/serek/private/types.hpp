@@ -4,9 +4,9 @@
  * @brief Contains aliases for commonly used types
  * @version 0.1
  * @date 2021-08-30
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once

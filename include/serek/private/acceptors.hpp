@@ -4,9 +4,9 @@
  * @brief Contains declarations and definition of classes that handles visitors
  * @version 0.1
  * @date 2021-08-29
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #pragma once
@@ -23,7 +23,7 @@ namespace serek
 
 		/**
 		 * @brief Predeclaration of acceptor_impl
-		 * 
+		 *
 		 * @tparam acceptor_worker_t statically checks is given worker is valid
 		 */
 		template<reqs::acceptor_worker_req acceptor_worker_t>
@@ -31,7 +31,7 @@ namespace serek
 
 		/**
 		 * @brief Most common visitor handler, which just evaluates worker
-		 * 
+		 *
 		 * @tparam acceptor_worker_t worker to call
 		 * @tparam child_t type forwarded to worker; type from derivation tree of this class
 		 */
@@ -40,11 +40,11 @@ namespace serek
 		{
 			/**
 			 * @brief performs actuall job (invokes worker)
-			 * 
+			 *
 			 * @tparam visitor_t type of visitor to invoker
 			 * @param visitor visitor to invoke
 			 * @return visitor_result_t
-			 * 
+			 *
 			 * @see visitor_req
 			 */
 			template<reqs::visitor_req visitor_t>
@@ -72,17 +72,17 @@ namespace serek
 			{
 				/**
 				 * @brief helper function, that invokes visitor
-				 * 
+				 *
 				 * @param visitor visitor to invoke
 				 * @param acceptor object to pass to visitor
-				 * @return visitor_result_t 
+				 * @return visitor_result_t
 				 */
 				inline visitor_result_t call_visitator(auto* visitor, auto* acceptor) { return (*visitor)(acceptor); }
 			}	 // namespace
 
 			/**
 			 * @brief base for further acceptor workers
-			 * 
+			 *
 			 * @tparam child_t type that is currently handled
 			 */
 			template<typename child_t>
@@ -92,8 +92,8 @@ namespace serek
 
 			 protected:
 				/**
-				 * @brief helper method that validates 
-				 * 
+				 * @brief helper method that validates
+				 *
 				 * @tparam visitor_t type of visitor
 				 * @param visitor visitor to check
 				 */
@@ -107,7 +107,7 @@ namespace serek
 
 			/**
 			 * @brief most common worker, that just invokes visitor
-			 * 
+			 *
 			 * @tparam child_t currently processed type
 			 */
 			template<typename child_t>
@@ -115,7 +115,7 @@ namespace serek
 			{
 				/**
 				 * @brief Construct a new basic acceptor worker object and actally performs action
-				 * 
+				 *
 				 * @tparam visitor_t type of visitor
 				 * @param acceptor object to handle via visitor
 				 * @param visitor visitor to call
@@ -140,7 +140,7 @@ namespace serek
 
 			/**
 			 * @brief alias for acceptor that is in first member in struct
-			 * 
+			 *
 			 * @tparam child_t given type of first member
 			 */
 			template<typename child_t>
@@ -148,7 +148,7 @@ namespace serek
 
 			/**
 			 * @brief predeclaration is used here to extract type further in specialisation
-			 * 
+			 *
 			 * @tparam value static pointer to field
 			 */
 			template<auto value>
@@ -156,7 +156,7 @@ namespace serek
 
 			/**
 			 * @brief type wrapper for `forward_acceptor_worker_impl`
-			 * 
+			 *
 			 * @tparam class_t type of top level owner of field
 			 * @tparam prev_field_t type of previous memeber
 			 * @tparam value static pointer to previous member
@@ -166,7 +166,7 @@ namespace serek
 			{
 				/**
 				 * @brief actual implementation of acceptor worker, which forward visitor to previous member
-				 * 
+				 *
 				 * @tparam child_t type of current field
 				 */
 				template<typename child_t>
@@ -174,7 +174,7 @@ namespace serek
 				{
 					/**
 					 * @brief Construct a new forward acceptor worker impl object and evaluates visitor
-					 * 
+					 *
 					 * @tparam visitor_t type of visitor
 					 * @param acceptor object to pass to visitor
 					 * @param visitor visito to call
