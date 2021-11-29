@@ -12,6 +12,7 @@
 #pragma once
 
 #include <concepts>
+#include <stack>
 
 #include <serek/private/types.hpp>
 #include <serek/private/type_holders.hpp>
@@ -25,6 +26,20 @@ namespace serek
 	{
 		namespace detail
 		{
+
+			/**
+			 * @brief checks is given type is iterable
+			 *
+			 * @tparam T type to check
+			 */
+			template<typename T>
+			concept iterable_req = requires(T x)
+			{
+				typename T::value_type;
+				std::same_as<decltype(*x.begin()), typename T::value_type>;
+				{ x.end() };
+			};
+
 			/**
 			 * @brief checks is given type is fundamental wrapper
 			 *
@@ -49,6 +64,12 @@ namespace serek
 				std::same_as<decltype(x->last_result), visitor_result_t>;
 				std::same_as<decltype(x->that()), void*>;
 				{x->that(static_cast<void*>(NULL))};
+			};
+
+			template<typename visitor_t>
+			concept visitor_with_member_name_stack = visitor_req<visitor_t> && requires(visitor_t* x)
+			{
+				std::same_as<decltype(x->stack_name), std::stack<str>>;
 			};
 
 			/**
