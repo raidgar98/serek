@@ -103,6 +103,17 @@ namespace serek
 			volatile void* m_that = nullptr;
 		};
 
+		struct base_visitor_members_with_stacknames : public base_visitor_members
+		{
+			template<typename Any>
+			base_visitor_members_with_stacknames(Any* any)
+				:base_visitor_members{any}
+			{
+				stack_name.emplace(field_name<Any>());
+			}
+			std::stack<str> stack_name;
+		};
+
 		namespace
 		{
 			/**

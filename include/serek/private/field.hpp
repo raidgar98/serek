@@ -28,7 +28,7 @@ namespace serek
 		struct field_impl;
 
 		template<typename current_field_t, template<typename T> typename acceptor_worker_t>
-		struct field_impl_value_handler : public detail::type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<current_field_t>>
+		struct field_impl_value_handler : public detail::type_holder<current_field_t>, public acceptor_impl<acceptor_worker_t<detail::type_holder<current_field_t>>>
 		{
 			using detail::type_holder<current_field_t>::type_holder;
 		};
