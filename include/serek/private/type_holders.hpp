@@ -16,6 +16,17 @@
 
 namespace serek
 {
+	namespace detail
+	{
+		/**
+		 * @brief can be used to wrap class to be iterable over fields
+		 *
+		 * @tparam last_field last field
+		 */
+		template<auto last_field>
+		struct pack_impl;
+	}
+
 	namespace requirements
 	{
 		/**
@@ -61,6 +72,16 @@ namespace serek
 			template<typename... other_types>
 			type_holder(other_types&&... argv) : T{std::forward<other_types>(argv)...}
 			{
+			}
+		};
+
+		template<typename owner_t, typename previous_field_t, previous_field_t owner_t::*value>
+		struct type_holder<detail::pack_impl<value>> : public owner_t
+		{
+			template<typename... other_types>
+			type_holder(other_types&& ... argv) : owner_t{std::forward<other_types>(argv)...}
+			{
+				
 			}
 		};
 

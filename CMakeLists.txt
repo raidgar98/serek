@@ -10,6 +10,9 @@ endif()
 
 # setup cmake
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if("${CMAKE_BUILD_TYPE}" STREQUAL "")
+	set(CMAKE_BUILD_TYPE Release)
+endif()
 
 # update submodules
 find_program(GIT_PROGRAM git)
