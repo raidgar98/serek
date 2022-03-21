@@ -11,14 +11,36 @@ namespace serek
 		{
 			namespace detail
 			{
+				enum class JSON_CHARS : char
+				{
+					OBJECT_START = '{',
+					OBJECT_STOP = '}',
+
+					ARRAY_START = '[',
+					ARRAY_STOP = ']',
+
+					KEY_VALUE_SEPARATOR = ':',
+					ITEMS_SEPARATOR = ',',
+				};
 
 				struct stream_holder
 				{
 					template<typename Any>
 					inline friend stream_holder& operator<<(stream_holder& out, const Any& any)
 					{
-						out.output << any;
+						out.put_to_stream(any);
 						return out;
+					}
+
+					template<typename Any>
+					void put_to_stream(const Any& any)
+					{
+						this->output << any;
+					}
+
+					void put_to_stream(const JSON_CHARS jc)
+					{
+						this->output << static_cast<char>(jc);
 					}
 
 				protected:
@@ -29,33 +51,37 @@ namespace serek
 
 				void add_key(std::stack<str>& stack, stream_holder& out)
 				{
-					out << std::quoted(stack.top()) << ':';
+					out << std::quoted(stack.top()) << JSON_CHARS::KEY_VALUE_SEPARATOR;
 					stack.pop();
 				}
 
-				template<typename Any>
-				void serial(visitors::base_visitor_members_with_stacknames& fwd, stream_holder& out, const Any& obj)
+				template<reqs::visitor_req vis_t, typename Any>
+				// void serial(visitors::base_visitor_members_with_stacknames& fwd, stream_holder& out, const Any& obj)
+				void serial(vis_t& fwd, stream_holder& out, const Any& obj)
 				{
 					add_key(fwd.stack_name, out);
-					out << '{';
+					out << JSON_CHARS::OBJECT_START;
 					serek::visitors::visit(&fwd, &obj);
-					out << '}';
+					out << JSON_CHARS::OBJECT_STOP;
 				}
 
-				template<reqs::fundamental_wrapper_req Any>
-				void serial(visitors::base_visitor_members_with_stacknames& vis, stream_holder& out, const Any& obj)
+				template<reqs::visitor_req vis_t, reqs::fundamental_wrapper_req Any>
+				void serial(vis_t& vis, stream_holder& out, const Any& obj)
 				{
 					add_key(vis.stack_name, out);
 					out << obj;
 				}
 
-				template<reqs::iterable_req Any>
-				void serial(visitors::base_visitor_members_with_stacknames& vis, stream_holder& out, const Any& any)
+				template<reqs::visitor_req vis_t, reqs::iterable_req Any>
+				void serial(vis_t& vis, stream_holder& out, const Any& any)
 				{
+					static const char separator_decision[2] = { static_cast<char>(detail::JSON_CHARS::ITEMS_SEPARATOR), '\0'};
+
 					add_key(vis.stack_name, out);
-					out << '[';
-					for(auto it = any.begin(); it != any.end(); it++) out << ","[it == any.begin()] << *it;
-					out << ']';
+					out << JSON_CHARS::ARRAY_START;
+					for(auto it = any.begin(); it != any.end(); it++)
+						out << separator_decision[it == any.begin()] << *it;
+					out << JSON_CHARS::ARRAY_STOP;
 				}
 			}
 
@@ -64,7 +90,7 @@ namespace serek
 				template<typename T>
 				json_visitor(T* any) : base_visitor_members_with_stacknames{any}
 				{
-					(*this) << '{';
+					put_to_stream(detail::JSON_CHARS::OBJECT_START);
 				}
 
 				template<typename Any>
@@ -73,8 +99,9 @@ namespace serek
 					this->last_result = true;
 					if(!stack_name.empty())
 						detail::serial(*this, static_cast<detail::stream_holder&>(*this), *any);
-					if(!stack_name.empty()) (*this) << ',';
-					else (*this) << '}';
+
+					if(!stack_name.empty()) put_to_stream(detail::JSON_CHARS::ITEMS_SEPARATOR);
+					else put_to_stream(detail::JSON_CHARS::OBJECT_STOP);
 
 					return true;
 				}

@@ -23,14 +23,6 @@ namespace serek
 	namespace detail
 	{
 		/**
-		 * @brief can be used to wrap class to be iterable over fields
-		 *
-		 * @tparam last_field last field
-		 */
-		template<auto last_field>
-		struct pack_impl;
-
-		/**
 		 * @copydoc pack_impl
 		 *
 		 * @tparam owner_t type of class that is wrapped
