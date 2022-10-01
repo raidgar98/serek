@@ -33,7 +33,7 @@ namespace serek
 		 */
 		struct base_visitor_members
 		{
-			visitor_result_t last_result;
+			visitor_result_t last_result{};
 
 			/**
 			 * @brief Construct a new base visitor members object
