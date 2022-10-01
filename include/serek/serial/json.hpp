@@ -72,58 +72,80 @@ namespace serek
 					sstr output;
 				};
 
-				void add_key(std::stack<str>& stack, stream_holder& out)
+				auto add_key(base_visitor_members_with_stacknames& vis, stream_holder& out)
 				{
-					out << std::quoted(stack.top()) << JSON_CHARS::KEY_VALUE_SEPARATOR;
-					stack.pop();
+					out << std::quoted(vis.top()) << JSON_CHARS::KEY_VALUE_SEPARATOR;
+					return vis.pop();
 				}
 
-				template<reqs::visitor_req vis_t, typename Any>
-				// void serial(visitors::base_visitor_members_with_stacknames& fwd, stream_holder& out, const Any& obj)
-				void serial(vis_t& fwd, stream_holder& out, const Any& obj)
+				template<reqs::visitor_req vis_t, auto Any>
+				void serial(vis_t& fwd, stream_holder& out, const serek::pack<Any>* obj)
 				{
-					add_key(fwd.stack_name, out);
+					serek::require(obj);
+
+					add_key(fwd, out);
+
 					out << JSON_CHARS::OBJECT_START;
-					serek::visitors::visit(&fwd, &obj);
+
+					vis_t new_obj_vis{obj};
+					serek::visitors::visit(&new_obj_vis, obj);
+					out.put_to_stream(static_cast<const stream_holder&>(new_obj_vis));
+
 					out << JSON_CHARS::OBJECT_STOP;
 				}
 
-				template<reqs::visitor_req vis_t, reqs::fundamental_wrapper_req Any>
-				void serial(vis_t& vis, stream_holder& out, const Any& obj)
+				template<reqs::visitor_req vis_t, typename Any>
+				requires serek::requirements::fundamental_req<Any> || reqs::string_type_req<Any>
+				void serial(vis_t& vis, stream_holder& out, const Any* obj)
 				{
-					add_key(vis.stack_name, out);
-					out << obj;
+					serek::require(obj);
+					add_key(vis, out);
+					out.put_to_stream(*obj);
 				}
 
 				template<reqs::visitor_req vis_t, reqs::iterable_req Any>
-				void serial(vis_t& vis, stream_holder& out, const Any& any)
+				void serial(vis_t& vis, stream_holder& out, const Any* any)
 				{
+					serek::require(any);
 					static const char separator_decision[2] = {static_cast<char>(detail::JSON_CHARS::ITEMS_SEPARATOR), '\0'};
 
-					add_key(vis.stack_name, out);
+					add_key(vis, out);
 					out << JSON_CHARS::ARRAY_START;
-					for(auto it = any.begin(); it != any.end(); it++) out << separator_decision[it == any.begin()] << *it;
+					for(auto it = any->begin(); it != any->end(); it++) out << separator_decision[it == any->begin()] << *it;
 					out << JSON_CHARS::ARRAY_STOP;
 				}
 			}	 // namespace detail
 
-			struct json_visitor : public visitors::base_visitor_members_with_stacknames, public detail::stream_holder
+			template<bool root_object = true>
+			struct json_visitor : public base_visitor_members_with_stacknames, public detail::stream_holder
 			{
 				template<typename T>
 				json_visitor(T* any) : base_visitor_members_with_stacknames{any}
 				{
-					put_to_stream(detail::JSON_CHARS::OBJECT_START);
+					if(root_object) put_to_stream(detail::JSON_CHARS::OBJECT_START);
 				}
 
 				template<typename Any>
-				visitor_result_t operator()(const Any* any)
+				visitor_result_t operator()(const serek::detail::type_holder<Any>* any)
+				{
+					this->process(any);
+					return true;
+				}
+
+				str json() const { return get(); }
+
+			 private:
+				template<typename Any>
+				void process(const serek::detail::type_holder<Any>* any)
 				{
 					this->last_result = true;
-					if(!stack_name.empty()) detail::serial(*this, static_cast<detail::stream_holder&>(*this), *any);
+					if(!this->empty()) detail::serial(reinterpret_cast<json_visitor<false>&>(*this), static_cast<detail::stream_holder&>(*this), reinterpret_cast<const Any*>(any));
 
-					if(!stack_name.empty()) put_to_stream(detail::JSON_CHARS::ITEMS_SEPARATOR);
-					else
+					if(!this->empty()) put_to_stream(detail::JSON_CHARS::ITEMS_SEPARATOR);
+					else if(root_object)
 						put_to_stream(detail::JSON_CHARS::OBJECT_STOP);
+				}
+			};
 
 			template<typename Any>
 			serek::str serialize(const Any& any)
