@@ -125,11 +125,14 @@ namespace serek
 					else
 						put_to_stream(detail::JSON_CHARS::OBJECT_STOP);
 
-					return true;
-				}
+			template<typename Any>
+			serek::str serialize(const Any& any)
+			{
+				json_visitor vis{&any};
+				serek::visitors::visit(&vis, &any);
+				return vis.json();
+			}
 
-				str json() const { return get(); }
-			};
 		}	 // namespace json
 	}		 // namespace serial
 }	 // namespace serek
