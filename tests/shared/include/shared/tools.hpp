@@ -45,6 +45,13 @@ namespace serek
 		{
 			boost::ut::expect(boost::ut::eq(sizeof(T1), sizeof(T2)));
 		}
+
+		template<typename pattern_t>
+		inline void verify_with_pattern(const pattern_t& value_to_compare, const pattern_t& pattern)
+		{
+			boost::ut::expect(boost::ut::eq(pattern, value_to_compare));
+		}
+
 	}	 // namespace tests
 }	 // namespace serek
 
