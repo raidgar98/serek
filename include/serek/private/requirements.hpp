@@ -67,16 +67,17 @@ namespace serek
 			template<typename visitor_t>
 			concept visitor_req = requires(visitor_t* x)
 			{
-				std::same_as<decltype(x->template operator()(new serek::detail::type_holder<int>)), visitor_result_t>;
-				std::same_as<decltype(x->last_result), visitor_result_t>;
-				std::same_as<decltype(x->that()), void*>;
+				requires std::same_as<decltype(x->template operator()(new serek::detail::type_holder<int>)), visitor_result_t>;
+				requires std::same_as<decltype(x->last_result), visitor_result_t>;
+				requires std::same_as<decltype(x->that()), void*>;
+				requires std::same_as<decltype(x->template that<int>()), int*>;
 				{x->that(static_cast<void*>(NULL))};
 			};
 
 			template<typename visitor_t>
 			concept visitor_with_member_name_stack = visitor_req<visitor_t> && requires(visitor_t* x)
 			{
-				std::same_as<decltype(x->stack_name), std::stack<str>>;
+				requires std::same_as<decltype(x->stack_name), std::stack<str>>;
 			};
 
 			/**
@@ -115,7 +116,7 @@ namespace serek
 			template<typename acceptor_t>
 			concept acceptor_req = requires(acceptor_t* x)
 			{
-				std::same_as<decltype(x->template visit(new acceptor_req_details::ex_vis)), visitor_result_t>;
+				requires std::same_as<decltype(x->template visit(new acceptor_req_details::ex_vis)), visitor_result_t>;
 			};
 
 			/**
@@ -130,7 +131,7 @@ namespace serek
 				 * @tparam Argv invocable argument types
 				 */
 				template<typename T, typename... Argv>
-				concept acceptor_worker_req_helper = requires(T x, Argv && ... args)
+				concept acceptor_worker_req_helper = requires(T x, Argv&&... args)
 				{
 					{x(std::forward<Argv>(args)...)};
 				};
@@ -156,7 +157,7 @@ namespace serek
 			template<typename T>
 			concept comparable_as_pointer_req = requires(T x)
 			{
-				std::same_as<decltype(x == nullptr), bool>;
+				requires std::same_as<decltype(x == nullptr), bool>;
 			};
 
 			/**
