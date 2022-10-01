@@ -47,7 +47,7 @@ namespace
 		"order_1"_test = [] { validate_order<&test_struct_1::field_1>{"12", 1, 2.0f}; };
 		"order_2"_test = [] { validate_order<&test_struct_2::field_2>{"12c", 1, 2.0f, 'c'}; };
 		"order_3"_test = [] { validate_order<&test_struct_3::field_0>{"aaa", "aaa"}; };
-		"order_4"_test = [] { validate_order<&test_struct_4::field_0>{"aaa", "aaa" /* implicit conversion to test_struct_3 */}; };
+		"order_4"_test = [] { validate_order<&test_struct_4<>::field_0>{"aaa", "aaa" /* implicit conversion to test_struct_3 */}; };
 		"order_5"_test = [] { validate_order<&test_struct_5::field_2>{"13", 1, 2, 3.0f}; };
 		"order_6"_test = [] { validate_order<&test_struct_6::field_4>{"01234"}; };
 		"order_7"_test = [] { validate_order<&test_struct_7::field_2>{"02", 0, 1, 2}; };
@@ -59,7 +59,7 @@ namespace
 		"sizeof_1"_test = [] { compare_size<test_struct_1, std::tuple<int, float>>(); };
 		"sizeof_2"_test = [] { compare_size<test_struct_2, std::tuple<int, float, char>>(); };
 		"sizeof_3"_test = [] { compare_size<test_struct_3, std::tuple<serek::str>>(); };
-		"sizeof_4"_test = [] { compare_size<test_struct_4, std::tuple<test_struct_3>>(); };
+		"sizeof_4"_test = [] { compare_size<test_struct_4<>, std::tuple<test_struct_3>>(); };
 		"sizeof_5"_test = [] { compare_size<test_struct_5, std::tuple<int, float, int>>(); };
 		"sizeof_6"_test = [] { compare_size<test_struct_6, test_struct_6_raw>(); };
 		"sizeof_7"_test = [] { compare_size<test_struct_7, std::tuple<int, int, int>>(); };

@@ -31,9 +31,10 @@ namespace example_structs
 		inline friend std::ostream& operator<<(std::ostream& os, const test_struct_3& str) { return os << str.field_0; }
 	};
 
+	template<typename T = test_struct_3>
 	struct test_struct_4
 	{
-		ffield<test_struct_3> field_0;
+		ffield<T> field_0;
 	};
 
 	struct test_struct_5
