@@ -128,7 +128,7 @@ IF(${DOXYGEN})
 
 	# find programs
 	# if not passing: build and install following version: https://github.com/doxygen/doxygen/tree/Release_1_8_20
-	find_package(Doxygen 1.8.17...1.8.20 REQUIRED)
+	find_package(Doxygen 1.8.17 REQUIRED)
 	find_package(Python3 REQUIRED)
 
 	# Adding target
