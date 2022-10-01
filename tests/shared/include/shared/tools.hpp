@@ -41,7 +41,7 @@ namespace serek
 		 * @tparam T2 second type to get sizeof
 		 */
 		template<typename T1, typename T2>
-		inline constexpr void compare_size()
+		inline void compare_size()
 		{
 			boost::ut::expect(boost::ut::eq(sizeof(T1), sizeof(T2)));
 		}
