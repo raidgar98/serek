@@ -12,6 +12,7 @@
 #pragma once
 
 #include <serek/private/requirements.hpp>
+#include <serek/private/visitors.hpp>
 
 namespace serek
 {
@@ -202,38 +203,6 @@ namespace serek
 						this->validate_visitator(visitor);
 						visitor->last_result = visitors::visit(visitor, &(visitor->template that<class_t>()->*value));
 						return call_visitator(visitor, acceptor);
-					}
-
-					/**
-					 * @copydoc forward_acceptor_worker_impl::operator()
-					 */
-					template<reqs::visitor_with_member_name_stack visitor_t>
-					visitor_result_t operator()(child_t* acceptor, visitor_t* visitor) const
-					{
-						add_typename(visitor);
-						this->validate_visitator(visitor);
-						visitor->last_result = visitors::visit(visitor, &(visitor->template that<class_t>()->*value));
-						return call_visitator(visitor, acceptor);
-					}
-
-					/**
-					 * @copydoc forward_acceptor_worker_impl::operator()
-					 */
-					template<reqs::visitor_with_member_name_stack visitor_t>
-					visitor_result_t operator()(const child_t* acceptor, visitor_t* visitor) const
-					{
-						add_typename(visitor);
-						this->validate_visitator(visitor);
-						visitor->last_result = visitors::visit(visitor, &(visitor->template that<class_t>()->*value));
-						return call_visitator(visitor, acceptor);
-					}
-
-				private:
-
-					template<reqs::visitor_with_member_name_stack visitor_t>
-					void add_typename(visitor_t* vis) const
-					{
-						vis->stack_name.emplace(field_name<FIELD_EXTRACTOR_HELPER<value>>());
 					}
 				};
 			};
