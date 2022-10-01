@@ -25,5 +25,8 @@ namespace serek
 	using sstr				  = std::stringstream;
 
 	template<typename Any>
-	[[nodiscard]] inline str type_name() { return boost::typeindex::type_id<Any>().pretty_name(); }
+	[[nodiscard]] inline str type_name()
+	{
+		return boost::typeindex::type_id<Any>().pretty_name();
+	}
 }	 // namespace serek
