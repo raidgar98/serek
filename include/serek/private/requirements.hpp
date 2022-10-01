@@ -94,6 +94,16 @@ namespace serek
 
 					void* that() const { return const_cast<void*>(m_that); }
 					void that(void* input) { m_that = input; }
+					template<typename T>
+					T* that()
+					{
+						return reinterpret_cast<T*>(this->that());
+					}
+					template<typename T>
+					T* that() const
+					{
+						return reinterpret_cast<T*>(this->that());
+					}
 
 					template<typename T>
 					visitor_result_t operator()(T*)
