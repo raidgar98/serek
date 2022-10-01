@@ -26,6 +26,11 @@ namespace serek
 	{
 		namespace detail
 		{
+			template<typename T>
+			concept string_type_req = requires
+			{
+				requires(std::same_as<serek::str, T> || std::same_as<serek::str_v, T>);
+			};
 
 			/**
 			 * @brief checks is given type is iterable
@@ -36,8 +41,10 @@ namespace serek
 			concept iterable_req = requires(T x)
 			{
 				typename T::value_type;
-				std::same_as<decltype(*x.begin()), typename T::value_type>;
-				{ x.end() };
+				requires std::same_as < std::remove_cvref_t<decltype(*x.begin())>,
+				typename T::value_type > ;
+				{x.end()};
+				requires !string_type_req<T>;
 			};
 
 			/**
