@@ -25,7 +25,7 @@ namespace serek
 		 */
 		template<auto last_field>
 		struct pack_impl;
-	}
+	}	 // namespace detail
 
 	namespace requirements
 	{
@@ -48,7 +48,7 @@ namespace serek
 			requires !std::is_fundamental_v<T>;
 			requires !std::is_final_v<T>;
 		};
-	}
+	}	 // namespace requirements
 
 	namespace detail
 	{
@@ -79,9 +79,8 @@ namespace serek
 		struct type_holder<detail::pack_impl<value>> : public owner_t
 		{
 			template<typename... other_types>
-			type_holder(other_types&& ... argv) : owner_t{std::forward<other_types>(argv)...}
+			type_holder(other_types&&... argv) : owner_t{std::forward<other_types>(argv)...}
 			{
-				
 			}
 		};
 
@@ -110,8 +109,14 @@ namespace serek
 
 			// forward all constructors
 			type_holder() : value{} {}
-			template<typename other_t> type_holder(const other_t& arg) : value{arg} {}
-			template<typename other_t> type_holder(other_t&& arg) : value{arg} {}
+			template<typename other_t>
+			type_holder(const other_t& arg) : value{arg}
+			{
+			}
+			template<typename other_t>
+			type_holder(other_t&& arg) : value{arg}
+			{
+			}
 
 
 			// comprasion operators

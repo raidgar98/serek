@@ -14,13 +14,13 @@ namespace serek
 				enum class JSON_CHARS : char
 				{
 					OBJECT_START = '{',
-					OBJECT_STOP = '}',
+					OBJECT_STOP	 = '}',
 
 					ARRAY_START = '[',
-					ARRAY_STOP = ']',
+					ARRAY_STOP	= ']',
 
 					KEY_VALUE_SEPARATOR = ':',
-					ITEMS_SEPARATOR = ',',
+					ITEMS_SEPARATOR	  = ',',
 				};
 
 				struct stream_holder
@@ -38,14 +38,12 @@ namespace serek
 						this->output << any;
 					}
 
-					void put_to_stream(const JSON_CHARS jc)
-					{
-						this->output << static_cast<char>(jc);
-					}
+					void put_to_stream(const JSON_CHARS jc) { this->output << static_cast<char>(jc); }
 
-				protected:
+				 protected:
 					str get() const { return output.str(); }
-				private:
+
+				 private:
 					sstr output;
 				};
 
@@ -75,15 +73,14 @@ namespace serek
 				template<reqs::visitor_req vis_t, reqs::iterable_req Any>
 				void serial(vis_t& vis, stream_holder& out, const Any& any)
 				{
-					static const char separator_decision[2] = { static_cast<char>(detail::JSON_CHARS::ITEMS_SEPARATOR), '\0'};
+					static const char separator_decision[2] = {static_cast<char>(detail::JSON_CHARS::ITEMS_SEPARATOR), '\0'};
 
 					add_key(vis.stack_name, out);
 					out << JSON_CHARS::ARRAY_START;
-					for(auto it = any.begin(); it != any.end(); it++)
-						out << separator_decision[it == any.begin()] << *it;
+					for(auto it = any.begin(); it != any.end(); it++) out << separator_decision[it == any.begin()] << *it;
 					out << JSON_CHARS::ARRAY_STOP;
 				}
-			}
+			}	 // namespace detail
 
 			struct json_visitor : public visitors::base_visitor_members_with_stacknames, public detail::stream_holder
 			{
@@ -97,23 +94,17 @@ namespace serek
 				visitor_result_t operator()(const Any* any)
 				{
 					this->last_result = true;
-					if(!stack_name.empty())
-						detail::serial(*this, static_cast<detail::stream_holder&>(*this), *any);
+					if(!stack_name.empty()) detail::serial(*this, static_cast<detail::stream_holder&>(*this), *any);
 
 					if(!stack_name.empty()) put_to_stream(detail::JSON_CHARS::ITEMS_SEPARATOR);
-					else put_to_stream(detail::JSON_CHARS::OBJECT_STOP);
+					else
+						put_to_stream(detail::JSON_CHARS::OBJECT_STOP);
 
 					return true;
 				}
 
-				str json() const
-				{
-					return get();
-				}
+				str json() const { return get(); }
 			};
-		}
-	}
-}
-
-
-
+		}	 // namespace json
+	}		 // namespace serial
+}	 // namespace serek
