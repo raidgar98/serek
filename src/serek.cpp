@@ -34,7 +34,7 @@ namespace
 	void save_stacktrace(std::shared_ptr<serek::str>& out)
 	{
 		std::stringstream stream{};
-		const auto& frames{boost::stacktrace::stacktrace().as_vector()};
+		const auto frames{boost::stacktrace::stacktrace().as_vector()};
 		for(size_t i = STACKTRACE_OFFSET; i < frames.size(); ++i)
 		{
 			const auto& frame		  = frames[i];
