@@ -14,7 +14,6 @@
 #include <concepts>
 #include <stdexcept>
 #include <serek/private/type_holders.hpp>
-#include <serek/private/visitors.hpp>
 #include <serek/private/acceptors.hpp>
 
 namespace serek
@@ -34,7 +33,11 @@ namespace serek
 		};
 
 		template<typename owner_t, typename previous_field_t, previous_field_t owner_t::*value, typename current_field_t>
-		struct field_impl<value, current_field_t> : public field_impl_value_handler<current_field_t, detail::forward_acceptor_creator<value>::template forward_acceptor_worker_impl>
+		struct field_impl<value, current_field_t> :
+			public field_impl_value_handler<
+				current_field_t,
+				detail::forward_acceptor_creator<value>::template forward_acceptor_worker_impl
+			>
 		{
 		};
 
