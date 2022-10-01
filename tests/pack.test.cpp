@@ -22,7 +22,6 @@ namespace
 	};
 
 	but::suite polimorphism = [] {
-
 		"virtual"_test = [] {
 			but::expect(std::is_polymorphic_v<some_virtual_base_class_packed>);
 			but::expect(not std::is_polymorphic_v<decltype(some_virtual_base_class_packed::field_0)>);

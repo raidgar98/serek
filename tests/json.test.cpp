@@ -11,17 +11,15 @@ namespace
 	using namespace example_structs;
 	using namespace example_structs::packed;
 
-	template<typename T, typename ... Args>
-	void verify_pattern_for_type(const serek::str& pattern, Args&& ... argv)
+	template<typename T, typename... Args>
+	void verify_pattern_for_type(const serek::str& pattern, Args&&... argv)
 	{
 		const serek::str value = serek::serial::json::serialize(T{std::forward<Args>(argv)...});
 		verify_with_pattern(value, pattern);
 	}
 
 	but::suite patterns = [] {
-
 		"flat_structs"_test = [] {
-
 			verify_pattern_for_type<test_struct_0_packed>("{\"field_0\":0}");
 			verify_pattern_for_type<test_struct_0_packed>("{\"field_0\":2137}", 2137);
 
@@ -39,4 +37,4 @@ namespace
 		};
 	};
 
-}
+}	 // namespace

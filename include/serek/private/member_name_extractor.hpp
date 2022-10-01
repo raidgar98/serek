@@ -92,7 +92,7 @@ namespace serek
 			storage_t<serek::str> result_set;
 			for(size_t i = members.find_first_of('&'); i < members.size() && i != members.npos;)
 			{
-				const size_t next_ampersand	= members.find_first_of('&', i + 1);
+				const size_t next_ampersand = members.find_first_of('&', i + 1);
 				size_t close_shevron;
 				if(next_ampersand == serek::str::npos) [[unlikely]]
 					close_shevron = members.find_last_not_of(" >") + 1;
@@ -100,7 +100,7 @@ namespace serek
 					close_shevron = members.find_last_of('>', next_ampersand);
 				const size_t member_namespace = members.find_last_of(':', close_shevron);
 				const size_t start				= member_namespace + 1;
-				const auto   tag					= members.substr(start, close_shevron - start);
+				const auto tag						= members.substr(start, close_shevron - start);
 				appender(result_set, tag);
 				i = next_ampersand;
 			}
