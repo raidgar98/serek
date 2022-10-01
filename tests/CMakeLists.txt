@@ -6,7 +6,7 @@ add_library(shared_tools ${SHARED_TOOLS_ROOT_PATH}/tools.cpp )
 target_link_libraries(shared_tools PUBLIC serek ut)
 target_include_directories(shared_tools PUBLIC ${SHARED_TOOLS_ROOT_PATH}/include PRIVATE ${${PROJECT_NAME}_INCLUDE_DIRS})
 
-file(GLOB TEST_SOURCE_FILES LIST_DIRECTORIES FALSE ${TEST_DIRECTORY_PATH} *.test.cpp)
+file(GLOB TEST_SOURCE_FILES LIST_DIRECTORIES FALSE CONFIGURE_DEPENDS ${TEST_DIRECTORY_PATH} *.test.cpp)
 foreach(i_filename ${TEST_SOURCE_FILES})
 	get_filename_component( filename ${i_filename} NAME )
 	string(REPLACE ".test.cpp" "" test_name ${filename})
