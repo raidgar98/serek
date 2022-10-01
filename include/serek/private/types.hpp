@@ -27,13 +27,3 @@ namespace serek
 	template<typename Any>
 	[[nodiscard]] inline str type_name() { return boost::typeindex::type_id<Any>().pretty_name(); }
 }	 // namespace serek
-
-template<auto x> class FIELD_EXTRACTOR_HELPER {};
-
-template<typename T>
-inline serek::str field_name()
-{
-	const serek::str raw_type = serek::type_name<T>();
-	const size_t last_colon = raw_type.find_last_of(':');
-	return serek::str{ raw_type, last_colon + 1, raw_type.size() - last_colon - 2};
-}
