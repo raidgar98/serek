@@ -39,10 +39,9 @@ namespace serek
 				};
 
 				template<typename Any>
-				base_visitor_members_with_stacknames(Any* any)
-					:base_visitor_members{any}
+				base_visitor_members_with_stacknames(Any* any) : base_visitor_members{any}
 				{
-					stack_name = serek::member_name_extractors::extract_class_members<Any, std::stack>([](auto& c, const auto& i){ c.emplace(i); });
+					stack_name = serek::member_name_extractors::extract_class_members<Any, std::stack>([](auto& c, const auto& i) { c.emplace(i); });
 					std::stack<str> _reverse;
 					while(!stack_name.empty())
 					{
@@ -52,17 +51,14 @@ namespace serek
 					stack_name = std::move(_reverse);
 				}
 
-				const str& top() const
-				{
-					return this->stack_name.top();
-				}
+				const str& top() const { return this->stack_name.top(); }
 				pop_guard pop() { return pop_guard{this}; }
 
 				bool empty() const { return stack_name.empty(); }
 
-			protected:
+			 protected:
 				std::stack<str> stack_name;
 			};
-		}
-	}
-}
+		}	 // namespace visitors
+	}		 // namespace json
+}	 // namespace serek
