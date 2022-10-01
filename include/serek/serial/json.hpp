@@ -1,7 +1,10 @@
 #pragma once
 
 #include <iomanip>
+#include <map>
 #include <serek/serek.hpp>
+
+#include <serek/serial/visitors.hpp>
 
 namespace serek
 {
@@ -9,6 +12,8 @@ namespace serek
 	{
 		namespace json
 		{
+			using namespace serek::json::visitors;
+
 			namespace detail
 			{
 				enum class JSON_CHARS : char
@@ -32,18 +37,38 @@ namespace serek
 						return out;
 					}
 
+					void put_to_stream(const stream_holder& sh) { this->output << sh.output.str(); }
+					void put_to_stream(const JSON_CHARS jc) { this->output << static_cast<char>(jc); }
+
 					template<typename Any>
 					void put_to_stream(const Any& any)
 					{
 						this->output << any;
 					}
 
-					void put_to_stream(const JSON_CHARS jc) { this->output << static_cast<char>(jc); }
+					void put_to_stream(const char c)
+					{
+						static const std::map<char, typename serek::str> trivial_escape{{std::pair<char, serek::str>{'\0', "\0"}, {'\1', "\1"}, {'\2', "\2"}, {'\3', "\3"}, {'\4', "\4"}, {'\5', "\5"}, {'\6', "\6"}, {'\7', "\7"}, {'\n', "\n"}, {'\r', "\r"}, {'\7', "\7"}, {'\'', "\'"}, {'\"', "\""}, {'\a', "\a"}, {'\b', "\b"}, {'\t', "\t"}, {'\v', "\v"}, {'\?', "\?"}, {'\\', "\\"}, {'\f', "\f"}}};
+						serek::str x{"a"};
+
+						const auto it = trivial_escape.find(c);
+						if(it != trivial_escape.end()) x = it->second;
+						else
+							x[0] = c;
+
+						this->output << std::quoted(x);
+					}
+
+					template<reqs::string_type_req T>
+					void put_to_stream(const T& str)
+					{
+						this->output << std::quoted(str);
+					}
 
 				 protected:
 					str get() const { return output.str(); }
 
-				 private:
+				 protected:
 					sstr output;
 				};
 
