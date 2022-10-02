@@ -41,7 +41,7 @@ namespace serek
 				template<typename Any>
 				base_visitor_members_with_stacknames(Any* any) : base_visitor_members{any}
 				{
-					stack_name = serek::member_name_extractors::extract_class_members<Any, std::stack>([](auto& c, const auto& i) { c.emplace(i); });
+					serek::member_name_extractors::extract_class_members<Any>([&](const serek::str& v) { this->stack_name.emplace(v); });
 					std::stack<str> _reverse;
 					while(!stack_name.empty())
 					{
