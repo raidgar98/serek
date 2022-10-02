@@ -8,6 +8,10 @@ namespace serek
 	{
 		namespace impl
 		{
+			struct __terminator
+			{
+			};
+
 			template<typename T>
 			struct pack_extractor;
 
@@ -61,7 +65,28 @@ namespace serek
 			template<typename T, typename... Argv>
 			struct concatenator<field_extractor<serek::ffield<T>>, Argv...>
 			{
-				using result = typename std::tuple<Argv...>;
+				using result = typename std::tuple<Argv..., __terminator>;
+			};
+
+			using tuple_name_extractor_appender_t = std::function<void(const serek::str&)>;
+
+			template<typename tuple_t>
+			struct tuple_name_collector;
+
+			template<>
+			struct tuple_name_collector<std::tuple<__terminator>>
+			{
+				tuple_name_collector(const tuple_name_extractor_appender_t) {}
+			};
+
+			template<typename type_1, typename... Args>
+			struct tuple_name_collector<std::tuple<type_1, Args...>>
+			{
+				tuple_name_collector(const tuple_name_extractor_appender_t appender)
+				{
+					appender(serek::type_name<type_1>());
+					tuple_name_collector<std::tuple<Args...>>{appender};
+				}
 			};
 
 			template<typename packed_t>
@@ -71,10 +96,13 @@ namespace serek
 		template<typename packed_t>
 		using members_as_types = typename impl::members_as_types_result_t<packed_t>;
 
+		template<typename tuple_t>
+		using tuple_name_collector = typename impl::tuple_name_collector<tuple_t>;
+
 		namespace detail
 		{
 			template<typename storage_t>
-			using storage_appender_t = std::function<void(storage_t&, const serek::str&)>;
+			using storage_appender_t = std::function<void(const serek::str&)>;
 		}
 
 		/**
@@ -85,26 +113,14 @@ namespace serek
 		 * @param appender functor that appends and returns that reference to inserted value
 		 * @return storage_t<serek::str>
 		 */
-		template<typename packed_t, template<typename T> typename storage_t = std::vector>
-		storage_t<serek::str> extract_class_members(const detail::storage_appender_t<storage_t<serek::str>> appender = [](auto& storage, const serek::str& item) { storage.emplace_back(item); })
+		template<typename packed_t>
+		constexpr void extract_class_members(const detail::storage_appender_t<serek::str> appender)
 		{
-			serek::str members = serek::type_name<members_as_types<packed_t>>();
-			storage_t<serek::str> result_set;
-			for(size_t i = members.find_first_of('&'); i < members.size() && i != members.npos;)
-			{
-				const size_t next_ampersand = members.find_first_of('&', i + 1);
-				size_t close_shevron;
-				if(next_ampersand == serek::str::npos) [[unlikely]]
-					close_shevron = members.find_last_not_of(" >") + 1;
-				else
-					close_shevron = members.find_last_of('>', next_ampersand);
-				const size_t member_namespace = members.find_last_of(':', close_shevron);
-				const size_t start				= member_namespace + 1;
-				const auto tag						= members.substr(start, close_shevron - start);
-				appender(result_set, tag);
-				i = next_ampersand;
-			}
-			return result_set;
+			tuple_name_collector<members_as_types<packed_t>>{[&](const serek::str& v) {
+				const size_t namespace_pos = v.find_last_of(':') + 1ul;
+				const size_t last_shevron	= v.find_last_of('>');
+				appender(v.substr(namespace_pos, last_shevron - namespace_pos));
+			}};
 		}
 	}	 // namespace member_name_extractors
 
