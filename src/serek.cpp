@@ -52,10 +52,10 @@ namespace
 		}
 		out = std::make_shared<serek::str>(stream.str());
 	}
-}	 // namespace
 #else
-void save_stacktrace(std::shared_ptr<serek::str>& out) {}
+void save_stacktrace(std::shared_ptr<serek::str>&) {}
 #endif
+}	 // namespace
 
 namespace serek
 {
