@@ -157,7 +157,9 @@ namespace serek
 			{
 				typename T::value_t;
 			}
-			&&acceptor_worker_req_detail::acceptor_worker_req_helper<T, typename T::value_t*, acceptor_req_details::ex_vis*> || acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
+			&&acceptor_worker_req_detail::acceptor_worker_req_helper<
+				 T, typename T::value_t*,
+				 acceptor_req_details::ex_vis*> || acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
 
 			/**
 			 * @brief checks is given type can be compared like pointerr

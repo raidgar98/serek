@@ -85,7 +85,9 @@ namespace serek
 			 * @param i_what forwarded to parent (what())
 			 * @param i_comprasion_result string to set as comprasion result
 			 */
-			explicit comprasion_fail_exception(const str_v i_what, const str& i_comprasion_result = str{}) : assert_exception{i_what}, comprasion_result{new str{i_comprasion_result}} {}
+			explicit comprasion_fail_exception(const str_v i_what, const str& i_comprasion_result = str{}) : assert_exception{i_what}, comprasion_result{new str{i_comprasion_result}}
+			{
+			}
 
 			/**
 			 * @brief overrides default pretty, by preinserting `i_comprasion_result`
@@ -145,7 +147,8 @@ namespace serek
 	void require(const T& l_value, const T& r_value, const str_v error_message = "comprasion failed!")
 	{
 		using operator_with_type = operator_t<T>;
-		if(!operator_with_type{}(l_value, r_value)) throw typename exceptions::comprasion_fail_exception{error_message, exceptions::template format_fail_comprasion<operator_with_type>(l_value, r_value)};
+		if(!operator_with_type{}(l_value, r_value))
+			throw typename exceptions::comprasion_fail_exception{error_message, exceptions::template format_fail_comprasion<operator_with_type>(l_value, r_value)};
 	}
 
 	/**
