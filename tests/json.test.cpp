@@ -32,8 +32,19 @@ namespace
 			verify_pattern_for_type<test_struct_2_packed>("{\"field_0\":4,\"field_1\":12.6,\"field_2\":\"\a\"}", 4, 12.6f, '\a');
 			verify_pattern_for_type<test_struct_2_packed>("{\"field_0\":4,\"field_1\":12.6,\"field_2\":\"\a\"}", 4, 12.6f, '\a');
 
-			// TODO: Fix
-			// verify_pattern_for_type<test_struct_4_packed>("{\"field_0\":{\"field_0\":\"\"}}");
+			verify_pattern_for_type<test_struct_3_packed>("{\"field_0\":\"\"}");
+			verify_pattern_for_type<test_struct_3_packed>("{\"field_0\":\"bbb\"}", "bbb");
+
+			verify_pattern_for_type<test_struct_5_packed>("{\"field_0\":0,\"field_2\":0}", 0, 0, 0.0f);
+			verify_pattern_for_type<test_struct_5_packed>("{\"field_0\":1,\"field_2\":3}", 1, 2, 3.0f);
+
+			verify_pattern_for_type<test_struct_7_packed>("{\"field_0\":0,\"field_2\":0}");
+			verify_pattern_for_type<test_struct_7_packed>("{\"field_0\":1,\"field_2\":3}", 1, 2, 3);
+		};
+
+		"nested_structs"_test = [] {
+			verify_pattern_for_type<test_struct_4_packed>("{\"field_0\":{\"field_0\":\"\"}}");
+			verify_pattern_for_type<test_struct_4_packed>("{\"field_0\":{\"field_0\":\"aaa\"}}", "aaa");
 		};
 	};
 
