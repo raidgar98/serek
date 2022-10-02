@@ -4,7 +4,8 @@
 #include <map>
 #include <serek/serek.hpp>
 
-#include <serek/serial/visitors.hpp>
+#include <serek/json/common.hpp>
+#include <serek/json/visitors.hpp>
 
 namespace serek
 {
@@ -12,22 +13,11 @@ namespace serek
 	{
 		namespace json
 		{
+			using namespace serek::json;
 			using namespace serek::json::visitors;
 
 			namespace detail
 			{
-				enum class JSON_CHARS : char
-				{
-					OBJECT_START = '{',
-					OBJECT_STOP	 = '}',
-
-					ARRAY_START = '[',
-					ARRAY_STOP	= ']',
-
-					KEY_VALUE_SEPARATOR = ':',
-					ITEMS_SEPARATOR	  = ',',
-				};
-
 				struct stream_holder
 				{
 					template<typename Any>
@@ -48,7 +38,26 @@ namespace serek
 
 					void put_to_stream(const char c)
 					{
-						static const std::map<char, typename serek::str> trivial_escape{{std::pair<char, serek::str>{'\0', "\0"}, {'\1', "\1"}, {'\2', "\2"}, {'\3', "\3"}, {'\4', "\4"}, {'\5', "\5"}, {'\6', "\6"}, {'\7', "\7"}, {'\n', "\n"}, {'\r', "\r"}, {'\7', "\7"}, {'\'', "\'"}, {'\"', "\""}, {'\a', "\a"}, {'\b', "\b"}, {'\t', "\t"}, {'\v', "\v"}, {'\?', "\?"}, {'\\', "\\"}, {'\f', "\f"}}};
+						static const std::map<char, typename serek::str> trivial_escape{{std::pair<char, serek::str>{'\0', "\0"},
+																											  {'\1', "\1"},
+																											  {'\2', "\2"},
+																											  {'\3', "\3"},
+																											  {'\4', "\4"},
+																											  {'\5', "\5"},
+																											  {'\6', "\6"},
+																											  {'\7', "\7"},
+																											  {'\n', "\n"},
+																											  {'\r', "\r"},
+																											  {'\7', "\7"},
+																											  {'\'', "\'"},
+																											  {'\"', "\""},
+																											  {'\a', "\a"},
+																											  {'\b', "\b"},
+																											  {'\t', "\t"},
+																											  {'\v', "\v"},
+																											  {'\?', "\?"},
+																											  {'\\', "\\"},
+																											  {'\f', "\f"}}};
 						serek::str x{"a"};
 
 						const auto it = trivial_escape.find(c);
@@ -107,7 +116,7 @@ namespace serek
 				void serial(vis_t& vis, stream_holder& out, const Any* any)
 				{
 					serek::require(any);
-					static const char separator_decision[2] = {static_cast<char>(detail::JSON_CHARS::ITEMS_SEPARATOR), '\0'};
+					static const char separator_decision[2] = {static_cast<char>(JSON_CHARS::ITEMS_SEPARATOR), '\0'};
 
 					add_key(vis, out);
 					out << JSON_CHARS::ARRAY_START;
@@ -122,7 +131,7 @@ namespace serek
 				template<typename T>
 				json_visitor(T* any) : base_visitor_members_with_stacknames{any}
 				{
-					if(root_object) put_to_stream(detail::JSON_CHARS::OBJECT_START);
+					if(root_object) put_to_stream(JSON_CHARS::OBJECT_START);
 				}
 
 				template<typename Any>
@@ -141,9 +150,9 @@ namespace serek
 					this->last_result = true;
 					if(!this->empty()) detail::serial(reinterpret_cast<json_visitor<false>&>(*this), static_cast<detail::stream_holder&>(*this), reinterpret_cast<const Any*>(any));
 
-					if(!this->empty()) put_to_stream(detail::JSON_CHARS::ITEMS_SEPARATOR);
+					if(!this->empty()) put_to_stream(JSON_CHARS::ITEMS_SEPARATOR);
 					else if(root_object)
-						put_to_stream(detail::JSON_CHARS::OBJECT_STOP);
+						put_to_stream(JSON_CHARS::OBJECT_STOP);
 				}
 			};
 

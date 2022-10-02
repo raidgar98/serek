@@ -1,7 +1,7 @@
 #include <shared/tools.hpp>
 #include <shared/packed_struct_set.hpp>
 
-#include <serek/serial/json.hpp>
+#include <serek/json/serial.hpp>
 
 namespace
 {
