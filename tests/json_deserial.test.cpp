@@ -10,8 +10,15 @@ namespace
 	using namespace serek::tests;
 	using namespace serek::deserial::json;
 
+	template<auto function>
+	auto check_length_template()
+	{
+		return [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) { but::expect(but::eq(function(str, start), expected_length)); };
+	}
+
 	but::suite tools = [] {
 		const auto comparison_fail_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::comparison_fail_exception>(func)); };
+		const auto assert_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::assert_exception>(func)); };
 
 		"ltrim_pos"_test = [&] {
 			const auto check_valid_pos = [](const serek::str& str, const size_t expected_pos, const size_t start = 0) { but::expect(but::eq(expected_pos, ltrim_pos(str, start))); };
@@ -86,9 +93,7 @@ namespace
 		};
 
 		"length_of_string_with_quotes"_test = [&] {
-			const auto check_length = [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) {
-				but::expect(but::eq(length_of_string_with_quotes(str, start), expected_length));
-			};
+			const auto check_length = check_length_template<&length_of_string_with_quotes>();
 
 			check_length("\"aaa\"", 5);
 			check_length("\"a   aa\"", 8);
@@ -114,8 +119,7 @@ namespace
 		};
 
 		"length_of_number"_test = [&] {
-			const auto check_length
-				 = [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) { but::expect(but::eq(length_of_number(str, start), expected_length)); };
+			const auto check_length = check_length_template<&length_of_number>();
 
 			check_length("aaa", 0);
 			check_length(" aaa", 0, 1);
@@ -173,8 +177,7 @@ namespace
 		};
 
 		"length_of_null"_test = [&] {
-			const auto check_length
-				 = [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) { but::expect(but::eq(length_of_null(str, start), expected_length)); };
+			const auto check_length = check_length_template<&length_of_null>();
 
 			check_length("null", 4);
 			check_length("null ", 4);
@@ -184,6 +187,67 @@ namespace
 
 			check_length("NULL", 0);
 			check_length(" null", 0);
+		};
+
+		"length_of_object"_test = [&] {
+			const auto check_length = check_length_template<&length_of_object>();
+
+			length_of_object("}", 0);
+
+			check_length("{}", 2);
+			check_length("{} ", 2);
+			check_length("{\"a\":1}", 7);
+			check_length("{\"a\": 1}", 8);
+			check_length("{\"a\":    \t\a\t1}", 14);
+			check_length("{\"a\": \"aaa{}}}}{}{}}}\"}", 23);
+
+			check_length("{\"a\": {\"a\":   []}}", 11, 6);
+			check_length("\a\a\a\a{}\t\t\t\t\t", 2, 4);
+			check_length("{\"null\":null}", 13);
+			check_length("{\"null\":\a\a\"'\"}", 14);
+
+			assert_exception_check([]{ length_of_object("{", 0); });
+			assert_exception_check([]{ length_of_object("{,}", 0); });
+			assert_exception_check([]{ length_of_object("{:}", 0); });
+			assert_exception_check([]{ length_of_object("{\"a\":,}", 0); });
+			assert_exception_check([]{ length_of_object("{\"a\":}", 0); });
+			assert_exception_check([]{ length_of_object("{\"a\"::}", 0); });
+			assert_exception_check([]{ length_of_object("{\"a\",}", 0); });
+			assert_exception_check([]{ length_of_object("{\"a\",:}", 0); });
+			assert_exception_check([]{ length_of_object("{:\"a\"}", 0); });
+			assert_exception_check([]{ length_of_object("{,\"a\"}", 0); });
+			assert_exception_check([]{ length_of_object("{12}", 0); });
+			assert_exception_check([]{ length_of_object("{12,}", 0); });
+			assert_exception_check([]{ length_of_object("{12:}", 0); });
+			assert_exception_check([]{ length_of_object("{null}", 0); });
+			assert_exception_check([]{ length_of_object("{null:}", 0); });
+			assert_exception_check([]{ length_of_object("{null,}", 0); });
+		};
+
+		"length_of_array"_test = [&] {
+			const auto check_length = check_length_template<&length_of_array>();
+
+			length_of_array("]", 0);
+
+			check_length("[]", 2);
+			check_length("[] ", 2);
+			check_length("[]      ", 2);
+			check_length("     []      ", 2, 5);
+			check_length("[ ]", 3);
+			check_length("[null]", 6);
+			check_length("[{}]", 4);
+			check_length("[1]", 3);
+			check_length("[12]", 4);
+			check_length("[1.2]", 5);
+			check_length("[[],[],[]]", 10);
+			check_length("[[],{},[]]", 10);
+			check_length("[[],      {}]", 13);
+			check_length("[[],   \a\a[]]", 12);
+
+			assert_exception_check([]{ length_of_array("[", 0); });
+			assert_exception_check([]{ length_of_array("[,]", 0); });
+			assert_exception_check([]{ length_of_array("[,,,]", 0); });
+			assert_exception_check([]{ length_of_array("[null null]", 0); });
 		};
 
 		"item_length"_test = [&] {
