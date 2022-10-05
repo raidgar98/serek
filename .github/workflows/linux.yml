@@ -9,15 +9,10 @@ on:
       - '*'
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
-  build:
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Windows or Mac.  You can convert this to a matrix build if you need
-    # cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,28 +27,31 @@ jobs:
       shell: bash
 
     - name: configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       env:
         CC:   gcc-10
         CXX:  g++-10
 
     - name: build
-      # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: test
       working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: make test
+      run: ctest --output-on-failure --output-junit ${{github.workspace}}/build/report.xml
 
     - name: generate docs
       working-directory: ${{github.workspace}}/build
       run: make docs
+
     - uses: actions/upload-artifact@v2
       with:
         name: documentation
         path: ${{github.workspace}}/build/docs # or path/to/artifact
         retention-days: 5
+
+    - uses: dorny/test-reporter@v1
+      with:
+        name: ctest results
+        path: '${{github.workspace}}/build/report.xml'
+        reporter: jest-junit
+
