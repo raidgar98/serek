@@ -2,9 +2,11 @@ name: linux
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - '*'
   pull_request:
-    branches: [ main ]
+    branches:
+      - '*'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -20,7 +22,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: gather apt packets
       run: sudo apt update && sudo apt install gcc-10 g++-10 libboost-all-dev texlive-base texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended python3 python3-pip doxygen
       shell: bash
@@ -43,7 +45,7 @@ jobs:
 
     - name: test
       working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
+      # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: make test
 
