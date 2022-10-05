@@ -126,7 +126,7 @@ namespace serek
 	 *
 	 * @tparam exceptions::assert_exception exception type to throw
 	 * @param result result from some action
-	 * @param error_message message to forwrd to exception
+	 * @param error_message message to forward to exception
 	 */
 	template<reqs::throwable_req exception_t = typename exceptions::assert_exception>
 	void require(const bool result, const str_v error_message = "failed on check!")
@@ -141,7 +141,7 @@ namespace serek
 	 * @tparam T type of compared elements
 	 * @param l_value left operand
 	 * @param r_value right operand
-	 * @param error_message message to forwrd to exception
+	 * @param error_message message to forward to exception
 	 */
 	template<template<typename T> typename operator_t, typename T>
 	void require(const T& l_value, const T& r_value, const str_v error_message = "comparison failed!")
@@ -156,7 +156,7 @@ namespace serek
 	 *
 	 * @tparam pointer_t type of pointer to validate
 	 * @param ptr pointer to check
-	 * @param error_message message to forwrd to exception
+	 * @param error_message message to forward to exception
 	 */
 	template<reqs::comparable_as_pointer_req pointer_t>
 	void require(const pointer_t& ptr, const str_v error_message = "given pointer was null!")
@@ -166,7 +166,7 @@ namespace serek
 }	 // namespace serek
 
 /**
- * @brief operator to easly print exceptions
+ * @brief operator to easily print exceptions
  *
  * @param os stream
  * @param ex exception
