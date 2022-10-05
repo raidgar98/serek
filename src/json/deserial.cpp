@@ -200,6 +200,46 @@ namespace serek
 
 			size_t length_of_array(const serek::str_v json, const size_t start)
 			{
+				if(json[start] != JSON_CHARS::ARRAY_START) return 0;
+
+				length_array_helper looking_for{};
+				looking_for.value = true;
+				looking_for.end	= true;
+
+				for(size_t pos = ltrim_pos(json, start + 1ul); pos < json.size(); pos = ltrim_pos(json, pos))
+				{
+					if(json[pos] == JSON_CHARS::ITEMS_SEPARATOR)
+					{
+						const scope_logger _{"processing coma", json[pos]};
+						serek::require(looking_for.coma, "unexpected coma, invalid json");
+
+						looking_for.nothing();
+						looking_for.value = true;
+						++pos;
+					}
+					else if(json[pos] == JSON_CHARS::ARRAY_STOP)
+					{
+						const scope_logger _{"processing end of array", json[pos]};
+						serek::require(looking_for.end, "unexpected array end, invalid json");
+						return pos - start + 1ul;
+					}
+					else
+					{
+						const scope_logger _{"processing value", json[pos]};
+						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
+						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
+
+						std::cout << "pos before: " << pos << std::endl;
+						pos += length_of_item(json, pos);
+						std::cout << "pos after: " << pos << std::endl;
+
+						looking_for.nothing();
+						looking_for.coma = true;
+						looking_for.end  = true;
+					}
+				}
+
+				serek::require(false, "unexpected finish of processing of array, invalid json");
 				return serek::str_v::npos;
 			}
 		}	 // namespace json
