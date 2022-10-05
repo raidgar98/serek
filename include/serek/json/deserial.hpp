@@ -82,6 +82,21 @@ namespace serek
 				return pos - start + 1ul;
 			}
 
+			size_t length_of_number(const serek::str_v json, const size_t start)
+			{
+				if(!(std::isdigit(json[start]) || json[start] == '-')) return 0;
+
+				size_t number_end_pos{json.find_first_not_of("-0123456789.eE", start)};
+				number_end_pos = (number_end_pos == serek::str_v::npos ? json.size() : number_end_pos);
+
+				// validation
+				const serek::str_v num{json.begin() + start, json.begin() + number_end_pos};
+				serek::require<std::less_equal>(std::count(num.begin(), num.end(), '-'), 2l);
+				for(char c: ".Ee") serek::require<std::less_equal>(std::count(num.begin(), num.end(), c), 1l);
+
+				return number_end_pos - start;
+			}
+
 		}	 // namespace json
 	}		 // namespace deserial
 }	 // namespace serek
