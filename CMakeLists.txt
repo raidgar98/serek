@@ -93,7 +93,8 @@ endif()
 find_library(BOOST_STACKTRACE_BACKTRACE_LIBRARY NAMES boost_stacktrace_backtrace)
 
 # create library
-add_library( ${PROJECT_NAME} STATIC ${SOURCE_PATH}/serek.cpp)
+file(GLOB_RECURSE PROJECT_SOURCE_FILES LIST_DIRECTORIES false ${SOURCE_PATH}/*.cpp ${SOURCE_PATH}/*/*.cpp ${SOURCE_PATH}/**/*.cpp)
+add_library( ${PROJECT_NAME} STATIC ${PROJECT_SOURCE_FILES} )
 target_include_directories( ${PROJECT_NAME} PUBLIC ${HEADER_PATH} PRIVATE ${Boost_INCLUDE_DIRS} )
 target_link_libraries(serek PRIVATE dl ${Boost_LIBRARIES} backtrace )
 
