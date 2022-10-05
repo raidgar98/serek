@@ -53,57 +53,18 @@ namespace serek
 
 			constexpr const char* get_trimmed_chars() { return " \t\n\r\v\a"; }
 
-			size_t ltrim_pos(const serek::str_v view, const size_t start = 0) { return view.find_first_not_of(get_trimmed_chars(), start); }
-			size_t rtrim_pos(const serek::str_v view, const size_t start = serek::str_v::npos) { return view.find_last_not_of(get_trimmed_chars(), start); }
+			size_t ltrim_pos(const serek::str_v view, const size_t start = 0);
+			size_t rtrim_pos(const serek::str_v view, const size_t start = serek::str_v::npos);
+			serek::str_v trim(const serek::str_v view);
 
-			serek::str_v trim(const serek::str_v view)
-			{
-				const size_t ltrim_position = ltrim_pos(view);
-				const size_t rtrim_position = rtrim_pos(view) + 1;
-				return serek::str_v{view.begin() + ltrim_position, view.begin() + rtrim_position};
-			}
+			bool is_valid_json_string_end(const serek::str_v json_item, const size_t pos);
 
-			bool is_valid_json_string_end(const serek::str_v json_item, const size_t pos)
-			{
-				serek::require<std::greater>(pos, 0ul, "position to check has to be greater than 0");
-				serek::require<std::less>(pos, json_item.size(), "position out of range");
-
-				return json_item[pos] == to_char(JSON_CHARS::QUOTE) && json_item[pos - 1] != '\\';
-			}
-
-			size_t length_of_string_with_quotes(const serek::str_v json_item, const size_t start)
-			{
-				if(json_item[start] != to_char(JSON_CHARS::QUOTE)) return 0;
-
-				size_t pos{start + 1ul};
-				while(pos < json_item.size() && !is_valid_json_string_end(json_item, pos)) pos = ltrim_pos(json_item, pos + 1);
-
-				serek::require<std::not_equal_to>(serek::str_v::npos, pos, "end of json string not found, invalid json");
-				return pos - start + 1ul;
-			}
-
-			size_t length_of_number(const serek::str_v json, const size_t start)
-			{
-				if(!(std::isdigit(json[start]) || json[start] == '-')) return 0;
-
-				size_t number_end_pos{json.find_first_not_of("-0123456789.eE", start)};
-				number_end_pos = (number_end_pos == serek::str_v::npos ? json.size() : number_end_pos);
-
-				// validation
-				const serek::str_v num{json.begin() + start, json.begin() + number_end_pos};
-				serek::require<std::less_equal>(std::count(num.begin(), num.end(), '-'), 2l);
-				for(char c: ".Ee") serek::require<std::less_equal>(std::count(num.begin(), num.end(), c), 1l);
-
-				return number_end_pos - start;
-			}
-
-			size_t length_of_null(const serek::str_v json, const size_t start)
-			{
-				const static serek::str_v null_string{"null"};
-				if(json.find(null_string, start) == start) return null_string.size();
-				else
-					return 0;
-			}
+			size_t length_of_item(const serek::str_v json, const size_t start);
+			size_t length_of_string_with_quotes(const serek::str_v json_item, const size_t start);
+			size_t length_of_number(const serek::str_v json, const size_t start);
+			size_t length_of_null(const serek::str_v json, const size_t start);
+			size_t length_of_object(const serek::str_v json, const size_t start);
+			size_t length_of_array(const serek::str_v json, const size_t start);
 
 		}	 // namespace json
 	}		 // namespace deserial
