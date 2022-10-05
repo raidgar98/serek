@@ -48,10 +48,3 @@ jobs:
         name: documentation
         path: ${{github.workspace}}/build/docs # or path/to/artifact
         retention-days: 5
-
-    - uses: dorny/test-reporter@v1
-      with:
-        name: ctest results
-        path: '${{github.workspace}}/build/report.xml'
-        reporter: jest-junit
-
