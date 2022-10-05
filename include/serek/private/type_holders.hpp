@@ -119,7 +119,7 @@ namespace serek
 			}
 
 
-			// comprasion operators
+			// comparison operators
 			template<typename other_t>
 			inline friend auto operator<=>(type_holder me, other_t other)
 			{
