@@ -172,6 +172,20 @@ namespace
 			}
 		};
 
+		"length_of_null"_test = [&] {
+			const auto check_length
+				 = [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) { but::expect(but::eq(length_of_null(str, start), expected_length)); };
+
+			check_length("null", 4);
+			check_length("null ", 4);
+
+			check_length(" null", 4, 1);
+			check_length(" null ", 4, 1);
+
+			check_length("NULL", 0);
+			check_length(" null", 0);
+		};
+
 		"item_length"_test = [&] {
 
 		};

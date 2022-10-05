@@ -97,6 +97,14 @@ namespace serek
 				return number_end_pos - start;
 			}
 
+			size_t length_of_null(const serek::str_v json, const size_t start)
+			{
+				const static serek::str_v null_string{"null"};
+				if(json.find(null_string, start) == start) return null_string.size();
+				else
+					return 0;
+			}
+
 		}	 // namespace json
 	}		 // namespace deserial
 }	 // namespace serek
