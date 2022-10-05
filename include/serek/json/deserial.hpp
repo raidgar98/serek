@@ -63,6 +63,24 @@ namespace serek
 				return serek::str_v{view.begin() + ltrim_position, view.begin() + rtrim_position};
 			}
 
+			bool is_valid_json_string_end(const serek::str_v json_item, const size_t pos)
+			{
+				serek::require<std::greater>(pos, 0ul, "position to check has to be greater than 0");
+				serek::require<std::less>(pos, json_item.size(), "position out of range");
+
+				return json_item[pos] == to_char(JSON_CHARS::QUOTE) && json_item[pos - 1] != '\\';
+			}
+
+			size_t length_of_string_with_quotes(const serek::str_v json_item, const size_t start)
+			{
+				if(json_item[start] != to_char(JSON_CHARS::QUOTE)) return 0;
+
+				size_t pos{start + 1ul};
+				while(pos < json_item.size() && !is_valid_json_string_end(json_item, pos)) pos = ltrim_pos(json_item, pos + 1);
+
+				serek::require<std::not_equal_to>(serek::str_v::npos, pos, "end of json string not found, invalid json");
+				return pos - start + 1ul;
+			}
 
 		}	 // namespace json
 	}		 // namespace deserial

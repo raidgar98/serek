@@ -11,6 +11,8 @@ namespace
 	using namespace serek::deserial::json;
 
 	but::suite tools = [] {
+		const auto comparison_fail_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::comprasion_fail_exception>(func)); };
+
 		"ltrim_pos"_test = [&] {
 			const auto check_valid_pos = [](const serek::str& str, const size_t expected_pos, const size_t start = 0) { but::expect(but::eq(expected_pos, ltrim_pos(str, start))); };
 
@@ -74,5 +76,45 @@ namespace
 			verify_with_pattern(trim("                  a    abc  c    \t\t\t\t"), "a    abc  c");
 		};
 
+		"is_valid_json_string_end"_test = [&] {
+			const auto check_valid_end = [](const serek::str& str, const size_t pos, const bool valid = true) { but::expect(but::eq(valid, is_valid_json_string_end(str, pos))); };
+
+			check_valid_end("\"\"", 1);
+			check_valid_end("\" \"", 2);
+
+			check_valid_end("\"\\\"", 2, false);
+		};
+
+		"length_of_string_with_quotes"_test = [&] {
+			const auto check_length = [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) {
+				but::expect(but::eq(length_of_string_with_quotes(str, start), expected_length));
+			};
+
+			check_length("\"aaa\"", 5);
+			check_length("\"a   aa\"", 8);
+			check_length("\"a\t\t\aaa\"", 8);
+			check_length("\"\taaa\"", 6);
+			check_length("\"\\\"aaa\"", 7);
+			check_length("\"aa\\\"a\"", 7);
+			check_length("\"\t bla bla bla \\\"aaaa\\\"\n\t  bla bla bla  \a \"", 43);
+
+			check_length(" \"aaa\"", 5, 1);
+			check_length("\t\"aaa\"", 5, 1);
+			check_length("\a\t\"aaa\"", 5, 2);
+
+			check_length("\"aaa\"a", 5);
+			check_length("\"aaa\"   a", 5);
+
+			check_length(" \"aaa\" ", 5, 1);
+			check_length(" \"aaa\" a", 5, 1);
+
+			check_length("a\"aaa\"", 0);
+			check_length(" a\"aaa\"", 0, 1);
+			comparison_fail_exception_check([&] { check_length("\"aaa", 5); });
+		};
+
+		"item_length"_test = [&] {
+
+		};
 	};
 }	 // namespace
