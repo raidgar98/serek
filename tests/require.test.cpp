@@ -92,7 +92,7 @@ namespace
 	template<template<typename T> typename operator_t, typename T>
 	void compare_throw(const T& v1, const T& v2)
 	{
-		but::expect(but::throws<except::comprasion_fail_exception>([&] { compare<operator_t>(v1, v2); }));
+		but::expect(but::throws<except::comparison_fail_exception>([&] { compare<operator_t>(v1, v2); }));
 	}
 
 	template<typename T>

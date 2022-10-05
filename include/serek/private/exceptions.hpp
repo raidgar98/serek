@@ -75,35 +75,35 @@ namespace serek
 		};
 
 		/**
-		 * @brief same as assert exception, but additionally prints additional info about compared values (values and comprasion functor)
+		 * @brief same as assert exception, but additionally prints additional info about compared values (values and comparison functor)
 		 */
-		struct comprasion_fail_exception : public assert_exception
+		struct comparison_fail_exception : public assert_exception
 		{
 			/**
-			 * @brief Construct a new comprasion fail exception object
+			 * @brief Construct a new comparison fail exception object
 			 *
 			 * @param i_what forwarded to parent (what())
-			 * @param i_comprasion_result string to set as comprasion result
+			 * @param i_comparison_result string to set as comparison result
 			 */
-			explicit comprasion_fail_exception(const str_v i_what, const str& i_comprasion_result = str{}) : assert_exception{i_what}, comprasion_result{new str{i_comprasion_result}}
+			explicit comparison_fail_exception(const str_v i_what, const str& i_comparison_result = str{}) : assert_exception{i_what}, comparison_result{new str{i_comparison_result}}
 			{
 			}
 
 			/**
-			 * @brief overrides default pretty, by preinserting `i_comprasion_result`
+			 * @brief overrides default pretty, by preinserting `i_comparison_result`
 			 *
 			 * @return str
 			 */
 			virtual str pretty() const noexcept override;
 
 		 private:
-			std::shared_ptr<str> comprasion_result;
+			std::shared_ptr<str> comparison_result;
 		};
 
 		namespace
 		{
 			/**
-			 * @brief generates message of failed comprasion
+			 * @brief generates message of failed comparison
 			 *
 			 * @tparam operator_t functor type
 			 * @tparam T type of element that was compared
@@ -112,10 +112,10 @@ namespace serek
 			 * @return str
 			 */
 			template<typename operator_t, typename T>
-			str format_fail_comprasion(const T& l_value, const T& r_value)
+			str format_fail_comparison(const T& l_value, const T& r_value)
 			{
 				std::stringstream ss;
-				ss << "comprasion via functor: " << boost::typeindex::template type_id<operator_t>().pretty_name() << "{}( `" << l_value << "`, `" << r_value << "` ) returned false!";
+				ss << "comparison via functor: " << boost::typeindex::template type_id<operator_t>().pretty_name() << "{}( `" << l_value << "`, `" << r_value << "` ) returned false!";
 				return ss.str();
 			}
 		}	 // namespace
@@ -137,18 +137,18 @@ namespace serek
 	/**
 	 * @brief overload of above, allows additionally print given values
 	 *
-	 * @tparam operator_t functor that will be used for comprasion ( @see std::less )
+	 * @tparam operator_t functor that will be used for comparison ( @see std::less )
 	 * @tparam T type of compared elements
 	 * @param l_value left operand
 	 * @param r_value right operand
 	 * @param error_message message to forwrd to exception
 	 */
 	template<template<typename T> typename operator_t, typename T>
-	void require(const T& l_value, const T& r_value, const str_v error_message = "comprasion failed!")
+	void require(const T& l_value, const T& r_value, const str_v error_message = "comparison failed!")
 	{
 		using operator_with_type = operator_t<T>;
 		if(!operator_with_type{}(l_value, r_value))
-			throw typename exceptions::comprasion_fail_exception{error_message, exceptions::template format_fail_comprasion<operator_with_type>(l_value, r_value)};
+			throw typename exceptions::comparison_fail_exception{error_message, exceptions::template format_fail_comparison<operator_with_type>(l_value, r_value)};
 	}
 
 	/**

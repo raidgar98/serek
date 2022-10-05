@@ -11,7 +11,7 @@ namespace
 	using namespace serek::deserial::json;
 
 	but::suite tools = [] {
-		const auto comparison_fail_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::comprasion_fail_exception>(func)); };
+		const auto comparison_fail_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::comparison_fail_exception>(func)); };
 
 		"ltrim_pos"_test = [&] {
 			const auto check_valid_pos = [](const serek::str& str, const size_t expected_pos, const size_t start = 0) { but::expect(but::eq(expected_pos, ltrim_pos(str, start))); };
