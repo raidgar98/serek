@@ -77,9 +77,111 @@ namespace serek
 				return null_string.size();
 			}
 
+			namespace
+			{
+				struct length_object_helper
+				{
+					bool key;
+					bool object_end;
+					bool key_value_separator;
+					bool value;
+					bool coma;
+
+					length_object_helper() { nothing(); }
+
+					void nothing()
+					{
+						key					  = false;
+						object_end			  = false;
+						key_value_separator = false;
+						value					  = false;
+						coma					  = false;
+					}
+				};
+
+				struct scope_logger
+				{
+					explicit scope_logger(const str i_message, const char c) : message{i_message} { std::cout << "started: " << message << " with letter: `" << c << "`" << std::endl; }
+
+					~scope_logger() { std::cout << "finished: " << message << std::endl; }
+
+				 private:
+					serek::str message;
+				};
+			}	 // namespace
 
 			size_t length_of_object(const serek::str_v json, const size_t start)
 			{
+				if(json[start] != JSON_CHARS::OBJECT_START) return 0;
+
+				length_object_helper looking_for{};
+				looking_for.key		  = true;
+				looking_for.object_end = true;
+
+				for(size_t pos = ltrim_pos(json, start + 1ul); pos < json.size(); pos = ltrim_pos(json, pos))
+				{
+					if(json[pos] == JSON_CHARS::ITEMS_SEPARATOR)
+					{
+						const scope_logger _{"processing coma", json[pos]};
+						serek::require(looking_for.coma, "unexpected coma, invalid json");
+
+						looking_for.nothing();
+						looking_for.key = true;
+						++pos;
+					}
+					else if(json[pos] == JSON_CHARS::KEY_VALUE_SEPARATOR)
+					{
+						const scope_logger _{"processing semicolon", json[pos]};
+						serek::require(looking_for.key_value_separator, "unexpected semicolon, invalid json");
+
+						looking_for.nothing();
+						looking_for.value = true;
+						++pos;
+					}
+					else if(json[pos] == JSON_CHARS::QUOTE)
+					{
+						const scope_logger _{"processing quote", json[pos]};
+						serek::require(looking_for.key || looking_for.value, "unexpected quote, invalid json");
+						if(looking_for.key)
+						{
+							const scope_logger __{"\tprocessing key", json[pos]};
+							looking_for.nothing();
+							looking_for.key_value_separator = true;
+						}
+						else
+						{
+							const scope_logger __{"\tprocessing value", json[pos]};
+							looking_for.nothing();
+							looking_for.coma		  = true;
+							looking_for.object_end = true;
+						}
+						// std::cout << "pos before: " << pos << std::endl;
+						pos += length_of_string_with_quotes(json, pos);
+						// std::cout << "pos after: " << pos << std::endl;
+					}
+					else if(json[pos] == JSON_CHARS::OBJECT_STOP)
+					{
+						const scope_logger _{"processing end of object", json[pos]};
+						serek::require(looking_for.object_end, "unexpected object end, invalid json");
+						return pos - start + 1ul;
+					}
+					else
+					{
+						const scope_logger _{"processing value", json[pos]};
+						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
+						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
+
+						std::cout << "pos before: " << pos << std::endl;
+						pos += length_of_item(json, pos);
+						std::cout << "pos after: " << pos << std::endl;
+
+						looking_for.nothing();
+						looking_for.coma		  = true;
+						looking_for.object_end = true;
+					}
+				}
+
+				serek::require(false, "unexpected finish of processing of object, invalid json");
 				return serek::str_v::npos;
 			}
 
