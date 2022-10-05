@@ -51,6 +51,18 @@ namespace serek
 				pre_opened_container_array_t array{};
 			};
 
+			constexpr const char* get_trimmed_chars() { return " \t\n\r\v\a"; }
+
+			size_t ltrim_pos(const serek::str_v view, const size_t start = 0) { return view.find_first_not_of(get_trimmed_chars(), start); }
+			size_t rtrim_pos(const serek::str_v view, const size_t start = serek::str_v::npos) { return view.find_last_not_of(get_trimmed_chars(), start); }
+
+			serek::str_v trim(const serek::str_v view)
+			{
+				const size_t ltrim_position = ltrim_pos(view);
+				const size_t rtrim_position = rtrim_pos(view) + 1;
+				return serek::str_v{view.begin() + ltrim_position, view.begin() + rtrim_position};
+			}
+
 
 		}	 // namespace json
 	}		 // namespace deserial
