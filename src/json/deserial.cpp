@@ -79,23 +79,36 @@ namespace serek
 
 			namespace
 			{
-				struct length_object_helper
+				struct length_array_helper
 				{
-					bool key;
-					bool object_end;
-					bool key_value_separator;
+					bool end;
 					bool value;
 					bool coma;
 
-					length_object_helper() { nothing(); }
+					length_array_helper() { nothing(); }
+					virtual ~length_array_helper() = default;
 
-					void nothing()
+					virtual void nothing()
 					{
+						end	= false;
+						value = false;
+						coma	= false;
+					}
+				};
+
+				struct length_object_helper : public length_array_helper
+				{
+					bool key;
+					bool key_value_separator;
+
+					length_object_helper() { nothing(); }
+					virtual ~length_object_helper() = default;
+
+					virtual void nothing() override
+					{
+						length_array_helper::nothing();
 						key					  = false;
-						object_end			  = false;
 						key_value_separator = false;
-						value					  = false;
-						coma					  = false;
 					}
 				};
 
@@ -115,8 +128,8 @@ namespace serek
 				if(json[start] != JSON_CHARS::OBJECT_START) return 0;
 
 				length_object_helper looking_for{};
-				looking_for.key		  = true;
-				looking_for.object_end = true;
+				looking_for.key = true;
+				looking_for.end = true;
 
 				for(size_t pos = ltrim_pos(json, start + 1ul); pos < json.size(); pos = ltrim_pos(json, pos))
 				{
@@ -152,8 +165,8 @@ namespace serek
 						{
 							const scope_logger __{"\tprocessing value", json[pos]};
 							looking_for.nothing();
-							looking_for.coma		  = true;
-							looking_for.object_end = true;
+							looking_for.coma = true;
+							looking_for.end  = true;
 						}
 						// std::cout << "pos before: " << pos << std::endl;
 						pos += length_of_string_with_quotes(json, pos);
@@ -162,7 +175,7 @@ namespace serek
 					else if(json[pos] == JSON_CHARS::OBJECT_STOP)
 					{
 						const scope_logger _{"processing end of object", json[pos]};
-						serek::require(looking_for.object_end, "unexpected object end, invalid json");
+						serek::require(looking_for.end, "unexpected object end, invalid json");
 						return pos - start + 1ul;
 					}
 					else
@@ -176,8 +189,8 @@ namespace serek
 						std::cout << "pos after: " << pos << std::endl;
 
 						looking_for.nothing();
-						looking_for.coma		  = true;
-						looking_for.object_end = true;
+						looking_for.coma = true;
+						looking_for.end  = true;
 					}
 				}
 
