@@ -16,25 +16,29 @@ namespace serek
 				return serek::str_v{view.begin() + ltrim_position, view.begin() + rtrim_position};
 			}
 
-			bool is_valid_json_string_end(const serek::str_v json_item, const size_t pos)
+			json_walker::json_walker(const serek::str_v input_json) : json{trim(input_json)} {}
+
+			size_t json_walker::start_processing() const { return walk_over_item(0); }
+
+			bool json_walker::is_valid_json_string_end(const size_t pos) const
 			{
 				serek::require<std::greater>(pos, 0ul, "position to check has to be greater than 0");
-				serek::require<std::less>(pos, json_item.size(), "position out of range");
+				serek::require<std::less>(pos, json.size(), "position out of range");
 
-				return json_item[pos] == to_char(JSON_CHARS::QUOTE) && json_item[pos - 1] != '\\';
+				return json[pos] == to_char(JSON_CHARS::QUOTE) && json[pos - 1] != '\\';
 			}
 
-			size_t length_of_item(const serek::str_v json, const size_t start)
+			size_t json_walker::walk_over_item(const size_t start) const
 			{
 				size_t length;
-				if(length = length_of_null(json, start); length > 0ul) return length;
-				else if(length = length_of_number(json, start); length > 0ul)
+				if(length = walk_over_null(start); length > 0ul) return length;
+				else if(length = walk_over_number(start); length > 0ul)
 					return length;
-				else if(length = length_of_string_with_quotes(json, start); length > 0ul)
+				else if(length = walk_over_string(start); length > 0ul)
 					return length;
-				else if(length = length_of_object(json, start); length > 0ul)
+				else if(length = walk_over_object(start); length > 0ul)
 					return length;
-				else if(length = length_of_array(json, start); length > 0ul)
+				else if(length = walk_over_array(start); length > 0ul)
 					return length;
 				else
 				{
@@ -43,18 +47,18 @@ namespace serek
 				}
 			}
 
-			size_t length_of_string_with_quotes(const serek::str_v json_item, const size_t start)
+			size_t json_walker::walk_over_string(const size_t start) const
 			{
-				if(json_item[start] != to_char(JSON_CHARS::QUOTE)) return 0;
+				if(json[start] != to_char(JSON_CHARS::QUOTE)) return 0;
 
 				size_t pos{start + 1ul};
-				while(pos < json_item.size() && !is_valid_json_string_end(json_item, pos)) pos = ltrim_pos(json_item, pos + 1);
+				while(pos < json.size() && !is_valid_json_string_end(pos)) pos = ltrim_pos(json, pos + 1);
 
 				serek::require<std::not_equal_to>(serek::str_v::npos, pos, "end of json string not found, invalid json");
 				return pos - start + 1ul;
 			}
 
-			size_t length_of_number(const serek::str_v json, const size_t start)
+			size_t json_walker::walk_over_number(const size_t start) const
 			{
 				if(!(std::isdigit(json[start]) || json[start] == '-')) return 0;
 
@@ -69,7 +73,7 @@ namespace serek
 				return number_end_pos - start;
 			}
 
-			size_t length_of_null(const serek::str_v json, const size_t start)
+			size_t json_walker::walk_over_null(const size_t start) const
 			{
 				const static serek::str_v null_string{"null"};
 				for(size_t i = 0; i < null_string.size(); ++i)
@@ -123,10 +127,11 @@ namespace serek
 				};
 			}	 // namespace
 
-			size_t length_of_object(const serek::str_v json, const size_t start)
+			size_t json_walker::walk_over_object(const size_t start) const
 			{
 				if(json[start] != JSON_CHARS::OBJECT_START) return 0;
 
+				on_start(json, start, serek::str_v::npos, json_element_t::OBJECT_TYPE);
 				length_object_helper looking_for{};
 				looking_for.key = true;
 				looking_for.end = true;
@@ -155,28 +160,29 @@ namespace serek
 					{
 						const scope_logger _{"processing quote", json[pos]};
 						serek::require(looking_for.key || looking_for.value, "unexpected quote, invalid json");
+						const size_t length_of_item{walk_over_string(pos)};
 						if(looking_for.key)
 						{
-							const scope_logger __{"\tprocessing key", json[pos]};
+							on_key_found(json, pos, length_of_item);
 							looking_for.nothing();
 							looking_for.key_value_separator = true;
 						}
 						else
 						{
-							const scope_logger __{"\tprocessing value", json[pos]};
+							on_value_found(json, pos, length_of_item);
 							looking_for.nothing();
 							looking_for.coma = true;
 							looking_for.end  = true;
 						}
-						// std::cout << "pos before: " << pos << std::endl;
-						pos += length_of_string_with_quotes(json, pos);
-						// std::cout << "pos after: " << pos << std::endl;
+						pos += length_of_item;
 					}
 					else if(json[pos] == JSON_CHARS::OBJECT_STOP)
 					{
 						const scope_logger _{"processing end of object", json[pos]};
 						serek::require(looking_for.end, "unexpected object end, invalid json");
-						return pos - start + 1ul;
+						const size_t length{pos - start + 1ul};
+						on_stop(json, start, length, json_element_t::OBJECT_TYPE);
+						return length;
 					}
 					else
 					{
@@ -184,9 +190,9 @@ namespace serek
 						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
-						std::cout << "pos before: " << pos << std::endl;
-						pos += length_of_item(json, pos);
-						std::cout << "pos after: " << pos << std::endl;
+						const size_t length_of_item{walk_over_item(pos)};
+						on_value_found(json, pos, length_of_item);
+						pos += length_of_item;
 
 						looking_for.nothing();
 						looking_for.coma = true;
@@ -198,10 +204,11 @@ namespace serek
 				return serek::str_v::npos;
 			}
 
-			size_t length_of_array(const serek::str_v json, const size_t start)
+			size_t json_walker::walk_over_array(const size_t start) const
 			{
 				if(json[start] != JSON_CHARS::ARRAY_START) return 0;
 
+				on_start(json, start, serek::str_v::npos, json_element_t::ARRAY_TYPE);
 				length_array_helper looking_for{};
 				looking_for.value = true;
 				looking_for.end	= true;
@@ -221,7 +228,9 @@ namespace serek
 					{
 						const scope_logger _{"processing end of array", json[pos]};
 						serek::require(looking_for.end, "unexpected array end, invalid json");
-						return pos - start + 1ul;
+						const size_t length{pos - start + 1ul};
+						on_stop(json, start, length, json_element_t::ARRAY_TYPE);
+						return length;
 					}
 					else
 					{
@@ -229,9 +238,10 @@ namespace serek
 						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
-						std::cout << "pos before: " << pos << std::endl;
-						pos += length_of_item(json, pos);
-						std::cout << "pos after: " << pos << std::endl;
+						const size_t length_of_item{walk_over_item(pos)};
+						on_value_found(json, pos, length_of_item);
+						pos += length_of_item;
+
 
 						looking_for.nothing();
 						looking_for.coma = true;

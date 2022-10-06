@@ -10,15 +10,27 @@ namespace
 	using namespace serek::tests;
 	using namespace serek::deserial::json;
 
+	struct test_json_walker : public json_walker
+	{
+		using json_walker::is_valid_json_string_end;
+		using json_walker::json_walker;
+		using json_walker::walk_over_array;
+		using json_walker::walk_over_item;
+		using json_walker::walk_over_null;
+		using json_walker::walk_over_number;
+		using json_walker::walk_over_object;
+		using json_walker::walk_over_string;
+	};
+
 	template<auto function>
 	auto check_length_template()
 	{
-		return [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) { but::expect(but::eq(function(str, start), expected_length)); };
+		return [](const serek::str& str, const size_t expected_length, const size_t start = 0ul) { but::expect(but::eq((test_json_walker{str}.*function)(start), expected_length)); };
 	}
 
 	but::suite tools = [] {
 		const auto comparison_fail_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::comparison_fail_exception>(func)); };
-		const auto assert_exception_check = [](auto func) { but::expect(but::throws<serek::exceptions::assert_exception>(func)); };
+		const auto assert_exception_check			 = [](auto func) { but::expect(but::throws<serek::exceptions::assert_exception>(func)); };
 
 		"ltrim_pos"_test = [&] {
 			const auto check_valid_pos = [](const serek::str& str, const size_t expected_pos, const size_t start = 0) { but::expect(but::eq(expected_pos, ltrim_pos(str, start))); };
@@ -84,7 +96,8 @@ namespace
 		};
 
 		"is_valid_json_string_end"_test = [&] {
-			const auto check_valid_end = [](const serek::str& str, const size_t pos, const bool valid = true) { but::expect(but::eq(valid, is_valid_json_string_end(str, pos))); };
+			const auto check_valid_end
+				 = [](const serek::str& str, const size_t pos, const bool valid = true) { but::expect(but::eq(valid, test_json_walker{str}.is_valid_json_string_end(pos))); };
 
 			check_valid_end("\"\"", 1);
 			check_valid_end("\" \"", 2);
@@ -93,7 +106,7 @@ namespace
 		};
 
 		"length_of_string_with_quotes"_test = [&] {
-			const auto check_length = check_length_template<&length_of_string_with_quotes>();
+			const auto check_length = check_length_template<&test_json_walker::walk_over_string>();
 
 			check_length("\"aaa\"", 5);
 			check_length("\"a   aa\"", 8);
@@ -103,23 +116,23 @@ namespace
 			check_length("\"aa\\\"a\"", 7);
 			check_length("\"\t bla bla bla \\\"aaaa\\\"\n\t  bla bla bla  \a \"", 43);
 
-			check_length(" \"aaa\"", 5, 1);
-			check_length("\t\"aaa\"", 5, 1);
-			check_length("\a\t\"aaa\"", 5, 2);
+			check_length(" \"aaa\"", 5);
+			check_length("\t\"aaa\"", 5);
+			check_length("\a\t\"aaa\"", 5);
 
 			check_length("\"aaa\"a", 5);
 			check_length("\"aaa\"   a", 5);
 
-			check_length(" \"aaa\" ", 5, 1);
-			check_length(" \"aaa\" a", 5, 1);
+			check_length(" \"aaa\" ", 5);
+			check_length(" \"aaa\" a", 5);
 
 			check_length("a\"aaa\"", 0);
-			check_length(" a\"aaa\"", 0, 1);
+			check_length(" a\"aaa\"", 0);
 			comparison_fail_exception_check([&] { check_length("\"aaa", 5); });
 		};
 
 		"length_of_number"_test = [&] {
-			const auto check_length = check_length_template<&length_of_number>();
+			const auto check_length = check_length_template<&test_json_walker::walk_over_number>();
 
 			check_length("aaa", 0);
 			check_length(" aaa", 0, 1);
@@ -165,7 +178,7 @@ namespace
 				check_length('-' + str, length + 1);
 
 				check_length(str + "       ", length);
-				check_length("   " + str + "       ", length, 3);
+				check_length("   " + str + "       ", length);
 
 				comparison_fail_exception_check([&] { check_length(str + "ee", length + 2); });
 				comparison_fail_exception_check([&] { check_length(str + "EE", length + 2); });
@@ -177,20 +190,21 @@ namespace
 		};
 
 		"length_of_null"_test = [&] {
-			const auto check_length = check_length_template<&length_of_null>();
+			const auto check_length = check_length_template<&test_json_walker::walk_over_null>();
 
 			check_length("null", 4);
 			check_length("null ", 4);
 
-			check_length(" null", 4, 1);
-			check_length(" null ", 4, 1);
+			check_length(" null", 4);
+			check_length(" null ", 4);
 
 			check_length("NULL", 0);
-			check_length(" null", 0);
+			check_length(" null", 4);
 		};
 
 		"length_of_object"_test = [&] {
-			const auto check_length = check_length_template<&length_of_object>();
+			const auto check_length		 = check_length_template<&test_json_walker::walk_over_object>();
+			const auto length_of_object = [&](const serek::str_v v, const size_t pos) { return test_json_walker{v}.walk_over_object(pos); };
 
 			length_of_object("}", 0);
 
@@ -202,37 +216,39 @@ namespace
 			check_length("{\"a\": \"aaa{}}}}{}{}}}\"}", 23);
 
 			check_length("{\"a\": {\"a\":   []}}", 11, 6);
-			check_length("\a\a\a\a{}\t\t\t\t\t", 2, 4);
+			check_length("\a\a\a\a{}\t\t\t\t\t", 2);
 			check_length("{\"null\":null}", 13);
 			check_length("{\"null\":\a\a\"'\"}", 14);
 
-			assert_exception_check([]{ length_of_object("{", 0); });
-			assert_exception_check([]{ length_of_object("{,}", 0); });
-			assert_exception_check([]{ length_of_object("{:}", 0); });
-			assert_exception_check([]{ length_of_object("{\"a\":,}", 0); });
-			assert_exception_check([]{ length_of_object("{\"a\":}", 0); });
-			assert_exception_check([]{ length_of_object("{\"a\"::}", 0); });
-			assert_exception_check([]{ length_of_object("{\"a\",}", 0); });
-			assert_exception_check([]{ length_of_object("{\"a\",:}", 0); });
-			assert_exception_check([]{ length_of_object("{:\"a\"}", 0); });
-			assert_exception_check([]{ length_of_object("{,\"a\"}", 0); });
-			assert_exception_check([]{ length_of_object("{12}", 0); });
-			assert_exception_check([]{ length_of_object("{12,}", 0); });
-			assert_exception_check([]{ length_of_object("{12:}", 0); });
-			assert_exception_check([]{ length_of_object("{null}", 0); });
-			assert_exception_check([]{ length_of_object("{null:}", 0); });
-			assert_exception_check([]{ length_of_object("{null,}", 0); });
+
+			assert_exception_check([&] { length_of_object("{", 0); });
+			assert_exception_check([&] { length_of_object("{,}", 0); });
+			assert_exception_check([&] { length_of_object("{:}", 0); });
+			assert_exception_check([&] { length_of_object("{\"a\":,}", 0); });
+			assert_exception_check([&] { length_of_object("{\"a\":}", 0); });
+			assert_exception_check([&] { length_of_object("{\"a\"::}", 0); });
+			assert_exception_check([&] { length_of_object("{\"a\",}", 0); });
+			assert_exception_check([&] { length_of_object("{\"a\",:}", 0); });
+			assert_exception_check([&] { length_of_object("{:\"a\"}", 0); });
+			assert_exception_check([&] { length_of_object("{,\"a\"}", 0); });
+			assert_exception_check([&] { length_of_object("{12}", 0); });
+			assert_exception_check([&] { length_of_object("{12,}", 0); });
+			assert_exception_check([&] { length_of_object("{12:}", 0); });
+			assert_exception_check([&] { length_of_object("{null}", 0); });
+			assert_exception_check([&] { length_of_object("{null:}", 0); });
+			assert_exception_check([&] { length_of_object("{null,}", 0); });
 		};
 
 		"length_of_array"_test = [&] {
-			const auto check_length = check_length_template<&length_of_array>();
+			const auto check_length		= check_length_template<&test_json_walker::walk_over_array>();
+			const auto length_of_array = [&](const serek::str_v v, const size_t pos) { return test_json_walker{v}.walk_over_array(pos); };
 
 			length_of_array("]", 0);
 
 			check_length("[]", 2);
 			check_length("[] ", 2);
 			check_length("[]      ", 2);
-			check_length("     []      ", 2, 5);
+			check_length("     []      ", 2);
 			check_length("[ ]", 3);
 			check_length("[null]", 6);
 			check_length("[{}]", 4);
@@ -244,10 +260,10 @@ namespace
 			check_length("[[],      {}]", 13);
 			check_length("[[],   \a\a[]]", 12);
 
-			assert_exception_check([]{ length_of_array("[", 0); });
-			assert_exception_check([]{ length_of_array("[,]", 0); });
-			assert_exception_check([]{ length_of_array("[,,,]", 0); });
-			assert_exception_check([]{ length_of_array("[null null]", 0); });
+			assert_exception_check([&] { length_of_array("[", 0); });
+			assert_exception_check([&] { length_of_array("[,]", 0); });
+			assert_exception_check([&] { length_of_array("[,,,]", 0); });
+			assert_exception_check([&] { length_of_array("[null null]", 0); });
 		};
 
 		"item_length"_test = [&] {
