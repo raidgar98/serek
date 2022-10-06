@@ -140,7 +140,7 @@ namespace serek
 				{
 					if(json[pos] == JSON_CHARS::ITEMS_SEPARATOR)
 					{
-						const scope_logger _{"processing coma", json[pos]};
+						// const scope_logger _{"processing coma", json[pos]};
 						serek::require(looking_for.coma, "unexpected coma, invalid json");
 
 						looking_for.nothing();
@@ -149,7 +149,7 @@ namespace serek
 					}
 					else if(json[pos] == JSON_CHARS::KEY_VALUE_SEPARATOR)
 					{
-						const scope_logger _{"processing semicolon", json[pos]};
+						// const scope_logger _{"processing semicolon", json[pos]};
 						serek::require(looking_for.key_value_separator, "unexpected semicolon, invalid json");
 
 						looking_for.nothing();
@@ -158,17 +158,19 @@ namespace serek
 					}
 					else if(json[pos] == JSON_CHARS::QUOTE)
 					{
-						const scope_logger _{"processing quote", json[pos]};
+						// const scope_logger _{"processing quote", json[pos]};
 						serek::require(looking_for.key || looking_for.value, "unexpected quote, invalid json");
 						const size_t length_of_item{walk_over_string(pos)};
 						if(looking_for.key)
 						{
+							// const scope_logger __{"\tprocessing key", json[pos]};
 							on_key_found(json, pos, length_of_item);
 							looking_for.nothing();
 							looking_for.key_value_separator = true;
 						}
 						else
 						{
+							// const scope_logger __{"\tprocessing value", json[pos]};
 							on_value_found(json, pos, length_of_item);
 							looking_for.nothing();
 							looking_for.coma = true;
@@ -178,7 +180,7 @@ namespace serek
 					}
 					else if(json[pos] == JSON_CHARS::OBJECT_STOP)
 					{
-						const scope_logger _{"processing end of object", json[pos]};
+						// const scope_logger _{"processing end of object", json[pos]};
 						serek::require(looking_for.end, "unexpected object end, invalid json");
 						const size_t length{pos - start + 1ul};
 						on_stop(json, start, length, json_element_t::OBJECT_TYPE);
@@ -186,7 +188,7 @@ namespace serek
 					}
 					else
 					{
-						const scope_logger _{"processing value", json[pos]};
+						// const scope_logger _{"processing value", json[pos]};
 						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
@@ -217,7 +219,7 @@ namespace serek
 				{
 					if(json[pos] == JSON_CHARS::ITEMS_SEPARATOR)
 					{
-						const scope_logger _{"processing coma", json[pos]};
+						// const scope_logger _{"processing coma", json[pos]};
 						serek::require(looking_for.coma, "unexpected coma, invalid json");
 
 						looking_for.nothing();
@@ -226,7 +228,7 @@ namespace serek
 					}
 					else if(json[pos] == JSON_CHARS::ARRAY_STOP)
 					{
-						const scope_logger _{"processing end of array", json[pos]};
+						// const scope_logger _{"processing end of array", json[pos]};
 						serek::require(looking_for.end, "unexpected array end, invalid json");
 						const size_t length{pos - start + 1ul};
 						on_stop(json, start, length, json_element_t::ARRAY_TYPE);
@@ -234,7 +236,7 @@ namespace serek
 					}
 					else
 					{
-						const scope_logger _{"processing value", json[pos]};
+						// const scope_logger _{"processing value", json[pos]};
 						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
