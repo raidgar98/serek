@@ -55,6 +55,18 @@ namespace serek
 				using result	= typename concatenator<field_extractor<typename helper_t::member_t>, typename helper_t::packed_t>::result;
 			};
 
+			template<auto V>
+			struct concatenator<serek::detail::type_holder<serek::detail::pack_impl<V>>> : public concatenator<serek::detail::pack_impl<V>>
+			{
+				using result = typename concatenator<serek::detail::pack_impl<V>>::result;
+			};
+
+			template<auto V>
+			struct concatenator<const serek::detail::type_holder<serek::detail::pack_impl<V>>> : public concatenator<const serek::detail::pack_impl<V>>
+			{
+				using result = typename concatenator<const serek::detail::pack_impl<V>>::result;
+			};
+
 			template<typename T, typename... Argv>
 			struct concatenator<field_extractor<T>, Argv...>
 			{
