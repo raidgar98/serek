@@ -208,18 +208,83 @@ namespace serek
 
 			void json_tokenizer::on_key_found(const serek::str_v view, const size_t start, const size_t length)
 			{
+				auto& repr		= json_depth.top().repr;
+				auto& last_key = json_depth.top().last_key;
+
+				const static size_t quote_width = sizeof(serek::str_v::value_type);
+				serek::require<std::equal_to>(repr->element_type, json_element_t::OBJECT_TYPE);
+				serek::require(!last_key.has_value(), "last_key must be not set! double key?");
+
+				const auto result = json_depth.top().repr->object.emplace(serek::str{view.begin() + start + quote_width, view.begin() + start + length - quote_width},
+																							 make_json<json_element_t::NOT_SET>());
+				serek::require(result.second, "key was not inserted!");
+				last_key = result.first->first;
 			}
 
 			void json_tokenizer::on_value_found(const serek::str_v view, const size_t start, const size_t length)
 			{
+				auto& repr		= json_depth.top().repr;
+				auto& last_key = json_depth.top().last_key;
+
+				const serek::str_v item{view.begin() + start, view.begin() + start + length};
+
+				if(repr->element_type == json_element_t::OBJECT_TYPE)
+				{
+					if(last_key.has_value())
+					{
+						auto ptr = make_json<json_element_t::FUNDAMENTAL_TYPE>();
+						auto itr = repr->object.emplace(*last_key, ptr);
+						if(itr.second) { itr.first->second->item = item; }
+						else
+							serek::require<std::not_equal_to>(itr.first->second->element_type, json_element_t::NOT_SET, "object was not set!");
+					}
+				}
+				else if(repr->element_type == json_element_t::ARRAY_TYPE)
+				{
+					auto ptr	 = make_json<json_element_t::FUNDAMENTAL_TYPE>();
+					ptr->item = item;
+					repr->array.emplace_back(ptr);
+				}
+				else if(repr->element_type == json_element_t::FUNDAMENTAL_TYPE)
+				{
+					repr->item = item;
+					last_key.reset();
+				}
 			}
 
 			void json_tokenizer::on_start(const serek::str_v, const size_t, const size_t, const json_element_t json_element_type)
 			{
+				json_depth.emplace(json_depth_frame{json_element_type});
+				json_depth.top().repr->element_type = json_element_type;
 			}
 
 			void json_tokenizer::on_stop(const serek::str_v view, const size_t start, const size_t length, const json_element_t json_element_type)
 			{
+				if(json_depth.size() == 1) return;
+
+				json_depth_frame frame{json_depth.top()};
+				json_depth.pop();
+
+				auto& repr		= json_depth.top().repr;
+				auto& last_key = json_depth.top().last_key;
+
+				serek::require(repr, "repr cannot be nullptr");
+
+				if(repr->element_type == json_element_t::OBJECT_TYPE)
+				{
+					serek::require(last_key);
+					auto it = repr->object.find(*last_key);
+					serek::require<std::not_equal_to>(it, repr->object.end(), "object was not inserted!");
+					it->second = frame.repr;
+					last_key.reset();
+				}
+				else if(repr->element_type == json_element_t::ARRAY_TYPE)
+				{
+					repr->array.pop_back();
+					repr->array.emplace_back(frame.repr);
+				}
+				else
+					serek::require(false, "only acceptable types are arrays and objects");
 			}
 		}	 // namespace json
 	}		 // namespace deserial
