@@ -24,15 +24,53 @@ namespace serek
 			using serek::json::JSON_CHARS;
 			using serek::json::to_char;
 
+			struct pre_opened_json_representation_t;
+
 			using pre_opened_key_t					= serek::str;
-			using pre_opened_item_t					= serek::str;
+			using pre_opened_value_t				= serek::str;
+			using pre_opened_item_t					= std::shared_ptr<pre_opened_json_representation_t>;
 			using pre_opened_container_object_t = std::map<pre_opened_key_t, pre_opened_item_t>;
 			using pre_opened_container_array_t	= std::vector<pre_opened_item_t>;
 
+			namespace detail
+			{
+				struct length_array_helper
+				{
+					bool end;
+					bool value;
+					bool coma;
+
+					length_array_helper() { nothing(); }
+					virtual ~length_array_helper() = default;
+
+					virtual void nothing()
+					{
+						end	= false;
+						value = false;
+						coma	= false;
+					}
+				};
+
+				struct length_object_helper : public length_array_helper
+				{
+					bool key;
+					bool key_value_separator;
+
+					length_object_helper() { nothing(); }
+					virtual ~length_object_helper() = default;
+
+					virtual void nothing() override
+					{
+						length_array_helper::nothing();
+						key					  = false;
+						key_value_separator = false;
+					}
+				};
+			}	 // namespace detail
+
 			enum class json_element_t : uint16_t
 			{
-				NOT_SET	  = 0,
-				NULL_VALUE = 1,
+				NOT_SET = 0,
 
 				// int, float, string
 				FUNDAMENTAL_TYPE = 2,
@@ -46,7 +84,7 @@ namespace serek
 
 				json_element_t element_type{json_element_t::NOT_SET};
 
-				pre_opened_item_t item{};
+				pre_opened_value_t item{};
 				pre_opened_container_object_t object{};
 				pre_opened_container_array_t array{};
 			};
@@ -64,32 +102,6 @@ namespace serek
 			 */
 			struct json_walker
 			{
-				/**
-				 * @brief Type of function
-				 *
-				 * @param 1 string view of analyzed json
-				 * @param 2 start of item of interest
-				 * @param 3 end of item of interest
-				 */
-				using on_element_found_t = std::function<void(const serek::str_v, const size_t, const size_t)>;
-
-				/**
-				 * @brief Type of function
-				 *
-				 * @param 1 string view of analyzed json
-				 * @param 2 start of item of interest
-				 * @param 3 end of item of interest
-				 * @param 4 type of item of interest
-				 */
-				using on_complex_item_range_t = std::function<void(const serek::str_v, const size_t, const size_t, const json_element_t)>;
-
-			 private:
-				/** @brief default values for items with type: @ref on_element_found_t "on_element_found_t" */
-				inline static const on_element_found_t default_call = [](const serek::str_v, const size_t, const size_t) {};
-
-				/** @brief default values for items with type: @ref on_complex_item_range_t "on_complex_item_range_t" */
-				inline static const on_complex_item_range_t default_range_call = [](const serek::str_v, const size_t, const size_t, const json_element_t) {};
-
 			 protected:
 				/**
 				 * @brief This method perform decision about what type of item is given token
@@ -97,7 +109,7 @@ namespace serek
 				 * @param start position to start token analysis
 				 * @return size_t size of given token
 				 */
-				size_t walk_over_item(const size_t start) const;
+				size_t walk_over_item(const size_t start);
 
 				/**
 				 * @brief This method returns size of token which starts and ends with @ref JSON_CHARS::QUOTE "quote"
@@ -105,7 +117,7 @@ namespace serek
 				 * @param start position to start token analysis
 				 * @return size_t size of given string with quotes
 				 */
-				size_t walk_over_string(const size_t start) const;
+				size_t walk_over_string(const size_t start);
 
 				/**
 				 * @brief This method returns size of token which starts with number and is proper number
@@ -113,7 +125,7 @@ namespace serek
 				 * @param start position to start token analysis
 				 * @return size_t size of given number
 				 */
-				size_t walk_over_number(const size_t start) const;
+				size_t walk_over_number(const size_t start);
 
 				/**
 				 * @brief This method returns size of null type
@@ -121,7 +133,7 @@ namespace serek
 				 * @param start position to start token analysis
 				 * @return size_t size of given null type (4 if correct, 0 otherwise)
 				 */
-				size_t walk_over_null(const size_t start) const;
+				size_t walk_over_null(const size_t start);
 
 				/**
 				 * @brief This method returns size of given object and calls callbacks in proper places
@@ -129,7 +141,7 @@ namespace serek
 				 * @param start position to start token analysis
 				 * @return size_t size of given object
 				 */
-				size_t walk_over_object(const size_t start) const;
+				size_t walk_over_object(const size_t start);
 
 				/**
 				 * @brief This method returns size of given object and calls callbacks in proper places
@@ -137,7 +149,7 @@ namespace serek
 				 * @param start position to start token analysis
 				 * @return size_t size of given array
 				 */
-				size_t walk_over_array(const size_t start) const;
+				size_t walk_over_array(const size_t start);
 
 				/**
 				 * @brief This method checks is given @ref JSON_CHARS::QUOTE "quote" is final for given string token
@@ -146,23 +158,25 @@ namespace serek
 				 * @return true if given @ref JSON_CHARS::QUOTE "quote" is final
 				 * @return false if not
 				 */
-				bool is_valid_json_string_end(const size_t pos) const;
+				bool is_valid_json_string_end(const size_t pos);
 
 				/** @brief Holds stringified version of json, that will be tokenized */
 				serek::str_v json;
 
 			 public:
 				/** @brief Called when key in object is found */
-				on_element_found_t on_key_found = default_call;
+				virtual void on_key_found(const serek::str_v json, const size_t start, const size_t length);
 
 				/** @brief Called when value in object or array is found */
-				on_element_found_t on_value_found = default_call;
+				virtual void on_value_found(const serek::str_v json, const size_t start, const size_t length);
 
 				/** @brief Called when object or array starts */
-				on_complex_item_range_t on_start = default_range_call;
+				virtual void on_start(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type);
 
 				/** @brief Called when object or array ends */
-				on_complex_item_range_t on_stop = default_range_call;
+				virtual void on_stop(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type);
+
+				virtual ~json_walker() = default;
 
 				/**
 				 * @brief Construct a new json walker object
@@ -176,7 +190,49 @@ namespace serek
 				 *
 				 * @return size_t size of given json string
 				 */
-				size_t start_processing() const;
+				size_t start_processing();
+			};
+
+			struct json_tokenizer : public json_walker
+			{
+				json_tokenizer(const serek::str_v input_json);
+
+			 public:
+				/** @brief Called when key in object is found */
+				virtual void on_key_found(const serek::str_v json, const size_t start, const size_t length) override;
+
+				/** @brief Called when value in object or array is found */
+				virtual void on_value_found(const serek::str_v json, const size_t start, const size_t length) override;
+
+				/** @brief Called when object or array starts */
+				virtual void on_start(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type) override;
+
+				/** @brief Called when object or array ends */
+				virtual void on_stop(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type) override;
+
+				std::shared_ptr<pre_opened_json_representation_t> get_result() const
+				{
+					serek::require<std::equal_to>(1ul, json_depth.size(), "there should be exactly one result");
+					return json_depth.top().repr;
+				}
+
+			 private:
+				struct json_depth_frame
+				{
+					json_depth_frame(const json_element_t type) : repr{std::make_shared<pre_opened_json_representation_t>(type)} {}
+
+					std::shared_ptr<pre_opened_json_representation_t> repr;
+					std::optional<serek::str> last_key = std::optional<serek::str>{};
+				};
+
+				std::stack<json_tokenizer::json_depth_frame> json_depth{};
+
+				template<json_element_t type>
+				auto make_json()
+				{
+					auto ptr = std::make_shared<pre_opened_json_representation_t>(type);
+					return ptr;
+				}
 			};
 
 		}	 // namespace json
