@@ -206,7 +206,7 @@ namespace
 			const auto check_length		 = check_length_template<&test_json_walker::walk_over_object>();
 			const auto length_of_object = [&](const serek::str_v v, const size_t pos) { return test_json_walker{v}.walk_over_object(pos); };
 
-			length_of_object("}", 0);
+			but::expect(but::nothrow([&] { length_of_object("}", 0); }));
 
 			check_length("{}", 2);
 			check_length("{} ", 2);
@@ -243,7 +243,7 @@ namespace
 			const auto check_length		= check_length_template<&test_json_walker::walk_over_array>();
 			const auto length_of_array = [&](const serek::str_v v, const size_t pos) { return test_json_walker{v}.walk_over_array(pos); };
 
-			length_of_array("]", 0);
+			but::expect(but::nothrow([&] { length_of_array("]", 0); }));
 
 			check_length("[]", 2);
 			check_length("[] ", 2);
