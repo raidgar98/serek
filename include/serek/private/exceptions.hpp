@@ -12,6 +12,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <sstream>
 #include <functional>
@@ -70,6 +71,14 @@ namespace serek
 		 * @brief should be thrown when given pointer is set to null, when non-null pointer is required
 		 */
 		struct pointer_was_null_exception : public exception_base
+		{
+			using exception_base::exception_base;
+		};
+
+		/**
+		 * @brief should be thrown when given optional is not set, when filled optional is required
+		 */
+		struct optional_not_set_exception : public exception_base
 		{
 			using exception_base::exception_base;
 		};
@@ -162,6 +171,12 @@ namespace serek
 	void require(const pointer_t& ptr, const str_v error_message = "given pointer was null!")
 	{
 		if(ptr == nullptr) throw exceptions::pointer_was_null_exception{error_message};
+	}
+
+	template<typename T>
+	void require(const std::optional<T>& opt, const str_v error_message = "given optional was not set!")
+	{
+		if(!opt.has_value()) throw exceptions::optional_not_set_exception{error_message};
 	}
 }	 // namespace serek
 

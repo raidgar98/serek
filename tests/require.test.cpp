@@ -37,6 +37,14 @@ namespace
 		"raise_sptr"_test = [&] { but::expect(but::throws<except::pointer_was_null_exception>([&] { serek::require(sptr); })); };
 	};
 
+	but::suite optionals = [] {
+		std::optional<int> not_set;
+		std::optional<int> set{12};
+
+		"raise"_test	 = [&] { but::expect(but::throws<except::optional_not_set_exception>([&] { serek::require(not_set); })); };
+		"no_raise"_test = [&] { but::expect(but::nothrow([&] { serek::require(set); })); };
+	};
+
 	but::suite messages = [] {
 		constexpr serek::str_v message{"my custom message"};
 		const auto get_exception = []() -> except::assert_exception {
