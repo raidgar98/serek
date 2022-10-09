@@ -120,11 +120,19 @@ namespace serek
 			 * @param r_value right operand
 			 * @return str
 			 */
-			template<typename operator_t, typename T>
+			template<typename operator_t, reqs::can_be_pushed_to_stream T>
 			str format_fail_comparison(const T& l_value, const T& r_value)
 			{
 				std::stringstream ss;
 				ss << "comparison via functor: " << boost::typeindex::template type_id<operator_t>().pretty_name() << "{}( `" << l_value << "`, `" << r_value << "` ) returned false!";
+				return ss.str();
+			}
+
+			template<typename operator_t, typename T>
+			str format_fail_comparison(const T& l_value, const T& r_value)
+			{
+				std::stringstream ss;
+				ss << "comparison via functor: `" << boost::typeindex::template type_id<operator_t>().pretty_name() << "` returned false!";
 				return ss.str();
 			}
 		}	 // namespace

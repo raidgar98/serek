@@ -184,6 +184,11 @@ namespace serek
 				{T{serek::str_v{}}};
 			};
 
+			template<typename T>
+			concept can_be_pushed_to_stream = requires(serek::sstr ss, T val)
+			{
+				{ss << val};
+			};
 		}	 // namespace detail
 	}		 // namespace requirements
 
