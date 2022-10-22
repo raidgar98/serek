@@ -1,0 +1,68 @@
+\documentclass[12pt]{beamer}
+
+\usetheme{Warsaw}
+\useoutertheme{split}
+\useinnertheme{circles}
+\usecolortheme{crane}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[english,polish]{babel}
+
+\usepackage{xcolor}
+\definecolor{default_color}{RGB}{0,0,0}
+\colorlet{dcolor}{default_color}
+\setbeamercolor{title}{fg=dcolor}
+\setbeamercolor{titlelike}{fg=dcolor}
+
+\usepackage{listings}
+\lstdefinestyle{customcpp}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C++,
+  showstringspaces=false,
+  basicstyle=\fontsize{9pt}{9}\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  stringstyle=\color{orange},
+}
+\lstset{
+	backgroundcolor=\color{white},
+	language=C++,
+	style=customcpp,
+	tabsize=2
+}
+
+
+\usepackage{enumerate}
+\setbeamertemplate{enumerate item}{$\textcolor{dcolor}{\insertenumlabel.}$}
+\setbeamertemplate{enumerate subitem}{$\textcolor{dcolor}{\insertenumlabel.\insertsubenumlabel.}$}
+\setbeamertemplate{enumerate subsubitem}{$\textcolor{dcolor}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}$}
+
+\setbeamertemplate{itemize item}{$\textcolor{dcolor}-$}
+\setbeamertemplate{itemize subitem}{$\textcolor{dcolor}\bullet$}
+\setbeamertemplate{itemize subsubitem}{$\textcolor{dcolor}\triangleright$}
+
+\usepackage{tikz}
+\usebackgroundtemplate{
+	\tikz[overlay,remember picture]\node[opacity=0.4]at (current page.center){
+		% source: https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1822px-ISO_C%2B%2B_Logo.svg.png
+		\includegraphics[width=4cm]{cpp_logo.png}
+	};
+}
+
+\title{Omówienie stanu prac pracy magisterskiej}
+\subtitle{Przegląd bibliotek do serializacji w języku C++}
+\author[inż. Krzysztof Mochocki]{inż. Krzysztof Mochocki}
+\date{}
+
+
+\begin{document}
+
+	\begin{frame}
+		\maketitle
+	\end{frame}
+
+\end{document}
