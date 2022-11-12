@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Generate PDF from this LaTeX file",
+			"isBackground": true,
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"command": "pdflatex",
+			"args": ["-synctex=1", "-interaction=nonstopmode", "--shell-escape", "${file}"],
+			"problemMatcher": [
+				"$eslint-compact"
+			]
+		}
+	]
+}
