@@ -129,7 +129,7 @@ namespace serek
 			}
 
 			template<typename operator_t, typename T>
-			str format_fail_comparison(const T& l_value, const T& r_value)
+			str format_fail_comparison(const T&, const T&)
 			{
 				std::stringstream ss;
 				ss << "comparison via functor: `" << boost::typeindex::template type_id<operator_t>().pretty_name() << "` returned false!";
