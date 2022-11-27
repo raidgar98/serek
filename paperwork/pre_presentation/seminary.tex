@@ -73,6 +73,7 @@
 			\item Problematyka serializacji
 			\item Dostępne rozwiązania
 			\item Schemat działania
+			\item Badanie
 		\end{enumerate}
 	\end{frame}
 
@@ -159,6 +160,25 @@ std::string serialize_my_class(const MyClass& obj)
 			\includegraphics[width=0.75\framewidth, keepaspectratio=true]{./basic_concept_of_serek_UML.png}
 			\caption{Diagram UML z konceptem stojącym za biblioteką serek}
 		\end{figure}
+
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Badanie}
+
+			\begin{itemize}
+				\item Narzut kodu do obsługi warstwy transportowej
+				\begin{itemize}
+					\item Ile czasu zajmuje serializacja
+					\item Ile czasu zajmuje deserializacja
+				\end{itemize}
+				\item Łatwość w wytwarzaniu oprogramowania
+				\begin{itemize}
+					\item Ile \% kodu implementacji klasy zajmuje jej warstwa transportowa
+					\item Całkowita ilość kodu wymagana do napisania hierarchii klas
+					\item Objętość komunikatu o błędzie
+				\end{itemize}
+			\end{itemize}
 
 	\end{frame}
 
