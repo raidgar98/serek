@@ -62,5 +62,26 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: documentation
-        path: ${{github.workspace}}/build/docs # or path/to/artifact
+        path: ${{github.workspace}}/build/docs
         retention-days: 5
+
+  generate-latex-paper:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v2
+
+      - name: gather apt packets
+        run: sudo apt update && sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+        shell: bash
+
+      - name: generate paper
+        run: |
+          cd ${{github.workspace}}/paperwork/paper
+          pdflatex -synctex=1 -interaction=nonstopmode --shell-escape master_degree.tex
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: master degree paper
+          path: ${{github.workspace}}/paperwork/paper/master_degree.pdf
+          retention-days: 30
