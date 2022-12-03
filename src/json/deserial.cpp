@@ -266,7 +266,7 @@ namespace serek
 				json_depth.top().repr->element_type = json_element_type;
 			}
 
-			void json_tokenizer::on_stop(const serek::str_v view, const size_t start, const size_t length, const json_element_t json_element_type)
+			void json_tokenizer::on_stop(const serek::str_v, const size_t, const size_t, const json_element_t)
 			{
 				if(json_depth.size() == 1) return;
 
