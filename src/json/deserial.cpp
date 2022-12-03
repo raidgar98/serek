@@ -207,7 +207,7 @@ namespace serek
 			void json_walker::on_start(const serek::str_v, const size_t, const size_t, const json_element_t) {}
 			void json_walker::on_stop(const serek::str_v, const size_t, const size_t, const json_element_t) {}
 
-			json_tokenizer::json_tokenizer(const serek::str_v input_json) : json_walker{input_json} { json_walker::start_processing(); }
+			json_tokenizer::json_tokenizer(const serek::str_v input_json) : json_walker{input_json} {}
 
 			void json_tokenizer::on_key_found(const serek::str_v view, const size_t start, const size_t length)
 			{
