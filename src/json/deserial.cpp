@@ -242,10 +242,13 @@ namespace serek
 					{
 						auto ptr = make_json<json_element_t::FUNDAMENTAL_TYPE>();
 						auto itr = repr->object.emplace(*last_key, ptr);
-						if(itr.second) { itr.first->second->item = item; }
-						else
-							serek::require<std::not_equal_to>(itr.first->second->element_type, json_element_t::NOT_SET, "object was not set!");
+						if(itr.second || (!itr.second && itr.first->second->element_type == json_element_t::NOT_SET))
+						{
+							itr.first->second->item			  = item;
+							itr.first->second->element_type = json_element_t::FUNDAMENTAL_TYPE;
+						}
 					}
+					last_key.reset();
 				}
 				else if(repr->element_type == json_element_t::ARRAY_TYPE)
 				{
@@ -253,11 +256,8 @@ namespace serek
 					ptr->item = item;
 					repr->array.emplace_back(ptr);
 				}
-				else if(repr->element_type == json_element_t::FUNDAMENTAL_TYPE)
-				{
-					repr->item = item;
-					last_key.reset();
-				}
+				else
+					serek::require(false, "value cannot be found not in object or array");
 			}
 
 			void json_tokenizer::on_start(const serek::str_v, const size_t, const size_t, const json_element_t json_element_type)
