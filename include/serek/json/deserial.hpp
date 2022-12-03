@@ -25,7 +25,7 @@ namespace serek
 			struct pre_opened_json_representation_t;
 
 			using pre_opened_key_t					= serek::str;
-			using pre_opened_value_t				= serek::str;
+			using pre_opened_value_t				= serek::str_v;
 			using pre_opened_item_t					= std::shared_ptr<pre_opened_json_representation_t>;
 			using pre_opened_container_object_t = std::map<pre_opened_key_t, pre_opened_item_t>;
 			using pre_opened_container_array_t	= std::vector<pre_opened_item_t>;
