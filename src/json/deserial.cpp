@@ -95,6 +95,7 @@ namespace serek
 
 				for(size_t pos = ltrim_pos(json, start + 1ul); pos < json.size(); pos = ltrim_pos(json, pos))
 				{
+					serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 					if(json[pos] == JSON_CHARS::ITEMS_SEPARATOR)
 					{
 						serek::require(looking_for.coma, "unexpected coma, invalid json");
@@ -139,7 +140,6 @@ namespace serek
 					}
 					else
 					{
-						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
 						const auto [length_of_item, type_of_item] = walk_over_item(pos);
