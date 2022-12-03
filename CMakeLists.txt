@@ -81,7 +81,9 @@ endif()
 if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
 	add_compiler_flags( -O3 )
 else()
-	add_compiler_flags( -fconcepts-diagnostics-depth=5 )
+	if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		add_compiler_flags( -fconcepts-diagnostics-depth=5 )
+	endif()
 endif()
 
 # pre-configuring boost
