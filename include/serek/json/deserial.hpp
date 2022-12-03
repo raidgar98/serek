@@ -21,9 +21,6 @@ namespace serek
 	{
 		namespace json
 		{
-			using serek::json::JSON_CHARS;
-			using serek::json::to_char;
-
 			struct pre_opened_json_representation_t;
 
 			using pre_opened_key_t					= serek::str;

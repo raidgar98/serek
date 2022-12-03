@@ -6,6 +6,8 @@ namespace serek
 	{
 		namespace json
 		{
+			using serek::json::JSON_CHARS;
+
 			size_t ltrim_pos(const serek::str_v view, const size_t start) { return view.find_first_not_of(get_trimmed_chars(), start); }
 			size_t rtrim_pos(const serek::str_v view, const size_t start) { return view.find_last_not_of(get_trimmed_chars(), start); }
 
