@@ -166,7 +166,7 @@ namespace serek
 				virtual void on_key_found(const serek::str_v json, const size_t start, const size_t length);
 
 				/** @brief Called when value in object or array is found */
-				virtual void on_value_found(const serek::str_v json, const size_t start, const size_t length);
+				virtual void on_value_found(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type);
 
 				/** @brief Called when object or array starts */
 				virtual void on_start(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type);
@@ -200,7 +200,7 @@ namespace serek
 				virtual void on_key_found(const serek::str_v json, const size_t start, const size_t length) override;
 
 				/** @brief Called when value in object or array is found */
-				virtual void on_value_found(const serek::str_v json, const size_t start, const size_t length) override;
+				virtual void on_value_found(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type) override;
 
 				/** @brief Called when object or array starts */
 				virtual void on_start(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type) override;

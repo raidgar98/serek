@@ -123,7 +123,7 @@ namespace serek
 						}
 						else
 						{
-							on_value_found(json, pos, length_of_item);
+							on_value_found(json, pos, length_of_item, json_element_t::FUNDAMENTAL_TYPE);
 							looking_for.nothing();
 							looking_for.coma = true;
 							looking_for.end  = true;
@@ -143,7 +143,7 @@ namespace serek
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
 						const auto [length_of_item, type_of_item] = walk_over_item(pos);
-						on_value_found(json, pos, length_of_item);
+						on_value_found(json, pos, length_of_item, type_of_item);
 						pos += length_of_item;
 
 						looking_for.nothing();
@@ -188,7 +188,7 @@ namespace serek
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
 						const auto [length_of_item, type_of_item] = walk_over_item(pos);
-						on_value_found(json, pos, length_of_item);
+						on_value_found(json, pos, length_of_item, type_of_item);
 						pos += length_of_item;
 
 
@@ -203,7 +203,7 @@ namespace serek
 			}
 
 			void json_walker::on_key_found(const serek::str_v, const size_t, const size_t) {}
-			void json_walker::on_value_found(const serek::str_v, const size_t, const size_t) {}
+			void json_walker::on_value_found(const serek::str_v, const size_t, const size_t, const json_element_t) {}
 			void json_walker::on_start(const serek::str_v, const size_t, const size_t, const json_element_t) {}
 			void json_walker::on_stop(const serek::str_v, const size_t, const size_t, const json_element_t) {}
 
@@ -224,12 +224,17 @@ namespace serek
 				last_key = result.first->first;
 			}
 
-			void json_tokenizer::on_value_found(const serek::str_v view, const size_t start, const size_t length)
+			void json_tokenizer::on_value_found(const serek::str_v view, const size_t start, const size_t length, const json_element_t json_element_type)
 			{
 				auto& repr		= json_depth.top().repr;
 				auto& last_key = json_depth.top().last_key;
 
 				const serek::str_v item{view.begin() + start, view.begin() + start + length};
+
+				// ignore composite types (objects and array)
+				if(json_element_type != json_element_t::FUNDAMENTAL_TYPE) return;
+				else
+					serek::require<std::not_equal_to>(json_element_type, json_element_t::NOT_SET);
 
 				if(repr->element_type == json_element_t::OBJECT_TYPE)
 				{
