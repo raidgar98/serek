@@ -78,7 +78,8 @@ jobs:
       - name: generate paper
         run: |
           cd ${{github.workspace}}/paperwork/paper
-          pdflatex -synctex=1 -interaction=nonstopmode --shell-escape master_degree.tex
+          pdflatex -synctex=1 -interaction=nonstopmode --shell-escape master_degree.tex || true
+          pdflatex -synctex=1 -interaction=nonstopmode --shell-escape master_degree.tex || true
 
       - uses: actions/upload-artifact@v2
         with:
