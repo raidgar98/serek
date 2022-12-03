@@ -11,6 +11,7 @@
 
 #include <map>
 #include <optional>
+#include <tuple>
 
 #include <serek/serek.hpp>
 #include <serek/json/common.hpp>
@@ -104,9 +105,9 @@ namespace serek
 				 * @brief This method perform decision about what type of item is given token
 				 *
 				 * @param start position to start token analysis
-				 * @return size_t size of given token
+				 * @return std::tuple<size_t, json_element_t> size of given token and type of walked element
 				 */
-				size_t walk_over_item(const size_t start);
+				std::tuple<size_t, json_element_t> walk_over_item(const size_t start);
 
 				/**
 				 * @brief This method returns size of token which starts and ends with @ref JSON_CHARS::QUOTE "quote"

@@ -20,7 +20,7 @@ namespace serek
 
 			json_walker::json_walker(const serek::str_v input_json) : json{trim(input_json)} {}
 
-			size_t json_walker::start_processing() { return walk_over_item(0); }
+			size_t json_walker::start_processing() { return std::get<0>(walk_over_item(0)); }
 
 			bool json_walker::is_valid_json_string_end(const size_t pos)
 			{
@@ -30,22 +30,23 @@ namespace serek
 				return json[pos] == to_char(JSON_CHARS::QUOTE) && json[pos - 1] != '\\';
 			}
 
-			size_t json_walker::walk_over_item(const size_t start)
+			std::tuple<size_t, json_element_t> json_walker::walk_over_item(const size_t start)
 			{
 				size_t length;
-				if(length = walk_over_null(start); length > 0ul) return length;
+
+				if(length = walk_over_null(start); length > 0ul) return {length, json_element_t::FUNDAMENTAL_TYPE};
 				else if(length = walk_over_number(start); length > 0ul)
-					return length;
+					return {length, json_element_t::FUNDAMENTAL_TYPE};
 				else if(length = walk_over_string(start); length > 0ul)
-					return length;
+					return {length, json_element_t::FUNDAMENTAL_TYPE};
 				else if(length = walk_over_object(start); length > 0ul)
-					return length;
+					return {length, json_element_t::OBJECT_TYPE};
 				else if(length = walk_over_array(start); length > 0ul)
-					return length;
+					return {length, json_element_t::ARRAY_TYPE};
 				else
 				{
 					serek::require(false, "unknown object, invalid json");
-					return serek::str_v::npos;
+					return {serek::str_v::npos, json_element_t::NOT_SET};
 				}
 			}
 
@@ -141,7 +142,7 @@ namespace serek
 						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
-						const size_t length_of_item{walk_over_item(pos)};
+						const auto [length_of_item, type_of_item] = walk_over_item(pos);
 						on_value_found(json, pos, length_of_item);
 						pos += length_of_item;
 
@@ -186,7 +187,7 @@ namespace serek
 						serek::require(pos != serek::str_v::npos, "unexpected input end, invalid json");
 						serek::require(looking_for.value, "unexpected token, or item start, invalid json");
 
-						const size_t length_of_item{walk_over_item(pos)};
+						const auto [length_of_item, type_of_item] = walk_over_item(pos);
 						on_value_found(json, pos, length_of_item);
 						pos += length_of_item;
 
