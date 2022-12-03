@@ -8,6 +8,9 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
 	message(FATAL_ERROR "In-source builds are not allowed, remove CMakeFiles and CMakeCache.txt")
 endif()
 
+# always generate compile commands
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+
 # setup cmake
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
