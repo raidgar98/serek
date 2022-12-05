@@ -8,6 +8,26 @@
 \renewcommand*\familydefault{\sfdefault}
 \usepackage[T1]{fontenc}
 
+
+% justify
+\usepackage{ragged2e}
+
+% indents
+\usepackage{indentfirst}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\JustifyingParindent}{1.25cm}
+% source: https://tex.stackexchange.com/a/121230
+\renewenvironment{justify}{%
+	\trivlist
+	\justifying
+	\itemindent\JustifyingParindent
+	\item\relax
+	}{%
+	\endtrivlist
+}
+\justifying
+
 \usepackage{setspace}
 \usepackage{authoraftertitle}
 \usepackage{tikz}
