@@ -96,10 +96,12 @@
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
 \titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection.}{1em}{}
 
-% disable hyphenation
-\tolerance=1
-\hyphenpenalty=10000
-\hbadness=10000
+% function for disabling hyphenation
+\newcommand{\disablewordwrap}{%
+	\setlength{\hsize}{0.9\hsize}
+	% \tolerance=1
+	\hyphenpenalty=10000
+	\hbadness=10000}
 
 % configuration of table of contents
 \usepackage{tocloft}
