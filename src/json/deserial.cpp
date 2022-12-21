@@ -307,7 +307,6 @@ namespace serek
 				}
 				else if(repr->element_type == json_element_t::ARRAY_TYPE)
 				{
-					repr->array.pop_back();
 					repr->array.emplace_back(frame.repr);
 				}
 				else
