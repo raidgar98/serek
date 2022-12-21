@@ -287,6 +287,30 @@ namespace
 			but::expect(but::throws<serek::exceptions::assert_exception>([&]{tokenize_json(param);}));
 		};
 
+		"object"_test = [] {
+			auto result = tokenize_json(R"({"a": 1, "b": "aaa", "c": null, "d": {}, "e": [], "f": 21.37})");
+
+			but::expect(result->element_type == json_element_t::OBJECT_TYPE);
+			but::expect(but::eq(result->object.size(), 6ul));
+
+			for(auto kv : {std::pair<serek::str, std::pair<json_element_t, serek::str>>
+				{"a", {json_element_t::FUNDAMENTAL_TYPE, "1"}},
+				{"b", {json_element_t::FUNDAMENTAL_TYPE, "\"aaa\""}},
+				{"c", {json_element_t::FUNDAMENTAL_TYPE, "null"}},
+				{"d", {json_element_t::OBJECT_TYPE, ""}},
+				{"e", {json_element_t::ARRAY_TYPE, ""}},
+				{"f", {json_element_t::FUNDAMENTAL_TYPE, "21.37"}}
+			})
+			{
+				auto it = result->object.find(kv.first);
+				but::expect(result->object.end() != it);
+				but::expect(it->second->element_type == kv.second.first);
+				but::expect(it->second->item == kv.second.second);
+				but::expect(but::eq(it->second->object.size(), 0ul));
+				but::expect(but::eq(it->second->array.size(), 0ul));
+			}
+		};
+
 
 		"item_length"_test = [&] {
 
