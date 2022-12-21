@@ -265,6 +265,28 @@ namespace
 			assert_exception_check([&] { length_of_array("[,,,]", 0); });
 			assert_exception_check([&] { length_of_array("[null null]", 0); });
 		};
+	};
+
+	but::suite tokenization = [] {
+		"empty"_test = [] {
+			for(auto param : {
+				"{}",
+				"[]",
+				"null",
+				"\"aaaa\"",
+				"7",
+				"21.37"
+			}) but::expect(but::nothrow([&]{tokenize_json(param);}));
+		};
+
+		"invalid_empty"_test = [] {
+			for(auto param : {
+				"",
+				"  ",
+			})
+			but::expect(but::throws<serek::exceptions::assert_exception>([&]{tokenize_json(param);}));
+		};
+
 
 		"item_length"_test = [&] {
 
