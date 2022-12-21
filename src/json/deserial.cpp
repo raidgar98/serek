@@ -315,7 +315,7 @@ namespace serek
 
 			json_tokenizer::result_t json_tokenizer::get_result() const
 			{
-				serek::require<std::equal_to>(1ul, json_depth.size(), "there should be exactly one result");
+				serek::require<std::equal_to>(1ul, json_depth.size(), "there should be exactly one level of depth");
 				return json_depth.top().repr;
 			}
 
