@@ -196,6 +196,9 @@ namespace serek
 				json_tokenizer(const serek::str_v input_json);
 
 			 public:
+
+				using result_t = std::shared_ptr<pre_opened_json_representation_t>;
+
 				/** @brief Called when key in object is found */
 				virtual void on_key_found(const serek::str_v json, const size_t start, const size_t length) override;
 
@@ -208,11 +211,7 @@ namespace serek
 				/** @brief Called when object or array ends */
 				virtual void on_stop(const serek::str_v json, const size_t start, const size_t length, const json_element_t json_element_type) override;
 
-				std::shared_ptr<pre_opened_json_representation_t> get_result() const
-				{
-					serek::require<std::equal_to>(1ul, json_depth.size(), "there should be exactly one result");
-					return json_depth.top().repr;
-				}
+				result_t get_result() const;
 
 			 private:
 				struct json_depth_frame

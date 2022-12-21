@@ -294,6 +294,13 @@ namespace serek
 				else
 					serek::require(false, "only acceptable types are arrays and objects");
 			}
+
+			json_tokenizer::result_t json_tokenizer::get_result() const
+			{
+				serek::require<std::equal_to>(1ul, json_depth.size(), "there should be exactly one result");
+				return json_depth.top().repr;
+			}
+
 		}	 // namespace json
 	}		 // namespace deserial
 }	 // namespace serek
