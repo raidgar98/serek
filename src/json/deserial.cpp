@@ -20,7 +20,16 @@ namespace serek
 
 			json_walker::json_walker(const serek::str_v input_json) : json{trim(input_json)} {}
 
-			size_t json_walker::start_processing() { return std::get<0>(walk_over_item(0)); }
+			size_t json_walker::start_processing()
+			{
+				const auto [length, type] = walk_over_item(0);
+
+				// if whole json is not composite type, but just string, number or null
+				if(type == json_element_t::FUNDAMENTAL_TYPE)
+					on_value_found(json, 0, length, type);
+
+				return length;
+			}
 
 			bool json_walker::is_valid_json_string_end(const size_t pos)
 			{
@@ -226,6 +235,15 @@ namespace serek
 
 			void json_tokenizer::on_value_found(const serek::str_v view, const size_t start, const size_t length, const json_element_t json_element_type)
 			{
+				// this can be activated if root (and whole) of json is not composite type, but fundamental one
+				if (json_depth.empty()) [[unlikely]]
+				{
+					serek::require<std::equal_to>(json_element_type, json_element_t::FUNDAMENTAL_TYPE);
+					json_depth.emplace(json_element_type);
+					json_depth.top().repr->item = view;
+					return;
+				}
+
 				auto& repr		= json_depth.top().repr;
 				auto& last_key = json_depth.top().last_key;
 
