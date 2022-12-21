@@ -301,6 +301,12 @@ namespace serek
 				return json_depth.top().repr;
 			}
 
+			json_tokenizer::result_t tokenize_json(const serek::str_v json_input)
+			{
+				serek::deserial::json::json_tokenizer tokenizer{json_input};
+				tokenizer.start_processing();
+				return tokenizer.get_result();
+			}
 		}	 // namespace json
 	}		 // namespace deserial
 }	 // namespace serek

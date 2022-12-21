@@ -232,6 +232,8 @@ namespace serek
 				}
 			};
 
+			json_tokenizer::result_t tokenize_json(const serek::str_v input);
+
 		}	 // namespace json
 	}		 // namespace deserial
 }	 // namespace serek
