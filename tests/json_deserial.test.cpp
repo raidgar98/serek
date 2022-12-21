@@ -311,9 +311,31 @@ namespace
 			}
 		};
 
+		"array"_test = [] {
+			const std::vector expected_type_values{std::pair<json_element_t, serek::str>
+				{json_element_t::FUNDAMENTAL_TYPE, "1"},
+				{json_element_t::FUNDAMENTAL_TYPE, "\"aaa\""},
+				{json_element_t::FUNDAMENTAL_TYPE, "null"},
+				{json_element_t::OBJECT_TYPE, ""},
+				{json_element_t::ARRAY_TYPE, ""},
+				{json_element_t::FUNDAMENTAL_TYPE, "21.37"}
+			};
 
-		"item_length"_test = [&] {
+			auto result = tokenize_json(R"([1, "aaa", null, {}, [], 21.37])");
 
+			but::expect(result->element_type == json_element_t::ARRAY_TYPE);
+			but::expect(but::eq(result->array.size(), expected_type_values.size()));
+
+			for(size_t i = 0; i < expected_type_values.size(); ++i)
+			{
+				const auto& it = result->array[i];
+				const auto& kv = expected_type_values[i];
+
+				but::expect(it->element_type == kv.first);
+				but::expect(it->item == kv.second);
+				but::expect(but::eq(it->object.size(), 0ul));
+				but::expect(but::eq(it->array.size(), 0ul));
+			}
 		};
 	};
 }	 // namespace
