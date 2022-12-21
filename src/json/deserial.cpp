@@ -292,12 +292,13 @@ namespace serek
 				json_depth.pop();
 
 				auto& repr		= json_depth.top().repr;
-				auto& last_key = json_depth.top().last_key;
 
 				serek::require(repr, "repr cannot be nullptr");
 
 				if(repr->element_type == json_element_t::OBJECT_TYPE)
 				{
+					auto& last_key = json_depth.top().last_key;
+
 					serek::require(last_key);
 					auto it = repr->object.find(*last_key);
 					serek::require<std::not_equal_to>(it, repr->object.end(), "object was not inserted!");
