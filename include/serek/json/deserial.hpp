@@ -101,6 +101,20 @@ namespace serek
 						serek::visitors::visit(&new_obj_vis, output);
 					}
 
+					// TODO: Add support for array and check is serialization works for array!
+					// this is array deserialization
+					template<reqs::visitor_req vis_t, reqs::iterable_req Any>
+					void deserial(visitor_with_stacked_names_and_tokenized_json& json, serek::detail::pack_impl<Any>* output)
+					// void deserial(vis_t& vis, const Any* any)
+					{
+						serek::require(any);
+						static const char separator_decision[2] = {static_cast<char>(JSON_CHARS::ITEMS_SEPARATOR), '\0'};
+
+						add_key(vis, out);
+						out << JSON_CHARS::ARRAY_START;
+						for(auto it = any->begin(); it != any->end(); it++) out << separator_decision[it == any->begin()] << *it;
+						out << JSON_CHARS::ARRAY_STOP;
+					}
 				}	 // namespace
 			}		 // namespace detail
 
