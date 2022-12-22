@@ -22,11 +22,11 @@ namespace serek
 		{
 			using namespace serek::visitors;
 
-			struct base_visitor_members_with_stacknames : public base_visitor_members
+			struct base_visitor_members_with_stack_names : public base_visitor_members
 			{
 				struct pop_guard
 				{
-					base_visitor_members_with_stacknames* vis;
+					base_visitor_members_with_stack_names* vis;
 
 					~pop_guard()
 					{
@@ -39,7 +39,7 @@ namespace serek
 				};
 
 				template<typename Any>
-				base_visitor_members_with_stacknames(Any* any) : base_visitor_members{any}
+				explicit base_visitor_members_with_stack_names(Any* any) : base_visitor_members{any}
 				{
 					serek::member_name_extractors::extract_class_members<Any>([&](const serek::str& v) { this->stack_name.emplace(v); });
 					std::stack<str> _reverse;

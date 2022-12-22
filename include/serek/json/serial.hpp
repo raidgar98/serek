@@ -81,7 +81,7 @@ namespace serek
 					sstr output;
 				};
 
-				auto add_key(base_visitor_members_with_stacknames& vis, stream_holder& out)
+				auto add_key(base_visitor_members_with_stack_names& vis, stream_holder& out)
 				{
 					out << std::quoted(vis.top()) << JSON_CHARS::KEY_VALUE_SEPARATOR;
 					return vis.pop();
@@ -126,10 +126,10 @@ namespace serek
 			}	 // namespace detail
 
 			template<bool root_object = true>
-			struct json_visitor : public base_visitor_members_with_stacknames, public detail::stream_holder
+			struct json_visitor : public base_visitor_members_with_stack_names, public detail::stream_holder
 			{
 				template<typename T>
-				json_visitor(T* any) : base_visitor_members_with_stacknames{any}
+				json_visitor(T* any) : base_visitor_members_with_stack_names{any}
 				{
 					if(root_object) put_to_stream(JSON_CHARS::OBJECT_START);
 				}
