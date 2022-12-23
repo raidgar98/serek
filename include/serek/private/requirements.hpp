@@ -32,6 +32,25 @@ namespace serek
 				requires(std::same_as<serek::str, T> || std::same_as<serek::str_v, T>);
 			};
 
+			template<typename T>
+			concept char_type_req = requires
+			{
+				requires(std::same_as<char, T> || std::same_as<unsigned char, T>);
+			};
+
+			template<typename T>
+			concept integer_type_req = requires
+			{
+				requires std::is_integral_v<T>;
+				requires !char_type_req<T>;
+			};
+
+			template<typename T>
+			concept floating_type_req = requires
+			{
+				requires std::is_floating_point_v<T>;
+			};
+
 			/**
 			 * @brief checks is given type is iterable
 			 *
