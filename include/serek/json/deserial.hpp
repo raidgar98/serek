@@ -54,13 +54,14 @@ namespace serek
 
 				namespace
 				{
-					template<typename Any>
-					requires std::is_integral_v<Any>
+					template<reqs::integer_type_req Any>
 					void fill(Any& output, const serek::str_v value) { output = static_cast<Any>(std::atoll(value.data())); }
 
-					template<typename Any>
-					requires std::is_floating_point_v<Any>
-					void fill(Any& output, const serek::str_v value) { output = static_cast<Any>(std::atof(value.data())); }
+					template<reqs::floating_type_req Any>
+					void fill(Any& output, const serek::str_v value)
+					{
+						output = static_cast<Any>(std::atof(value.data()));
+					}
 
 					template<reqs::string_type_req Any>
 					void fill(Any& output, const serek::str_v value)
