@@ -111,19 +111,40 @@ namespace serek
 						serek::visitors::visit(&new_obj_vis, output);
 					}
 
-					// TODO: Add support for array and check is serialization works for array!
-					// this is array deserialization
-					template<reqs::visitor_req vis_t, reqs::iterable_req Any>
-					void deserial(visitor_with_stacked_names_and_tokenized_json& json, serek::detail::pack_impl<Any>* output)
-					// void deserial(vis_t& vis, const Any* any)
+					template<reqs::visitor_req vis_t, typename element_t>
+					requires serek::requirements::fundamental_req<element_t> || reqs::string_type_req<element_t>
+					void deserial_array_element(json_tokenizer::result_t in, element_t& out)
 					{
-						serek::require(any);
-						static const char separator_decision[2] = {static_cast<char>(JSON_CHARS::ITEMS_SEPARATOR), '\0'};
+						serek::require<std::equal_to>(in->element_type, json_element_t::FUNDAMENTAL_TYPE);
+						fill(out, in->item);
+					}
 
-						add_key(vis, out);
-						out << JSON_CHARS::ARRAY_START;
-						for(auto it = any->begin(); it != any->end(); it++) out << separator_decision[it == any->begin()] << *it;
-						out << JSON_CHARS::ARRAY_STOP;
+					template<reqs::visitor_req vis_t, auto X>
+					void deserial_array_element(json_tokenizer::result_t in, serek::detail::pack_impl<X>& out)
+					{
+						serek::require<std::equal_to>(in->element_type, json_element_t::OBJECT_TYPE);
+
+						vis_t visitor{in, out};
+						serek::visitors::visit(&visitor, &out);
+					}
+
+					// this is array deserialization
+					template<reqs::visitor_req vis_t, template<typename T, typename... Argv> typename collection_t, typename element_t, typename... other_container_args>
+					requires reqs::iterable_req<collection_t<element_t, other_container_args...>>
+					void deserial(visitor_with_stacked_names_and_tokenized_json& json, collection_t<element_t, other_container_args...>* output)
+					{
+						serek::require(output);
+
+						const auto json_iterable = json.pop_for_key(json.top());
+						serek::require<std::equal_to>(json_iterable->element_type, json_element_t::ARRAY_TYPE);
+
+						for(auto it: json_iterable->array)
+						{
+							// TODO: insert default, and operate on inserted element
+							element_t item_output;
+							deserial_array_element<vis_t>(it, item_output);
+							output->insert(output->end(), item_output);
+						}
 					}
 				}	 // namespace
 			}		 // namespace detail
