@@ -36,7 +36,7 @@ namespace serek
 			 * @brief Construct a new pack impl object by forwarding to base
 			 */
 			template<typename... Argv>
-			explicit pack_impl(Argv&&... argv) : owner_t{std::forward<Argv>(argv)...}
+			pack_impl(Argv&&... argv) : owner_t{std::forward<Argv>(argv)...}
 			{
 			}
 
