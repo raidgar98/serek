@@ -41,5 +41,35 @@ namespace example_structs
 			virtual int do_something() const override { return 1; };
 		};
 		using some_virtual_child_class_fixed_packed = serek::pack<&some_virtual_child_class_fixed::field_1>;
+
+		namespace array
+		{
+			struct test_array_01
+			{
+				serek::ffield<std::vector<int>> field_0;
+			};
+			using test_array_01_packed = serek::pack<&test_array_01::field_0>;
+
+			struct test_array_02
+			{
+				serek::ffield<int> field_0;
+				serek::field<&test_array_02::field_0, std::vector<int>> field_1;
+			};
+			using test_array_02_packed = serek::pack<&test_array_02::field_1>;
+
+			struct test_array_03
+			{
+				serek::ffield<std::vector<test_struct_0_packed>> field_0;
+			};
+			using test_array_03_packed = serek::pack<&test_array_03::field_0>;
+
+			struct test_array_04
+			{
+				serek::ffield<int> field_0;
+				serek::field<&test_array_04::field_0, std::vector<test_struct_0_packed>> field_1;
+			};
+			using test_array_04_packed = serek::pack<&test_array_04::field_1>;
+
+		}
 	}	 // namespace packed
 }	 // namespace example_structs
