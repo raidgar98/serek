@@ -179,6 +179,21 @@ namespace serek
 
 			static_assert(serek::reqs::visitor_req<json_visitor_deserializer>);
 
+			template<typename T>
+			void deserialize(const serek::str_v json, T& output)
+			{
+				serek::deserial::json::json_visitor_deserializer deserial{json, output};
+				serek::visitors::visit(&deserial, &output);
+			}
+
+			template<typename T>
+			T deserialize(const serek::str_v json)
+			{
+				T output;
+				deserialize(json, output);
+				return output;
+			}
+
 		}	 // namespace json
 	}		 // namespace deserial
 }	 // namespace serek
