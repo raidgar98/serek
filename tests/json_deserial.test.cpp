@@ -369,7 +369,25 @@ namespace
 		};
 
 		"array"_test = [] {
+			adv_check_object_deserial<array::test_array_01_packed>(R"({"field_0": [1, 2, 3]})", [](const auto& lhs) { return lhs->field_0 == std::vector<int>({1, 2, 3}); });
 
+			adv_check_object_deserial<array::test_array_02_packed>(R"({"field_0": 2137, "field_1": [1, 2, 3]})", [](const auto& lhs) {
+				return lhs->field_0 == 2137 && lhs->field_1 == std::vector<int>({1, 2, 3});
+			});
+
+			adv_check_object_deserial<array::test_array_03_packed>(R"({"field_0": [{"field_0": 1}, {"field_0": 2}, {"field_0": 3}]})", [](const auto& lhs) {
+				int i = 1;
+				for(const auto& x: lhs->field_0)
+					if(x.field_0 != i++) return false;
+				return true;
+			});
+
+			adv_check_object_deserial<array::test_array_04_packed>(R"({"field_0": 2137, "field_1": [{"field_0": 1}, {"field_0": 2}, {"field_0": 3}]})", [](const auto& lhs) {
+				int i = 1;
+				for(const auto& x: lhs->field_1)
+					if(x.field_0 != i++) return false;
+				return lhs->field_0 == 2137;
+			});
 		};
 	};
 }	 // namespace
