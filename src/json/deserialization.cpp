@@ -26,7 +26,7 @@ namespace serek
 					//returning
 					return result;
 				}
-			}
-		}	 // namespace json
-	}		 // namespace deserial
+			}	 // namespace detail
+		}		 // namespace json
+	}			 // namespace deserial
 }	 // namespace serek

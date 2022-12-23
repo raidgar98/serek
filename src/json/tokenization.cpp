@@ -25,8 +25,7 @@ namespace serek
 				const auto [length, type] = walk_over_item(0);
 
 				// if whole json is not composite type, but just string, number or null
-				if(type == json_element_t::FUNDAMENTAL_TYPE)
-					on_value_found(json, 0, length, type);
+				if(type == json_element_t::FUNDAMENTAL_TYPE) on_value_found(json, 0, length, type);
 
 				return length;
 			}
@@ -236,7 +235,7 @@ namespace serek
 			void json_tokenizer::on_value_found(const serek::str_v view, const size_t start, const size_t length, const json_element_t json_element_type)
 			{
 				// this can be activated if root (and whole) of json is not composite type, but fundamental one
-				if (json_depth.empty()) [[unlikely]]
+				if(json_depth.empty()) [[unlikely]]
 				{
 					serek::require<std::equal_to>(json_element_type, json_element_t::FUNDAMENTAL_TYPE);
 					json_depth.emplace(json_element_type);
@@ -291,7 +290,7 @@ namespace serek
 				json_depth_frame frame{json_depth.top()};
 				json_depth.pop();
 
-				auto& repr		= json_depth.top().repr;
+				auto& repr = json_depth.top().repr;
 
 				serek::require(repr, "repr cannot be nullptr");
 
@@ -305,10 +304,7 @@ namespace serek
 					it->second = frame.repr;
 					last_key.reset();
 				}
-				else if(repr->element_type == json_element_t::ARRAY_TYPE)
-				{
-					repr->array.emplace_back(frame.repr);
-				}
+				else if(repr->element_type == json_element_t::ARRAY_TYPE) { repr->array.emplace_back(frame.repr); }
 				else
 					serek::require(false, "only acceptable types are arrays and objects");
 			}

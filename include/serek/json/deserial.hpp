@@ -130,7 +130,6 @@ namespace serek
 
 			struct json_visitor_deserializer : public detail::visitor_with_stacked_names_and_tokenized_json
 			{
-
 				template<typename Any>
 				json_visitor_deserializer(const serek::str_v json, Any& output) : visitor_with_stacked_names_and_tokenized_json{json, output}
 				{

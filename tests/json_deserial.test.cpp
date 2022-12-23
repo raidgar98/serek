@@ -269,22 +269,15 @@ namespace
 
 	but::suite tokenization = [] {
 		"empty"_test = [] {
-			for(auto param : {
-				"{}",
-				"[]",
-				"null",
-				"\"aaaa\"",
-				"7",
-				"21.37"
-			}) but::expect(but::nothrow([&]{tokenize_json(param);}));
+			for(auto param: {"{}", "[]", "null", "\"aaaa\"", "7", "21.37"}) but::expect(but::nothrow([&] { tokenize_json(param); }));
 		};
 
 		"invalid_empty"_test = [] {
-			for(auto param : {
-				"",
-				"  ",
-			})
-			but::expect(but::throws<serek::exceptions::assert_exception>([&]{tokenize_json(param);}));
+			for(auto param: {
+					  "",
+					  "  ",
+				 })
+				but::expect(but::throws<serek::exceptions::assert_exception>([&] { tokenize_json(param); }));
 		};
 
 		"object"_test = [] {
@@ -293,14 +286,12 @@ namespace
 			but::expect(result->element_type == json_element_t::OBJECT_TYPE);
 			but::expect(but::eq(result->object.size(), 6ul));
 
-			for(auto kv : {std::pair<serek::str, std::pair<json_element_t, serek::str>>
-				{"a", {json_element_t::FUNDAMENTAL_TYPE, "1"}},
-				{"b", {json_element_t::FUNDAMENTAL_TYPE, "\"aaa\""}},
-				{"c", {json_element_t::FUNDAMENTAL_TYPE, "null"}},
-				{"d", {json_element_t::OBJECT_TYPE, ""}},
-				{"e", {json_element_t::ARRAY_TYPE, ""}},
-				{"f", {json_element_t::FUNDAMENTAL_TYPE, "21.37"}}
-			})
+			for(auto kv: {std::pair<serek::str, std::pair<json_element_t, serek::str>>{"a", {json_element_t::FUNDAMENTAL_TYPE, "1"}},
+							  {"b", {json_element_t::FUNDAMENTAL_TYPE, "\"aaa\""}},
+							  {"c", {json_element_t::FUNDAMENTAL_TYPE, "null"}},
+							  {"d", {json_element_t::OBJECT_TYPE, ""}},
+							  {"e", {json_element_t::ARRAY_TYPE, ""}},
+							  {"f", {json_element_t::FUNDAMENTAL_TYPE, "21.37"}}})
 			{
 				auto it = result->object.find(kv.first);
 				but::expect(result->object.end() != it);
@@ -312,14 +303,12 @@ namespace
 		};
 
 		"array"_test = [] {
-			const std::vector expected_type_values{std::pair<json_element_t, serek::str>
-				{json_element_t::FUNDAMENTAL_TYPE, "1"},
-				{json_element_t::FUNDAMENTAL_TYPE, "\"aaa\""},
-				{json_element_t::FUNDAMENTAL_TYPE, "null"},
-				{json_element_t::OBJECT_TYPE, ""},
-				{json_element_t::ARRAY_TYPE, ""},
-				{json_element_t::FUNDAMENTAL_TYPE, "21.37"}
-			};
+			const std::vector expected_type_values{std::pair<json_element_t, serek::str>{json_element_t::FUNDAMENTAL_TYPE, "1"},
+																{json_element_t::FUNDAMENTAL_TYPE, "\"aaa\""},
+																{json_element_t::FUNDAMENTAL_TYPE, "null"},
+																{json_element_t::OBJECT_TYPE, ""},
+																{json_element_t::ARRAY_TYPE, ""},
+																{json_element_t::FUNDAMENTAL_TYPE, "21.37"}};
 
 			auto result = tokenize_json(R"([1, "aaa", null, {}, [], 21.37])");
 

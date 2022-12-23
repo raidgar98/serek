@@ -196,7 +196,6 @@ namespace serek
 				json_tokenizer(const serek::str_v input_json);
 
 			 public:
-
 				using result_t = std::shared_ptr<pre_opened_json_representation_t>;
 
 				/** @brief Called when key in object is found */
