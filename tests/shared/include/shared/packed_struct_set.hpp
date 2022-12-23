@@ -26,5 +26,20 @@ namespace example_structs
 		using some_virtual_child_class_packed		= serek::pack<&pes::some_virtual_child_class::field_1>;
 		using some_non_virtual_base_class_packed	= serek::pack<&pes::some_non_virtual_base_class::field_0>;
 		using some_non_virtual_child_class_packed = serek::pack<&pes::some_non_virtual_child_class::field_1>;
+
+		struct some_virtual_base_class_fixed
+		{
+			serek::ffield<test_struct_0_packed> field_0;
+			virtual int do_something() const { return 0; };
+			virtual ~some_virtual_base_class_fixed() {}
+		};
+		using some_virtual_base_class_fixed_packed = serek::pack<&some_virtual_base_class_fixed::field_0>;
+
+		struct some_virtual_child_class_fixed : public some_virtual_base_class_fixed
+		{
+			serek::field<&some_virtual_child_class_fixed::field_0, some_virtual_base_class_fixed_packed> field_1;
+			virtual int do_something() const override { return 1; };
+		};
+		using some_virtual_child_class_fixed_packed = serek::pack<&some_virtual_child_class_fixed::field_1>;
 	}	 // namespace packed
 }	 // namespace example_structs
