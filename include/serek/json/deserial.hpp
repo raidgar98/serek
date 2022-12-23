@@ -80,6 +80,15 @@ namespace serek
 						output						 = Any{unquoted_view.begin(), unquoted_view.end()};
 					}
 
+					template<reqs::char_type_req char_t>
+					void fill(char_t& output, const serek::str_v value)
+					{
+						serek::str proxy;
+						fill<serek::str>(proxy, value);
+						serek::require<std::greater_equal>(proxy.length(), 1ul);
+						output = proxy[0];
+					}
+
 					// this is fundamental types deserialization
 					template<reqs::visitor_req vis_t, typename Any>
 					requires serek::requirements::fundamental_req<Any> || reqs::string_type_req<Any>
