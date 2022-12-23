@@ -1,7 +1,7 @@
 #include <shared/tools.hpp>
 #include <shared/packed_struct_set.hpp>
 
-#include <serek/json/tokenization.hpp>
+#include <serek/json/deserial.hpp>
 
 namespace
 {
@@ -325,6 +325,51 @@ namespace
 				but::expect(but::eq(it->object.size(), 0ul));
 				but::expect(but::eq(it->array.size(), 0ul));
 			}
+		};
+	};
+
+	template<typename struct_t, typename... Argv>
+	void memcheck_object_deserial(const serek::str_v json, Argv&&... argv)
+	{
+		// construct pattern
+		std::unique_ptr<struct_t> pattern = std::make_unique<struct_t>(std::forward<Argv>(argv)...);
+
+		// perform test
+		std::unique_ptr<struct_t> deserialized = std::make_unique<struct_t>();
+		serek::deserial::json::deserialize<struct_t>(json, *deserialized);
+
+		// perform checks
+		but::expect(but::eq(std::memcmp(deserialized.get(), pattern.get(), sizeof(struct_t)), 0));
+	}
+
+	template<typename struct_t, typename functor_t>
+	void adv_check_object_deserial(const serek::str_v json, const functor_t comparator)
+	{
+		// perform test
+		std::unique_ptr<struct_t> deserialized = std::make_unique<struct_t>();
+		serek::deserial::json::deserialize<struct_t>(json, *deserialized);
+
+		// perform checks
+		but::expect(comparator(deserialized));
+	}
+
+	but::suite deserialization = [] {
+		using namespace example_structs::packed;
+
+		"object"_test = [] {
+			memcheck_object_deserial<test_struct_0_packed>(R"({"field_0": 69})", 69);
+			memcheck_object_deserial<test_struct_1_packed>(R"({"field_0": 69, "field_1": 4.20})", 69, 4.20f);
+			memcheck_object_deserial<test_struct_2_packed>(R"({"field_0": 69, "field_1": 4.20, "field_2": "a"})", 69, 4.20f, 'a');
+			adv_check_object_deserial<test_struct_3_packed>(R"({"field_0": "papuga2137"})", [](const auto& lhs) { return lhs->field_0 == R"(papuga2137)"; });
+			adv_check_object_deserial<test_struct_5_packed>(R"({"field_0": 20, "field_2": 6.9})", [](const auto& lhs) { return lhs->field_0 == 20 && lhs->field_2 == 6.9f; });
+			adv_check_object_deserial<test_struct_7_packed>(R"({"field_0": 20, "field_2": 30})", [](const auto& lhs) { return lhs->field_0 == 20 && lhs->field_2 == 30; });
+			adv_check_object_deserial<some_virtual_child_class_fixed_packed>(R"({"field_0": {"field_0": 99}, "field_1": { "field_0": {"field_0": 88    } }})", [](const auto& lhs) {
+				return lhs->field_0.field_0 == 99 && lhs->field_1.field_0.field_0 == 88 && lhs->do_something() == 1;
+			});
+		};
+
+		"array"_test = [] {
+
 		};
 	};
 }	 // namespace
