@@ -4,3 +4,6 @@
 [submodule "docs/theme"]
 	path = docs/theme
 	url = https://github.com/mosra/m.css.git
+[submodule "vendor/drogon"]
+	path = vendor/drogon
+	url = https://github.com/drogonframework/drogon.git
