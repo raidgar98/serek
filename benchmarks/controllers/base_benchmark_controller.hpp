@@ -16,13 +16,10 @@
 
 using drogon_callback_t				= std::function<void(const drogon::HttpResponsePtr&)>;
 using benchmark_scores_storage_t = std::shared_ptr<std::vector<size_t>>;
-using model_t							= int;
+
 constexpr size_t amount_of_calls{10'000};
 
-/**
- * @brief Measure time from object creation till object destruction
- *
- */
+/** @brief Measure time from object creation till object destruction */
 struct scope_stoper
 {
 	/**
@@ -32,10 +29,7 @@ struct scope_stoper
 	 */
 	scope_stoper(benchmark_scores_storage_t::element_type::value_type& output);
 
-	/**
-	 * @brief Destroy the scope stoper object and writes measured time to m_output
-	 *
-	 */
+	/** @brief Destroy the scope stoper object and writes measured time to m_output */
 	~scope_stoper();
 
  private:
@@ -48,10 +42,15 @@ struct scope_stoper
  				leaving child classes classes only serialization and deserialization to implement
  *
  * @tparam T child class (CRTP)
+ * @tparam t_model_t type to serialize/deserialize
  */
-template<typename T>
-struct base_benchmark_controller : public drogon::HttpSimpleController<base_benchmark_controller<T>, false>
+template<typename T, typename t_model_t>
+struct base_benchmark_controller : public drogon::HttpSimpleController<base_benchmark_controller<T, t_model_t>, false>
 {
+
+	/** @brief Aliased for handy usage */
+	using model_t = t_model_t;
+
 	/**
 	 * @brief Construct a new base benchmark controller object
 	 *
@@ -125,10 +124,7 @@ struct base_benchmark_controller : public drogon::HttpSimpleController<base_benc
 		callback(response);
 	}
 
-	/**
-	 * @brief This function prepares routing
-	 *
-	 */
+	/** @brief This function prepares routing */
 	static void initPathRouting() { T::registerSelf__(T::controller_path() + "/bench", {drogon::Post}); }
 
 	benchmark_scores_storage_t m_scores_serialization{};
