@@ -7,3 +7,6 @@
 [submodule "vendor/drogon"]
 	path = vendor/drogon
 	url = https://github.com/drogonframework/drogon.git
+[submodule "vendor/fc"]
+	path = vendor/fc
+	url = https://github.com/raidgar98/fc.git
