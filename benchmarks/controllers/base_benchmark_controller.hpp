@@ -33,8 +33,8 @@ struct scope_stoper
 	~scope_stoper();
 
  private:
-	std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
 	benchmark_scores_storage_t::element_type::value_type& m_output;
+	std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
 };
 
 /**
