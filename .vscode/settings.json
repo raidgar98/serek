@@ -78,6 +78,9 @@
 		"*.ipp": "cpp"
 	},
 	"cSpell.words": [
-		"tparam"
+		"deserializations",
+		"drogon",
+		"tparam",
+		"trantor"
 	]
 }

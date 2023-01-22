@@ -204,3 +204,13 @@ if(${BUILD_TESTS})
 	add_subdirectory(tests)
 	add_ctest_flags("--output-on-failure" "-j4" "-C" "${CMAKE_BUILD_TYPE}")
 endif()
+
+# add benchmarks
+# disable temporarly all flags
+set(CMAKE_CXX_FLAGS_BACKUP ${CMAKE_CXX_FLAGS})
+
+add_subdirectory(benchmarks)
+
+# restore flags
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS_BACKUP})
+
