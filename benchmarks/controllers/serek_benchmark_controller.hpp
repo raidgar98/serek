@@ -13,7 +13,36 @@
 
 #include <base_benchmark_controller.hpp>
 
-struct serek_benchmark_controller : public base_benchmark_controller<serek_benchmark_controller>
+#include <serek/serek.hpp>
+namespace serek_model_t
+{
+	struct A_impl
+	{
+		serek::ffield<bool> a1{};
+		serek::field<&A_impl::a1, int32_t> a2{};
+		serek::field<&A_impl::a2, uint32_t> a3{};
+		serek::field<&A_impl::a3, float> a4{};
+		serek::field<&A_impl::a4, double> a5{};
+	};
+	using A = serek::pack<&A_impl::a5>;
+
+	struct B_impl
+	{
+		serek::ffield<std::vector<int> > b1{};
+		serek::field<&B_impl::b1, std::vector<double> > b2{};
+		serek::field<&B_impl::b2, std::vector<A> > b3{};
+	};
+	using B = serek::pack<&B_impl::b3>;
+
+	struct C_impl : public A_impl
+	{
+		serek::field<&C_impl::a5, A> c1{};
+		serek::field<&C_impl::c1, B> c2{};
+	};
+	using C = serek::pack<&C_impl::c2>;
+}
+
+struct serek_benchmark_controller : public base_benchmark_controller<serek_benchmark_controller, typename serek_model_t::C>
 {
 	using base_benchmark_controller::base_benchmark_controller;
 

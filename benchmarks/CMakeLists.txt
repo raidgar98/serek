@@ -8,10 +8,15 @@ add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.cpp $
 set(CMAKE_CXX_FLAGS "-Wno-error=restrict")
 set(BUILD_TESTING OFF)
 
+# drogon
 add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/drogon drogon)
 target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
 
+# fc
 add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/fc fc)
 target_link_libraries(${PROJECT_NAME} PRIVATE fc)
+
+# serek
+target_link_libraries(${PROJECT_NAME} PRIVATE serek)
 
 target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/controllers PRIVATE ${Boost_INCLUDE_DIRS} drogon )
