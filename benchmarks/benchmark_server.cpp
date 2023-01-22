@@ -9,6 +9,8 @@
  *
  */
 
+#include <fstream>
+
 #include <drogon/HttpAppFramework.h>
 
 #include <drogon_benchmark_controller.hpp>
@@ -63,6 +65,44 @@ int main()
 		 .addListener("0.0.0.0", 9999)
 		 .setThreadNum(1)
 		 .run();
+
+	for(const auto& kv : scores)
+	{
+		// verify is amount of serializations and deserializations were same
+		if(kv.second.first->size() != kv.second.second->size())
+		{
+			log<ll::kFatal>(__LINE__) << "Different amount of calls performed aborting!";
+			return -1;
+		}
+
+		// warn if number of performed calls were lower than expected
+		if(const size_t calls = kv.second.first->size(); calls < amount_of_calls)
+			log<ll::kWarn>(__LINE__) << "Amount of performed calls is lower than expected number of calls: " << calls << " < " << amount_of_calls;
+
+		// open file
+		const std::string filename{ kv.first + "_scores.csv" };
+		std::ofstream out_file{  filename };
+		if(!out_file.good())
+		{
+			// handle errors
+			log<ll::kError>(__LINE__) << "Failed to open: " << filename;
+			out_file.close();
+			continue;
+		}
+
+		// write header
+		out_file << "probe no.,deserialization time in ms,serialization time in ms\n";
+
+		//  write data
+		for(size_t i{0ul}; i < kv.second.first->size(); ++i)
+			out_file << i << ',' << kv.second.first->at(i) << ',' << kv.second.second->at(i) << '\n';
+
+		// flush data that has been written
+		out_file << std::flush;
+
+		// close file
+		out_file.close();
+	}
 
 	return 0;
 }
