@@ -12,6 +12,8 @@
 #pragma once
 
 #include <base_benchmark_controller.hpp>
+#include <fc/reflect/reflect.hpp>
+
 namespace fc_model_t
 {
 	struct A
@@ -45,3 +47,7 @@ struct fc_benchmark_controller : public base_benchmark_controller<fc_benchmark_c
 	virtual void serialize(const model_t& in, std::string& out) const override;
 	static std::string controller_path();
 };
+
+FC_REFLECT(fc_model_t::A, (a1)(a2)(a3)(a4)(a5));
+FC_REFLECT(fc_model_t::B, (b1)(b2)(b3));
+FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
