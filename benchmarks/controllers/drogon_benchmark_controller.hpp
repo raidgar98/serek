@@ -13,7 +13,32 @@
 
 #include <base_benchmark_controller.hpp>
 
-struct drogon_benchmark_controller : public base_benchmark_controller<drogon_benchmark_controller>
+namespace drogon_model
+{
+	struct A
+	{
+		bool a1{};
+		int32_t a2{};
+		uint32_t a3{};
+		float a4{};
+		double a5{};
+	};
+
+	struct B
+	{
+		std::vector<int> b1{};
+		std::vector<double> b2{};
+		std::vector<A> b3{};
+	};
+
+	struct C : public A
+	{
+		A c1{};
+		B c2{};
+	};
+}
+
+struct drogon_benchmark_controller : public base_benchmark_controller<drogon_benchmark_controller, typename drogon_model::C>
 {
 	using base_benchmark_controller::base_benchmark_controller;
 
