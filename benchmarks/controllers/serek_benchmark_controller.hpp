@@ -13,3 +13,11 @@
 
 #include <base_benchmark_controller.hpp>
 
+struct serek_benchmark_controller : public base_benchmark_controller<serek_benchmark_controller>
+{
+	using base_benchmark_controller::base_benchmark_controller;
+
+	virtual void deserialize(model_t& out, const std::string_view in) const override;
+	virtual void serialize(const model_t& in, std::string& out) const override;
+	static std::string controller_path();
+};
