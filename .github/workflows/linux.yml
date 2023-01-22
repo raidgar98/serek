@@ -19,7 +19,23 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: gather apt packets
-      run: sudo apt update && sudo apt install gcc-10 g++-10 libboost-all-dev texlive-base texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended python3 python3-pip doxygen
+      run: |
+        sudo apt update
+        sudo apt install \
+          gcc-10 \
+          g++-10 \
+          libboost-all-dev \
+          texlive-base \
+          texlive-latex-extra \
+          texlive-fonts-extra \
+          texlive-fonts-recommended python3 \
+          python3-pip \
+          doxygen \
+          libjsoncpp-dev \
+          uuid-dev \
+          openssl \
+          libssl-dev \
+          zlib1g-dev
       shell: bash
 
     - name: gather python packets
