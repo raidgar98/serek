@@ -20,6 +20,21 @@ using score_set_t		= std::pair<benchmark_scores_storage_t, benchmark_scores_stor
 using score_map_type = std::pair<std::string, score_set_t>;
 
 /**
+ * @brief Returns logger stream object
+ *
+ * @tparam log_level level on which log should be displayed
+ * @param line_no line number where log happen (use __LINE__ macro)
+ * @param function function name which emitted this log
+ * @return trantor::LogStream& stream object, works same as std::cout
+ */
+template<ll log_level>
+trantor::LogStream& log(const size_t line_no, const char* function = "main")
+{
+	static trantor::Logger log(__FILE__, line_no, log_level, function);
+	return log.stream();
+}
+
+/**
  * @brief Create a pair object
  *
  * @return score_set_t initialized pair of two shared pointers pointing to initialized vectors
