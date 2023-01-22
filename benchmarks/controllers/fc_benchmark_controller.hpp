@@ -12,8 +12,32 @@
 #pragma once
 
 #include <base_benchmark_controller.hpp>
+namespace fc_model_t
+{
+	struct A
+	{
+		bool a1{};
+		int32_t a2{};
+		uint32_t a3{};
+		float a4{};
+		double a5{};
+	};
 
-struct fc_benchmark_controller : public base_benchmark_controller<fc_benchmark_controller>
+	struct B
+	{
+		std::vector<int> b1{};
+		std::vector<double> b2{};
+		std::vector<A> b3{};
+	};
+
+	struct C : public A
+	{
+		A c1{};
+		B c2{};
+	};
+}
+
+struct fc_benchmark_controller : public base_benchmark_controller<fc_benchmark_controller, typename fc_model_t::C>
 {
 	using base_benchmark_controller::base_benchmark_controller;
 
