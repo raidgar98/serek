@@ -63,6 +63,7 @@ int main()
 		 .registerController(std::make_shared<serek_benchmark_controller>(sk.first->second.first, sk.first->second.second))
 		 .setLogPath("./")
 		 .addListener("0.0.0.0", 9999)
+		 .setStaticFilesCacheTime(-1)
 		 .setThreadNum(1)
 		 .run();
 
