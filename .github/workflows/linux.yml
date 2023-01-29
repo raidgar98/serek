@@ -70,19 +70,21 @@ jobs:
 
       - name: gather apt packets
         run: |
-          sudo apt update && sudo apt-get install
+          sudo apt update && sudo apt-get install \
             texlive-latex-base \
             texlive-fonts-recommended \
             texlive-fonts-extra \
             texlive-latex-extra \
             texlive-latex-extra-doc \
             texlive-lang-polish \
-            biber
+            biber \
+            python3
         shell: bash
 
       - name: generate paper
         run: |
           cd ${{github.workspace}}/paperwork/paper
+          python charts/generate_charts.py
           pdflatex -synctex=1 -interaction=nonstopmode --shell-escape master_degree || true
           biber master_degree
           pdflatex -synctex=1 -interaction=nonstopmode --shell-escape master_degree || true
