@@ -40,6 +40,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english,polish]{babel}
 
+% bibliography
+\usepackage{biblatex}
+\addbibresource{../bibliography.bib}
+
 % configure code fields
 \usepackage{listings}
 \lstdefinestyle{customcpp}{
@@ -244,4 +248,10 @@
 		\item Five
 		\end{enumerate}
 
+	% Bibliography
+	{
+		\newpage
+		\section{Bibliografia}
+		\printbibliography[heading=none]
+	}
 \end{document}
