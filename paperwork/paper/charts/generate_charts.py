@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
-from functools import partial
 from json import load
 from pathlib import Path
 from typing import Dict, List
