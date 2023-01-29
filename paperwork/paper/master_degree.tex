@@ -230,7 +230,7 @@
 		\newpage
 	}
 
-	% Introduction
+	% introduction
 	{
 		\section{Wstęp}
 
@@ -274,6 +274,89 @@
 		niniejszej pracy, daje to pełny i prosty wgląd w strukturę zarówno klasy jak i hierarchii klas.
 	}
 
+	% theory
+	{
+		\section{Teoria}
+
+		\subsection{Definicja serializacji oraz deserializacji}
+
+		Jak podaje portal {\it hazelcast.com}\cite{definitions_serial_and_deserial} definicja serializacji oraz deserializacji brzmi:
+
+		\begin{quotation}
+			{\bf Serialization} is the process of converting a data object - a combination of code
+			and data represented within a region of data storage - into a series of bytes that
+			saves the state of the object in an easily transmittable form. [\ldots]\n
+
+			The reverse process - constructing a data structure or object from a series of
+			bytes - is {\bf deserialization}. The deserialization process recreates the object,
+			thus making the data easier to read and modify as a native structure in a programming language.
+		\end{quotation}
+
+		Tłumacząc na polski (tłumaczenie własne):
+
+		\begin{quotation}
+			{\bf Serializacja} to proces konwersji obiektu danych - kombinacji kodu i danych
+			reprezentowanych w regionie przechowywania danych - w serię bajtów zapisujących
+			stan obiektu w łatwej do przesłania formie. [\ldots] \n
+
+			Proces odwrotny - konstruowanie struktury danych lub obiektu z szeregu
+			bajtów - to {\bf deserializacja}. Proces deserializacji odtwarza obiekt,
+			dzięki temu dane są łatwiejsze do odczytania i modyfikacji jako
+			natywna struktura w języku programowania.
+		\end{quotation}
+
+		\subsection{Format JSON}
+
+			Jest lekkim formatem danych wywodzącym się z języka JavaScript. Jak pokazano na wykresie numer jeden,
+			JSON jest formatem o największej rozpoznawalności wśród tekstowych reprezentacji danych. Swój sukces
+			zawdzięcza swojej formie: bardzo czytelnej dla człowieka, jednocześnie wydajnej dla komputerów zarówno
+			podczas przetwarzania jak i generowania. Cecha ta sprawia, że praktycznie każdy współcześnie używany język
+			programowania ma jego obsługę\cite{json_short} w bibliotece standardowej lub posiada zastęp zewnętrznych
+			bibliotek.\n
+
+			Poddając JSON usystematyzowaniu, jest to format danych o strukturze drzewiastej, który technicznie
+			może być zagnieżdżony w stopniu nieskończonym, w przeciwieństwie do formatów płaskich, takich jak CSV.\n
+
+		\newpage
+		\subsection{Metaprogramowanie}
+
+			Opis, a zarazem definicja, czym metaprogramowanie jest zostało opisane niniejszym cytatem \cite{metaprogramming_definition}:
+
+			\begin{quotation}
+					In linguistics, a metalanguage is defined as follows [Dict]:\n
+
+				“any language or symbolic system used to discuss, describe, or analyze another
+					language or symbolic system”\n
+
+					This definition characterizes the main idea of metaprogramming, which involves writing
+				programs related by the meta-relationship, i.e. the relationship of “being about”. A program that
+				manipulates another program is clearly an instance of metaprogramming. [\ldots]
+			\end{quotation}
+
+			Tłumacząc na polski (tłumaczenie własne):
+
+		\begin{quotation}
+				W językoznawstwie metajęzyk definiuje się w następujący sposób [Słownik]:\n
+
+			„dowolny język lub system symboliczny używany do omawiania, opisywania lub analizowania
+				innego języka lub systemu symbolicznego”\n
+
+				Ta definicja charakteryzuje główną ideę metaprogramowania, która obejmuje pisanie
+			programów powiązanych meta-relacją, czyli relacją „bycia”. Program, który
+			manipuluje innym programem jest ewidentnie przykładem metaprogramowania. [\ldots]
+		\end{quotation}
+
+			Warto też wspomnieć, że modyfikacja innego programu, może również odnosić się do modyfikowania
+			samego siebie, co jest powszechną praktyką stosowaną w językach programowania, za pomocą
+			dyrektyw pre-procesora w języku C, szablonów w języku C++ czy makr w języku LISP.
+
+
+			\newpage
+			Jak zostało wspomniane we wstępie, biblioteka standardowa języka C++ w 2023 roku, nie posiada
+		modułu odpowiedzialnego za serializację i deserializacje danych do formatu JSON.
+
+	}
+
 	% \subsection{Pod Wstęp}
 	% \subsubsection{Pod Pod Wstęp}
 
@@ -295,14 +378,14 @@
 	% 	\item Five
 	% 	\end{enumerate}
 
-	% Bibliography
+	% bibliography
 	{
 		\newpage
 		\section{Bibliografia}
 		\printbibliography[heading=none]
 	}
 
-	% List of tables
+	% list of tables
 	{
 		\newpage
 		\listoftables
@@ -310,7 +393,7 @@
 		\newpage
 	}
 
-	% List of figures
+	% list of figures
 	{
 		\newpage
 		\listoffigures
