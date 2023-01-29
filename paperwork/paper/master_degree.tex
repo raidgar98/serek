@@ -114,6 +114,16 @@
 \setcounter{tocdepth}{1}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 
+
+% configuration of figure captions
+% source: https://tex.stackexchange.com/a/276796
+\usepackage{caption}
+\captionsetup[figure]{labelfont={bf}, labelformat={default}, labelsep=period, name={Wykres}}
+
+% configure placing of figures in-text
+% source: https://tex.stackexchange.com/a/8633
+\usepackage{float}
+
 \begin{document}
 
 	% tittle page
