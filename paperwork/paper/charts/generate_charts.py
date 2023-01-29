@@ -21,6 +21,8 @@ class ChartInfo:
     title: str
     source: str
     separator: str
+    domain_label: str
+    counter_domain_label: str
 
     @staticmethod
     def from_json(json_path: Path) -> ChartInfo:
@@ -49,6 +51,10 @@ class ChartInfo:
         axes.tick_params("x", direction="in")
         axes.tick_params("y", direction="in")
 
+        plt.ylabel(self.counter_domain_label)
+        plt.xlabel(self.domain_label)
+        fig.subplots_adjust(top=0.85)
+
         # A4: 21 x 29.7cm
         # margins: 2.5cm each
         # binding: 1cm
@@ -58,10 +64,6 @@ class ChartInfo:
         fig.set_figheight(convert_cm_to_inches(10))
         fig.set_tight_layout('w_pad')
         fig.set_dpi(600)
-
-        fig.subplots_adjust(top=0.85)
-        # plt.suptitle(self.title, fontweight="bold")
-        plt.title(f"źródło: {self.source}", y=-0.15, fontdict={"fontsize": 5})
 
         for label, values in csv.items():
             plt.plot(domain, values, label=label)

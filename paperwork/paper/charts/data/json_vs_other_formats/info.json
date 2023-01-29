@@ -17,6 +17,8 @@
 		"CSV API"
 	],
 	"domain": "month",
+	"counter_domain_label": "zainteresowanie",
+	"domain_label": "rok",
 	"separator": ",",
 	"source": "https://trends.google.pl/trends/explore?date=2014-01-01%202023-01-01&q=JSON%20API,XML%20API,YAML%20API,TOML%20API,CSV%20API"
 }
