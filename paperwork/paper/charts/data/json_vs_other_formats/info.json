@@ -1,0 +1,22 @@
+{
+	"data_source": "data/json_vs_other_formats/data.csv",
+	"title": "Wykres zależności zainteresowania hasła\nwedług wyszukiwarki Google w ujęciu czasowym",
+	"columns":{
+		"month": "datetime_month",
+		"JSON API": "int",
+		"XML API": "int",
+		"YAML API": "int",
+		"TOML API": "int",
+		"CSV API": "int"
+	},
+	"series": [
+		"JSON API",
+		"XML API",
+		"YAML API",
+		"TOML API",
+		"CSV API"
+	],
+	"domain": "month",
+	"separator": ",",
+	"source": "https://trends.google.pl/trends/explore?date=2014-01-01%202023-01-01&q=JSON%20API,XML%20API,YAML%20API,TOML%20API,CSV%20API"
+}
