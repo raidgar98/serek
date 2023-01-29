@@ -78,6 +78,8 @@
 		"*.ipp": "cpp"
 	},
 	"cSpell.words": [
+		"deserializacji",
+		"serializację",
 		"tparam"
 	]
 }

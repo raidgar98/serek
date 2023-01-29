@@ -2,16 +2,36 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Generate PDF from this LaTeX file",
+			"label": "Re-run pdflatex for this LaTeX file",
 			"isBackground": true,
 			"options": {
 				"cwd": "${fileDirname}"
 			},
 			"command": "pdflatex",
-			"args": ["-synctex=1", "-interaction=nonstopmode", "--shell-escape", "${file}"],
+			"dependsOrder": "sequence",
+			"args": ["-synctex=1", "-interaction=nonstopmode", "--shell-escape", "${fileBasenameNoExtension}"],
 			"problemMatcher": [
 				"$eslint-compact"
 			]
+		},
+		{
+			"label": "Generate Bibliography for this LaTeX file",
+			"isBackground": true,
+			"dependsOrder": "sequence",
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"command": "biber",
+			"args": ["${fileBasenameNoExtension}"],
+		},
+		{
+			"label": "Generate PDF from this LaTeX file",
+			"isBackground": true,
+			"dependsOn":[
+				"Generate Bibliography for this LaTeX file",
+				"Re-run pdflatex for this LaTeX file",
+			],
+			"dependsOrder": "sequence",
 		}
 	]
 }
