@@ -11,6 +11,10 @@ import matplotlib.pyplot as plt
 
 datetime_month = lambda x: datetime.strptime(x, "%Y-%m")
 
+root_dir = Path(__file__).parent.absolute()
+output_dir = root_dir / Path("output_with_charts_as_images")
+input_dir = root_dir / Path("data")
+
 
 @dataclass
 class ChartInfo:
@@ -34,7 +38,7 @@ class ChartInfo:
         column_values: List[type] = [eval(x) for x in list(self.columns.values())]
         csv = {column_name: [] for column_name in column_keys}
 
-        with Path(self.data_source).open("rt") as csv_file:
+        with (root_dir / self.data_source).open("rt") as csv_file:
             for line in csv_file:
                 items = line.strip("\n").split(self.separator)
                 assert len(items) == len(column_keys)
@@ -69,11 +73,6 @@ class ChartInfo:
             plt.plot(domain, values, label=label)
             plt.legend(loc="best")
         plt.savefig(dest_path)
-
-
-root_dir = Path(__file__).parent.absolute()
-output_dir = root_dir / Path("output_with_charts_as_images")
-input_dir = root_dir / Path("data")
 
 if output_dir.exists():
     for file in output_dir.glob("*"):
