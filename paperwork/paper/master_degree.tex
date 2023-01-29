@@ -117,6 +117,9 @@
 % add page break with new section
 \newcommand{\sectionbreak}{\pagebreak}
 
+% configure quotation
+\usepackage{etoolbox}
+\AtBeginEnvironment{quotation}{\itshape}
 
 % configuration of figure captions
 % source: https://tex.stackexchange.com/a/276796
