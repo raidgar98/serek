@@ -5,3 +5,5 @@ workbook.cpp
 .cache
 
 TODO
+.python-version
+paperwork/paper/charts/output_with_charts_as_images/*.png
