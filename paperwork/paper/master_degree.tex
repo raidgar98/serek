@@ -228,16 +228,44 @@
 	{
 		\section{Wstęp}
 
-
 		Serializacja w językach wysokiego poziomu, takich jak JavaScript czy Python jest, w przypadku standardowych formatów
 		reprezentacji danych, echem przeszłości, ponieważ języki te posiadają natywne wsparcie do reprezentacji struktur danych
-		zapewnione przez ichniejsze biblioteki standardowe.\newline
+		zapewnione przez ichniejsze biblioteki standardowe.\n
 
 		Niestety w momencie powstawania bieżącej pracy programiści języka C++ wciąż muszą uwzględniać problematykę
 		serializacji podczas projektowania aplikacji oraz doboru bibliotek. Standard języka C++ w roku 2023 posiada szeroką
 		paletę narzędzi do pisania szablonów klas i struktur, niestety nie posiada żadnych narzędzi do łatwego przeglądania
 		struktur danych. Jest to oczywiście podyktowane względami wydajnościowymi oraz chęcią zachowania wstecznej
-		kompatybilnością z językiem C. Istnieją rozszerzenia
+		kompatybilnością z językiem C. Istnieją rozszerzenia (na przykład reflexpr \cite*{cpp_extension_reflexpr_iso}), które
+		umożliwiają iterowanie po elementach struktur danych, czy ich serializację, jednakże nie są one wciąż wdrożone do
+		standardu \cite*{cpp_extension_reflexpr_short}.\n
+
+		Niniejsza praca skupia się wyłącznie na formacie JSON \cite*{json_iso}, ponieważ jak można zauważyć na poniższym wykresie, jest on
+		najbardziej powszechnym standardem komunikacji na świecie.\n
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics{./charts/output_with_charts_as_images/json_vs_other_formats.png}
+			\caption{Popularność haseł według strony Google\cite``*{google_trends_json_api_vs_rest_of_the_world}}
+			\medskip
+		\end{figure}
+
+		\newpage
+		Aktualnie możemy rozróżnić dwa podstawowe podejścia do tego problemu. Pierwsze, gdzie programista tylko wspomaga się
+		zewnętrzną biblioteką, której jedynym zadaniem jest zapewnienie zgodności ze standardem formatu, zarówno podczas serializacji
+		oraz deserializacji, natomiast nie zapewnia refleksji typów złożonych, których serializację bądź deserializację musi
+		dokonać samodzielnie.\n
+
+		Kolejnym podejściem do problemu jest rozwiązanie oparte na bibliotece, która również jak powyżej zawiera funkcję
+		serializacji i deserializacji typów prostych, jednakże dodatkowo zawiera funkcję zewnętrznej refleksji typów,
+		która najczęściej już na podstawie statycznych referencji do pola klasy, jest wstanie wydedukować typy i automatycznie
+		poprowadzić proces serializacji lub deserializacji.\n
+
+		Trzecim podejściem jest zastosowanie wewnętrznej refleksji. W innych językach najczęściej jest dostarczona przez język.
+		Przykładowo w języku Python jest ona wyrażona w postaci pola {\it \_\_dict\_\_}, które dostarcza programiście całą klasę
+		w postaci dynamicznej struktury danych typu klucz-wartość: słownika, gdzie kluczem jest nazwa pola klasy o typie
+		łańcucha znakowego, natomiast wartością jest konkretna wartość w obecnej instancji klasy. Z punktu widzenia tematu
+		niniejszej pracy, daje to pełny i prosty wgląd w strukturę zarówno klasy jak i hierarchii klas.
 	}
 
 	\subsection{Pod Wstęp}
