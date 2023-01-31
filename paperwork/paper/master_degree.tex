@@ -138,6 +138,11 @@
 
 \begin{document}
 
+	% make default captions disappear of list of tables and list of figures
+	% to set custom, numbered mentioned in ToC
+	\renewcommand*\listfigurename{}
+	\renewcommand*\listoftables{}
+
 	% tittle page
 	\begin{titlepage}
 		\clearpage
@@ -391,6 +396,7 @@
 	% list of tables
 	{
 		\newpage
+		\section{Spis Tabel}
 		\listoftables
 		\thispagestyle{fancy}
 		\newpage
@@ -399,6 +405,7 @@
 	% list of figures
 	{
 		\newpage
+		\section{Spis Wykresów}
 		\listoffigures
 		\thispagestyle{fancy}
 		\newpage
