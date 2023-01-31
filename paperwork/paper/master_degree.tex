@@ -367,11 +367,37 @@
 			oraz deserializacji.\n
 		}
 
-
+		{
 			\newpage
-			Jak zostało wspomniane we wstępie, biblioteka standardowa języka C++ w 2023 roku, nie posiada
-		modułu odpowiedzialnego za serializację i deserializacje danych do formatu JSON.
+			\subsection{Definicja programowania refleksyjnego}
 
+			Definicję programowania zorientowanego na refleksję podaje Jonathan M. Sobel oraz Daniel P. Friedman
+			w swoim materiale {\it An Introduction to Refection-Oriented Programming}\cite{reflection_definition},
+			gdzie możemy przeczytać:
+
+			\begin{quotation}
+				[\ldots] reflective computational systems allow computations to observe and modify properties
+				of their own behavior, especially properties that are typically observed only from some
+				external, meta-level view point. [\ldots]
+			\end{quotation}
+
+			{\noindent Tłumacząc na język polski (tłumaczenie własne):}
+
+			\begin{quotation}
+				[\ldots] refleksyjne systemy obliczeniowe umożliwiają przetwarzanie poprzez obserwację i~modyfikację
+				właściwości własnego zachowania, zwłaszcza właściwości, które zazwyczaj obserwuje się tylko z~zewnętrznego,
+				meta-poziomowego punktu widzenia. [\ldots]
+			\end{quotation}
+
+			Dobrym przykładem programowania refleksyjnego, jest kompletna kontrola nad typami danych w języku Python,
+			gdzie istnieje pełna możliwość dynamicznego przeglądania, dodawania, czy usuwania pól w klasie (lub wyłącznie w jednym obiekcie)
+			podczas działania programu. Jest to na tyle rozbudowany obszar w~tym języku, że istnieją biblioteki takie jak
+			{\it dataclasses}\cite{python_dataclass}, które podmieniają prostą definicję klasy z wyłącznie statycznymi polami,
+			na definicję klasy z stworzonymi konstruktorami, reprezentacjami i zwykłymi polami, należącymi do obiektu.
+
+			Warto nadmienić, że język C++ domyślnie nie wspiera programowania refleksyjnego, co jest przyczółkiem problematyki
+			całej niniejszej pracy.
+		}
 	}
 
 	% \subsection{Pod Wstęp}
