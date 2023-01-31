@@ -286,47 +286,52 @@
 	{
 		\section{Teoria}
 
-		\subsection{Definicja serializacji oraz deserializacji}
+		{
+			\subsection{Definicja serializacji oraz deserializacji}
 
-		Jak podaje portal {\it hazelcast.com}\cite{definitions_serial_and_deserial} definicja serializacji oraz deserializacji brzmi:
+			Jak podaje portal {\it hazelcast.com}\cite{definitions_serial_and_deserial} definicja serializacji oraz deserializacji brzmi:
 
-		\begin{quotation}
-			{\bf Serialization} is the process of converting a data object - a combination of code
-			and data represented within a region of data storage - into a series of bytes that
-			saves the state of the object in an easily transmittable form. [\ldots]\n
+			\begin{quotation}
+				{\bf Serialization} is the process of converting a data object - a combination of code
+				and data represented within a region of data storage - into a series of bytes that
+				saves the state of the object in an easily transmittable form. [\ldots]\n
 
-			The reverse process - constructing a data structure or object from a series of
-			bytes - is {\bf deserialization}. The deserialization process recreates the object,
-			thus making the data easier to read and modify as a native structure in a programming language.
-		\end{quotation}
+				The reverse process - constructing a data structure or object from a series of
+				bytes - is {\bf deserialization}. The deserialization process recreates the object,
+				thus making the data easier to read and modify as a native structure in a programming language.
+			\end{quotation}
 
-		Tłumacząc na polski (tłumaczenie własne):
+			{\noindent Tłumacząc na język polski (tłumaczenie własne):}
 
-		\begin{quotation}
-			{\bf Serializacja} to proces konwersji obiektu danych - kombinacji kodu i danych
-			reprezentowanych w regionie przechowywania danych - w serię bajtów zapisujących
-			stan obiektu w łatwej do przesłania formie. [\ldots] \n
+			\begin{quotation}
+				{\bf Serializacja} to proces konwersji obiektu danych - kombinacji kodu i danych
+				reprezentowanych w regionie przechowywania danych - w serię bajtów zapisujących
+				stan obiektu w łatwej do przesłania formie. [\ldots] \n
 
-			Proces odwrotny - konstruowanie struktury danych lub obiektu z szeregu
-			bajtów - to {\bf deserializacja}. Proces deserializacji odtwarza obiekt,
-			dzięki temu dane są łatwiejsze do odczytania i modyfikacji jako
-			natywna struktura w języku programowania.
-		\end{quotation}
+				Proces odwrotny - konstruowanie struktury danych lub obiektu z~szeregu
+				bajtów - to {\bf deserializacja}. Proces deserializacji odtwarza obiekt,
+				dzięki temu dane są łatwiejsze do odczytania i modyfikacji jako
+				natywna struktura w języku programowania.
+			\end{quotation}
+		}
 
-		\subsection{Format JSON}
+		{
+			\newpage
+			\subsection{Format JSON}
 
 			Jest lekkim formatem danych wywodzącym się z języka JavaScript. Jak pokazano na wykresie numer jeden,
 			JSON jest formatem o największej rozpoznawalności wśród tekstowych reprezentacji danych. Swój sukces
 			zawdzięcza swojej formie: bardzo czytelnej dla człowieka, jednocześnie wydajnej dla komputerów zarówno
 			podczas przetwarzania jak i generowania. Cecha ta sprawia, że praktycznie każdy współcześnie używany język
-			programowania ma jego obsługę\cite{json_short} w bibliotece standardowej lub posiada zastęp zewnętrznych
+			programowania ma jego obsługę\cite{json_short} w~bibliotece standardowej lub posiada zastęp zewnętrznych
 			bibliotek.\n
 
 			Poddając JSON usystematyzowaniu, jest to format danych o strukturze drzewiastej, który technicznie
 			może być zagnieżdżony w stopniu nieskończonym, w przeciwieństwie do formatów płaskich, takich jak CSV.\n
+		}
 
-		\newpage
-		\subsection{Metaprogramowanie}
+		{
+			\subsection{Definicja metaprogramowania}
 
 			Opis, a zarazem definicja, czym metaprogramowanie jest zostało opisane niniejszym cytatem \cite{metaprogramming_definition}:
 
@@ -341,22 +346,21 @@
 				manipulates another program is clearly an instance of metaprogramming. [\ldots]
 			\end{quotation}
 
-			Tłumacząc na polski (tłumaczenie własne):
+			\newpage
+			{\noindent Tłumacząc na język polski (tłumaczenie własne):}
 
-		\begin{quotation}
-				W językoznawstwie metajęzyk definiuje się w następujący sposób [Słownik]:\n
+			\begin{quotation}
+					W językoznawstwie metajęzyk definiuje się w następujący sposób [Słownik]:\n
 
-			„dowolny język lub system symboliczny używany do omawiania, opisywania lub analizowania
-				innego języka lub systemu symbolicznego”\n
+				„dowolny język lub system symboliczny używany do omawiania, opisywania lub analizowania
+					innego języka lub systemu symbolicznego”\n
 
-				Ta definicja charakteryzuje główną ideę metaprogramowania, która obejmuje pisanie
-			programów powiązanych meta-relacją, czyli relacją „bycia”. Program, który
-			manipuluje innym programem jest ewidentnie przykładem metaprogramowania. [\ldots]
-		\end{quotation}
+					Ta definicja charakteryzuje główną ideę metaprogramowania, która obejmuje pisanie
+				programów powiązanych meta-relacją, czyli relacją „bycia”. Program, który
+				manipuluje innym programem jest ewidentnie przykładem metaprogramowania. [\ldots]
+			\end{quotation}
 
-			Warto też wspomnieć, że modyfikacja innego programu, może również odnosić się do modyfikowania
-			samego siebie, co jest powszechną praktyką stosowaną w językach programowania, za pomocą
-			dyrektyw pre-procesora w języku C, szablonów w języku C++ czy makr w języku LISP.
+		}
 
 
 			\newpage
