@@ -13,6 +13,9 @@
 #include <fc_benchmark_controller.hpp>
 #include <serek_benchmark_controller.hpp>
 
+#include <fc/io/json.hpp>
+#include <fc/reflect/variant.hpp>
+
 scope_stoper::scope_stoper(benchmark_scores_storage_t::element_type::value_type& output) : m_output{output}, m_start{std::chrono::high_resolution_clock::now()} {}
 
 scope_stoper::~scope_stoper() { m_output = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - m_start).count(); }
@@ -144,12 +147,16 @@ void drogon_benchmark_controller::serialize(const model_t& in, std::string& out)
 
 void fc_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
-
+	const auto& variant = fc::json::from_string(in.data());
+	const auto& obj = variant.get_object();
+	fc::reflector<model_t>::visit(fc::from_variant_visitor<model_t>(obj, out, 10));
 }
 
 void fc_benchmark_controller::serialize(const model_t& in, std::string& out) const
 {
-
+	fc::mutable_variant_object mvo{};
+	fc::reflector<model_t>::visit(fc::to_variant_visitor<model_t>(mvo, in, 10));
+	out = fc::json::to_string(mvo);
 }
 
 void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
