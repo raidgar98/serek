@@ -5,3 +5,7 @@
 
 
 [commits naming convention](https://gitmoji.dev/)
+
+## benchmarking results
+
+All benchmarking results are available [here](https://drive.google.com/file/d/1SWs--uZdmaNWHNI_NMnoRRiPWHwG2LtR/view?usp=share_link) (~1GB)
