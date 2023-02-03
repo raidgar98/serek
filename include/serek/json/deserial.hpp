@@ -138,12 +138,14 @@ namespace serek
 						const auto json_iterable = json.pop_for_key(json.top());
 						serek::require<std::equal_to>(json_iterable->element_type, json_element_t::ARRAY_TYPE);
 
+						const size_t pre_reserve_size{ json_iterable->array.size() };
+						output->reserve(pre_reserve_size);
 						for(auto it: json_iterable->array)
 						{
 							// TODO: insert default, and operate on inserted element
 							element_t item_output;
 							deserial_array_element<vis_t>(it, item_output);
-							output->insert(output->end(), item_output);
+							output->emplace_back(item_output);
 						}
 					}
 				}	 // namespace
