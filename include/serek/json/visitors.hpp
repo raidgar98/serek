@@ -9,6 +9,8 @@
  *
  */
 
+#pragma once
+
 #include <iostream>
 
 #include <serek/private/visitors.hpp>
