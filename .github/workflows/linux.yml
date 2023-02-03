@@ -95,4 +95,4 @@ jobs:
         with:
           name: master degree paper
           path: ${{github.workspace}}/paperwork/paper/master_degree.pdf
-          retention-days: 30
+          retention-days: 10
