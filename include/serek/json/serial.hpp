@@ -88,12 +88,8 @@ namespace serek
 				}
 
 				template<reqs::visitor_req vis_t, auto Any>
-				void serial(vis_t& fwd, stream_holder& out, const serek::pack<Any>* obj)
+				void serialize_object(stream_holder& out, const serek::pack<Any>* obj)
 				{
-					serek::require(obj);
-
-					add_key(fwd, out);
-
 					out << JSON_CHARS::OBJECT_START;
 
 					vis_t new_obj_vis{obj};
@@ -101,6 +97,15 @@ namespace serek
 					out.put_to_stream(static_cast<const stream_holder&>(new_obj_vis));
 
 					out << JSON_CHARS::OBJECT_STOP;
+				}
+
+				template<reqs::visitor_req vis_t, auto Any>
+				void serial(vis_t& fwd, stream_holder& out, const serek::pack<Any>* obj)
+				{
+					serek::require(obj);
+
+					add_key(fwd, out);
+					serialize_object<vis_t>(out, obj);
 				}
 
 				template<reqs::visitor_req vis_t, typename Any>
@@ -112,6 +117,19 @@ namespace serek
 					out.put_to_stream(*obj);
 				}
 
+				template<reqs::visitor_req vis_t, typename element_t>
+				requires serek::requirements::fundamental_req<element_t> || reqs::string_type_req<element_t>
+				void serial_array_element(vis_t&, stream_holder& out, const element_t& any)
+				{
+					out.put_to_stream(any);
+				}
+
+				template<reqs::visitor_req vis_t, auto X>
+				void serial_array_element(vis_t& vis, stream_holder& out, const serek::detail::pack_impl<X>& any)
+				{
+					serialize_object<vis_t>(out, &any);
+				}
+
 				template<reqs::visitor_req vis_t, reqs::iterable_req Any>
 				void serial(vis_t& vis, stream_holder& out, const Any* any)
 				{
@@ -120,7 +138,11 @@ namespace serek
 
 					add_key(vis, out);
 					out << JSON_CHARS::ARRAY_START;
-					for(auto it = any->begin(); it != any->end(); it++) out << separator_decision[it == any->begin()] << *it;
+					for(auto it = any->begin(); it != any->end(); it++)
+					{
+						out << separator_decision[it == any->begin()];
+						serial_array_element(vis, out, *it);
+					}
 					out << JSON_CHARS::ARRAY_STOP;
 				}
 			}	 // namespace detail
