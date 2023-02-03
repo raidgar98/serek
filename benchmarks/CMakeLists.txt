@@ -5,7 +5,7 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.cpp ${PROJECT_SOURCE_DIR}/controllers/benchmark_controllers.cpp)
 
 # flags because of: https://github.com/drogonframework/drogon/issues/1253#issuecomment-1140426219
-set(CMAKE_CXX_FLAGS "-Wno-error=restrict")
+set(CMAKE_CXX_FLAGS "-Wno-error=restrict -ftemplate-backtrace-limit=0")
 
 # serek
 target_link_libraries(${PROJECT_NAME} PRIVATE serek)

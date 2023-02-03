@@ -83,6 +83,7 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
 else()
 	if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		add_compiler_flags( -fconcepts-diagnostics-depth=5 )
+		add_compiler_flags( -ftemplate-backtrace-limit=0 )
 	endif()
 endif()
 
