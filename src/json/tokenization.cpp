@@ -43,6 +43,8 @@ namespace serek
 				size_t length;
 
 				if(length = walk_over_null(start); length > 0ul) return {length, json_element_t::FUNDAMENTAL_TYPE};
+				else if(length = walk_over_bool(start); length > 0ul)
+					return {length, json_element_t::FUNDAMENTAL_TYPE};
 				else if(length = walk_over_number(start); length > 0ul)
 					return {length, json_element_t::FUNDAMENTAL_TYPE};
 				else if(length = walk_over_string(start); length > 0ul)
@@ -90,6 +92,18 @@ namespace serek
 				for(size_t i = 0; i < null_string.size(); ++i)
 					if(json[start + i] != null_string[i]) return 0ul;
 				return null_string.size();
+			}
+
+			size_t json_walker::walk_over_bool(const size_t start)
+			{
+				const static serek::str_v true_string{"true"};
+				const static serek::str_v false_string{"false"};
+
+				if(const serek::str_v maybe_true{json.begin() + start, json.begin() + start + true_string.size()}; maybe_true == true_string)
+					return true_string.size();
+				else if(const serek::str_v maybe_false{json.begin() + start, json.begin() + start + false_string.size()}; maybe_false == false_string)
+					return false_string.size();
+				return 0ul;
 			}
 
 			size_t json_walker::walk_over_object(const size_t start)

@@ -134,6 +134,14 @@ namespace serek
 				size_t walk_over_null(const size_t start);
 
 				/**
+				 * @brief This method returns size of bool type
+				 *
+				 * @param start position to start token analysis
+				 * @return size_t size of given bool type (4 or 5 if correct, 0 otherwise)
+				 */
+				size_t walk_over_bool(const size_t start);
+
+				/**
 				 * @brief This method returns size of given object and calls callbacks in proper places
 				 *
 				 * @param start position to start token analysis
