@@ -31,7 +31,7 @@ void drogon_benchmark_controller::deserialize(model_t& out, const std::string_vi
 	Json::Value parsing_output;
 	Json::Reader reader;
 
-	if(!reader.parse(in.data(), parsing_output))
+	if(!reader.parse(std::string{in.data(), in.size()}, parsing_output))
 	{
 		const auto err = reader.getFormattedErrorMessages();
 		std::cout << err << std::endl;
@@ -150,7 +150,7 @@ void drogon_benchmark_controller::serialize(const model_t& in, std::string& out)
 
 void fc_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
-	const auto& variant = fc::json::from_string(in.data());
+	const auto& variant = fc::json::from_string(std::string{in.data(), in.size()});
 	const auto& obj = variant.get_object();
 	fc::reflector<model_t>::visit(fc::from_variant_visitor<model_t>(obj, out, 10));
 }
