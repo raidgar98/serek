@@ -16,6 +16,9 @@
 #include <fc/io/json.hpp>
 #include <fc/reflect/variant.hpp>
 
+#include <serek/json/deserial.hpp>
+#include <serek/json/serial.hpp>
+
 scope_stoper::scope_stoper(benchmark_scores_storage_t::element_type::value_type& output) : m_output{output}, m_start{std::chrono::high_resolution_clock::now()} {}
 
 scope_stoper::~scope_stoper() { m_output = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - m_start).count(); }
@@ -161,12 +164,12 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 
 void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
-
+	serek::deserial::json::deserialize<model_t>(in, out);
 }
 
 void serek_benchmark_controller::serialize(const model_t& in, std::string& out) const
 {
-
+	out = serek::serial::json::serialize(in);
 }
 
 std::string drogon_benchmark_controller::controller_path() { return "/drogon"; }
