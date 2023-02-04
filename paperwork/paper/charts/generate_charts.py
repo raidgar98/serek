@@ -42,9 +42,10 @@ class ChartInfo:
                 items = line.strip("\n").split(self.separator)
                 assert len(items) == len(column_keys)
                 for i, item in enumerate(items):
-                    dst_col_name: str = column_keys[i]
-                    dst_type: type = column_values[i]
-                    csv[dst_col_name].append(dst_type(item))
+                    if len(item) > 0:
+                        dst_col_name: str = column_keys[i]
+                        dst_type: type = column_values[i]
+                        csv[dst_col_name].append(dst_type(item))
         domain = csv.pop(self.domain)
 
         plt.cla()
@@ -69,7 +70,8 @@ class ChartInfo:
         fig.set_dpi(600)
 
         for label, values in csv.items():
-            plt.plot(domain, values, label=label)
+            local_domain = domain[:min(len(domain), len(values))]
+            plt.plot(local_domain, values, label=label)
             plt.legend(loc="best")
         plt.savefig(dest_path)
 
