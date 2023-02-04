@@ -400,8 +400,77 @@
 		}
 	}
 
+	% browse of current solutions
+	{
+		\section{Przegląd dostępnych rozwiązań}
+
+		{
+			\subsection{Manualna refleksja pól}
+
+			Jest to najbardziej trywialne podejście do problemu, które zakłada samodzielną implementację całego przejścia
+			po polach klasy. Biblioteka służy tylko jako interfejs do serializacji, jednakże nie zapewnia automatycznej
+			zamiany typów złożonych, jedynie typów prostych. Przykładem takiej biblioteki jest {\it jsoncpp}\cite{jsoncpp_repo}.\n
+
+			Cechą charakterystyczną takich bibliotek jest sposób zapisu funkcji, które są odpowiedzialne za serializację lub deserializację
+			danej klasy, ponieważ są to najczęściej długie wielokrotnie zagnieżdżone funkcje, przekształcające po kolei wszystkie pola klasy.
+			Opis ten od razu wskazuje na najważniejszą wadę tego podejścia. W przypadku zmiany struktury danych, na przykład poprzez usunięcie
+			lub dodanie pola, wymagane jest ingerencja w kod w obu funkcjach.\n
+
+			Redukcja członka klasy nie jest jeszcze problemem, ponieważ kompilator od razu poinformuje programistę o tym, że próbuje operować na polu,
+			które (już) nie istnieje, jednakże w przypadku dodania pola, programista może nieświadomie dodać pole, które nie będzie podlegało serializacji
+			lub deserializacji. Kolejne wada tego rozwiązania kryje się w mechanizmie konwersji typów, a mianowicie jeżeli typ danego pola zostanie
+			zmieniony i przez przypadek istnieje niejawna, możliwa konwersja między starym, a nowym typem, serializacja oraz deserializacja może
+			dyskretnie dokonywać błędnych operacji. Dobrym przykładem jest zmiana reprezentacji procentów z liczby całkowitej od 0 do 100,
+			na typ zmiennoprzecinkowy od 0.0 do 1.0. Jeżeli podmienimy typ w klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
+			od 0\% do 99\% zostaną zaokrąglone do wartości całkowitej: 0. Istnieją mechanizmy pozwalające na uchronienie programisty przed takim
+			czarnym scenariuszem, na przykład w postaci testów wzorcowych ({\it ang. pattern tests}), lub korzystanie w inteligentny sposób z szablonów,
+			które mogłyby dedukować odpowiednią metodę obsługi pola, jednakże nie są one dostarczone od razu oraz nie wynikają z filozofii
+			korzystania z tego typu bibliotek.\n
+
+			Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
+			biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w implementacji własnych, niecodziennych sposobów serializacji,
+			które w przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\footnote{
+				autor jest zdania, że nazwa {\it hash} nie powinna być spolszczona do słowa {\it hasz}, lub {\it skrót}\cite{hash_po_angielskiemu}
+			}, od strony programu, najlepiej, żeby był reprezentowany binarnie, ponieważ zajmuje o wiele mniej miejsca oraz wygodnie się go przetwarza,
+			natomiast z punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
+			przez człowieka. Biblioteki z manualną refleksją typów bez problemu obsłużą tego typu momenty, ponieważ programista może bez problemu
+			wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania niestety wymagają sprytnego przeładowywania funkcji, lub
+			stosowania obiektów pośrednich.
+		}
+
+		{
+			\subsection{Pół automatyczna refleksja pól}
+
+			Podejście to wymaga biblioteki, która posiada odpowiednie funkcje lub makra, umożliwiające dokonanie pół automatycznej
+			refleksji pól struktury danych. Po skorzystaniu z takiego zewnętrznego zasobu, programista nie ma bezpośredniego dostępu do samego momentu
+			wpisania lub odczytu wartości z pól klasy. Jest to całkowicie ukryte przez bibliotekę, co ujawnia pierwszą trudność przy
+			wykorzystaniu tego podejścia: trudność w ustawienia własnych metod serializacji, szczególnie, jeżeli biblioteka nie przewiduje
+			takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość, to może ono doprowadzać do skomplikowania interfejsu, co
+			zaś może doprowadzać do podwyższenia poziomu wejścia dla nowych programistów. Przykładem takiej biblioteki jest {\it fc}\cite{fc_repo}.\n
+
+			Jednakże to podejście nie rozwiązuje w pełni również problemu przedstawionego w poprzednim podrozdziale, gdzie została wspomniana
+			możliwość zmiany struktury klasy, na co nie zareaguje sam mechanizm serializacji z uwagi na istnienie
+			konieczności manualnego wpisania jakie pola chcemy, żeby podlegały serializacji. Podejście z pół-automatyczną refleksją
+			chroni programistę przed usunięciem pola, oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
+			kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a nie zostanie to zauważone, aż do pierwszych testów
+			przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
+		}
+
+		{
+			\subsection{W pełni automatyczna refleksja pól}
+
+			Rozwiązanie koncepcyjnie, jest mocno zbliżone do poprzedniego, jednakże ma jedną podstawową różnicę, która rozwiązuje ostatni
+			problem dotyczący dodania nowego pola w klasie. Jest to możliwe, ponieważ architektura oparta o taką bibliotekę, wymusza wplecenie
+			interfejsu biblioteki w deklarację klasy i nie oczywiste jest dołożenie nowego pola bez skorzystania z narzuconego interfejsu, co
+			radykalnie redukuje możliwość zaistnienia takiego problemu.\n
+
+			W momencie powstawania tej pracy, nie ma informacji o istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
+			stworzenie takiego rozwiązania, a także zbadanie wydajności pod kątem czasu wykonania, względem wcześniej wspomnianych rozwiązań.
+			
 		}
 	}
+
+	\newpage
 
 	{
 		\begin{figure}[H]
