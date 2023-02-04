@@ -1,0 +1,20 @@
+{
+	"data_source": "data/throughput_per_library/data.csv",
+	"title": "Wykres przepustowości cząstkowej dla poszczególnych bibliotek",
+	"columns":{
+		"second": "int",
+		"drogon": "int",
+		"fc": "int",
+		"serek": "int"
+	},
+	"series": [
+		"drogon",
+		"fc",
+		"serek"
+	],
+	"domain": "second",
+	"counter_domain_label": "przepustowość [zapytania/s]",
+	"domain_label": "czas [s]",
+	"separator": ",",
+	"source": "https://drive.google.com/file/d/1SWs--uZdmaNWHNI_NMnoRRiPWHwG2LtR/view"
+}
