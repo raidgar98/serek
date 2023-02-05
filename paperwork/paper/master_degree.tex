@@ -665,6 +665,29 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 
 			{
 				\subsubsection{Problem dostępu do wartości pola}
+
+				Rozwiązania są co najmniej dwa. Pierwszym, które nie zostało wybrane, to skorzystanie z interfejsu jakie oferują wskaźniki. Oznacza to,
+				przechowywanie wartości jako pole jakiejś obwoluty {\ang wrapper}, a dostęp do niego poprzez operator dostępu do pola $\rightarrow$. Jednakże,
+				problemem tego rozwiązania jest przeniesienie odpowiedzialności za zaimplementowanie wszystkich operatorów, konstruktorów, czy destruktorów
+				na klasę otaczającą, oraz poprawne ich przekazanie do klasy wewnątrz. Przy tym podejściu ryzyko popełnienia gafy jest bardzo wysokie, dlatego też
+				pojawiła się kolejna koncepcja.\n
+
+				Polega ona na zaciągnięciu do pracy wcześniej wspomnianego wzorca {\it CRTP}, oraz publiczne dziedziczenie po każdym polu, co sprawiłoby, że
+				do interfejs zostaje identyczny, dla dowolnej klasy, a jedyne co pozostaje do zaimplementowania, to poprawne przekierowanie konstruktorów
+				i destruktorów.\n
+
+				Jednakże, C++ jest językiem, gdzie istnieje rozróżnienie na typy złożone i~proste, po których nie można dziedziczyć. Aby pokryć ten przypadek,
+				można skorzystać z rozbudowanego modułu do metaprogramowania w języku C++ i napisać dwie specjalizacje. Jedną dla typów prostych, który
+				w dużym stopniu korzysta z~opisanego wcześniej rozwiązania, gdzie ilość rzeczy do przekierowania, nie jest tak duża. Drugą zaś,
+				dla typów złożonych, gdzie można wykorzystać wcześniej wspomniany wzorzec {\it CRTP} i dziedziczyć po typach złożonych, takich jak klasa, czy struktura.\n
+
+				Dzięki skorzystaniu z struktury {\it std::is\_fundamental\_v<T>}\cite{std_is_fundamental}, za pomocą której jest możliwe wyciągnięcie informacji,
+				czy typ jest prosty, czy nie. Dodatkowo, dzięki wprowadzeniu operatora potrójnego porównania\cite{starship_operator} w~standardzie C++20, możliwym było
+				przyspieszenie procedury przekierowywania operatorów poprzez przeciążenie wyłącznie jednego. Dodatkowo dodanie cichych konwersji dodatkowo redukuje
+				dyskomfort w korzystaniu z fasady.\n
+
+				Implementacja tego typu ma jeszcze jedną bardzo ważną zaletę: jest fasadą idealną, która może zostać przekazana jako referencja
+				do klasy, którą opakowuje.
 			}
 
 			{
