@@ -779,6 +779,38 @@ using test_struct = serek::pack<&test_struct_impl::field_2>;
 			{
 				\subsubsection{Problem prostej podmiany sposobu obsługi typu}
 
+				Jest to ostatni z naczelnych problemów, wymienionych na przestrzeni poprzednich akapitów. Rozwiązanie tego problemu,
+				wymagało przemyślenia, lokalizacji kodu od serializacji i deserializacji, oraz sposobu na przemieszczanie się po takiej
+				statycznej jednokierunkowej liście pól w klasie.\n
+
+				Umieszczenie kodu od obsługi konkretnych typów, wydaje się najprościej umieścić w specjalizacjach dla konkretnych typów.
+				Ma to kilka nieporządnych konsekwencji. Pierwszą jest taka, że wymagałoby to tworzenia częściowych specjalizacji, co
+				wymuszałoby umieszczanie takiego kodu w całości w plikach nagłówkowych. Zdecydowanie wydłużałoby to czas kompilacji
+				i~sprawiałoby, że sporo kodu, który powinien się znaleźć w plikach źródłowych, lądowałby w nagłówkach. Dodatkowo
+				usztywniłoby to całą bibliotekę, ponieważ kod byłby za daleko od użytkownika, a jego nadpisanie poprzez na przykład
+				przeciążenie funkcji dla danego typu czasochłonne, ponieważ musiałby się wdrażać w skomplikowaną implementację klas
+				przechowujące pola, czy klasy.\n
+
+				Dlatego koniecznością stało się wydzielenie kodu od serializacji do osobnej klasy. Szczęśliwie, istnieje wzorzec projektowy,
+				który bardzo dobrze sprawdza się w przypadku konieczności wydzielenia funkcjonalności poza klasę - wizytator\cite{visitor_description}.
+				Użycie go w przypadku tej implementacji jest bardzo proste i intuicyjne. Biblioteka zapewnia klasę bazową, po której dziedzicząc
+				użytkownik tworzy własnego wizytatora w którym definiuje obsługę swoich typów, jako przeciążenia operatora wywołania ({\it operator()}),
+				natomiast, wszystkie pozostałe przekierowuje do klasy bazowe, która ma zaimplementowane obsługę typów fundamentalnych.\n
+
+				\begin{lstlisting}[frame=single]
+struct hash_json_serializer : public serek::deserial::json::json_visitor_deserializer
+{
+	serek::visitor_result_t operator()(hash_t& any)
+	{
+		any = hash_t::from_string(this->get_top_token());
+		return true;
+	}
+};
+				\end{lstlisting}
+
+				Powyższy przykład jest już gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez niniejszą
+				bibliotekę. Można go użyć za pomocą dostarczonej funkcji {\it serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
+				chcemy dokonać operacji serializacji lub deserializacji, natomiast drugim parametrem jest wizytator.
 			}
 		}
 	}
