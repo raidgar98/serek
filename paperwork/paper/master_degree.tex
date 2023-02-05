@@ -624,9 +624,27 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			}
 		}
 
-{
-	// implementation
-}
+		{
+			\subsection{Problematyka i wyzwania podczas implementacji}
+
+			Problematyka całego podejścia jest dwuwymiarowa, ponieważ istnieje konieczność stworzenia interfejsu biblioteki, która wykluczy, lub znacząco
+			zredukuje możliwość wystąpienia wcześniej wspomnianych problemów. Dodatkowo należy przewidzieć możliwość zadawania własnych metod serializacji,
+			najlepiej w jednolity sposób. Poza tymi wymaganiami, został sformułowany jeszcze jeden warunek dla całej implementacji: brak korzystania z makr.\n
+
+			Jak zostało wspomniane w rozdziale poświęconym omówieniu definicji refleksji, język C++ nie posiada zbyt dużego wsparcia dla programowania
+			refleksyjnego. Będzie to wyzwanie ściśle techniczne, a dokładnie implementacyjne. Rozwiązanie tego problemu daje bardzo wymierne korzyści,
+			ponieważ otwiera to drzwi do całej gamy rozwiązań z serializacji, nie tylko w formacie {\it JSON}, ale także do takich formatów jak SQL, czy
+			postać binarna.\n
+
+			Intuicyjnym podejściem wydaje się wykorzystanie wzorca ciekawie powtarzającego się wzoru szablonu\footnote{
+				CRTP ({\it ang. curiously recurring template pattern}) - wzorzec projektowy polegający na przekazaniu klasie rodzica, typu klasy dziecka\cite{crtp_definition}
+			}, które umożliwiałoby potencjalnie abstrakcję niezbędnych narzędzi do przejścia po polach klasy dziecka u rodzica. To podejście niestety jest skazane na
+			porażkę. Jest to spowodowane miejscem korzystania z~tego wzorca, a mianowice, przy samej deklaracji klasy, co jest zbyt wczesnym etapem, gdy pola nie są
+			jeszcze zdefiniowane. Dodatkowo to rozwiązanie, gdzie wszystkie pola byłyby wymienione jako referencje u rodzica ma jeszcze jedną, jak zresztą każde
+			inne rozwiązanie opierające się na wymienieniu w sekwencji wszystkich pól, wadę: nie eliminuje wciąż problemu gapiostwa programisty, który mógłby zapomnieć
+			dopisać nowe pole w strukturze danych, dlatego zaszła konieczność wplecenia interfejsu pomiędzy deklaracje pól klasy.
+		}
+
 				\end{lstlisting}
 			}
 		}
