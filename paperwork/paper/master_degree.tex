@@ -608,9 +608,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 */
 template<template<typename T> typename operator_t, typename T>
 void require(const T& l_value, const T& r_value, const str_v error_message = "comparison failed!")
-{
-	// implementation
-}
+{/* implementation */}
 
 /**
 * @brief overload of above, specialized for checking pointers
@@ -621,6 +619,11 @@ void require(const T& l_value, const T& r_value, const str_v error_message = "co
 */
 template<reqs::comparable_as_pointer_req pointer_t>
 void require(const pointer_t& ptr, const str_v error_message = "given pointer was null!")
+{/* implementation */}
+				\end{lstlisting}
+			}
+		}
+
 {
 	// implementation
 }
