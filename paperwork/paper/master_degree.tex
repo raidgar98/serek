@@ -645,20 +645,51 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			dopisać nowe pole w strukturze danych, dlatego zaszła konieczność wplecenia interfejsu pomiędzy deklaracje pól klasy.
 		}
 
-				\end{lstlisting}
-			}
-		}
-
 		{
 			\subsection{Architektura}
-		}
 
-		{
-			\subsection{Problemy w implementacji}
-		}
+			Rozwiązaniem bolączek wspomnianych w poprzednim rozdziale jest zastosowanie autorskiego rozwiązania: statycznej listy jednokierunkowe, na podstawie
+			referencji do pól klasy. Podejście to wykorzystuje fakt, że dostęp do referencji do pole numer jeden uzyskujemy w momencie postawienia średnika przy jego deklaracji.
+			Dlatego najwcześniej gdy się da do takiego pola odwołać, jest deklaracja następnego pola, lub zewnętrze klasy, które również zostanie tutaj zagospodarowane,
+			ale nieco inaczej niż we wcześniej wspomnianej pół automatycznej refleksji typów. Jeżeli więc pociągnąć ten koncept dalej, gdzie pole drugie wskazuje, na
+			pole pierwsze, a pole trzecie na drugie i tak dalej, otrzymujemy formalnie rzecz ujmując listę jednokierunkową, której zakończeniem jest pierwszy członek
+			klasy. Rozwiązanie to już koncepcyjnie rozwiązuje największą bolączkę poprzednich rozwiązań: oderwanie miejsca refleksji od bieżącego stanu klasy.
+			Teraz każde pole przy deklaracji wskazuje na poprzednie, jest więc to rzucające się w oczy, przy dodawaniu lub usuwaniu pól klasy, nie do pominięcia.\n
 
-		{
-			\subsection{Testowanie}
+			Jednakże rozwiązanie jednego problemu nasuwa kolejne. Pierwszym jest rozwiązanie problemu dostępu do właściwych typów pod kolejnymi polami, a także
+			miejscem na przechowywanie tej referencji, która mogłaby sprawić, że cała klasa przytyje w zależności od środowiska o $N * 8$, lub $N * 4$ bajty,
+			gdzie N jest liczbą pól. Dodatkowo, wciąż jest problem z początkiem listy, czyli referencją na ostatnie pole klasy. O ile koniec jest oczywisty,
+			w postaci pierwszego pola, to początek już nie i wymaga osobnego zainteresowania. Kolejnym kłopotem jest miejsce pobrania nazwy pola, co jest
+			konieczne, aby móc zbudować obiekt {\it JSON}, gdzie w wcześniej prezentowanych rozwiązaniach użytkownik sam deklarował nazwę pola, lub nazwa ta
+			była w prosty sposób wyłuskiwana przez makro.\n
+
+			{
+				\subsubsection{Problem dostępu do wartości pola}
+			}
+
+			{
+				\subsubsection{Problem przechowywania referencji}
+
+			}
+
+			{
+				\subsubsection{Problem dostępu do nazwy pola}
+
+				\end{lstlisting}
+			}
+
+			{
+				\subsubsection{Problem punktu startowego}
+
+			}
+
+			{
+				\subsubsection{Problem prostej podmiany sposobu obsługi typu}
+
+			}
+		}
+	}
+
 		}
 	}
 
