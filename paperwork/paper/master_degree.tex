@@ -710,7 +710,42 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			{
 				\subsubsection{Problem dostępu do nazwy pola}
 
+				Celem pokazania, w jaki sposób następuje dostęp do nazwy pola i jednocześnie podsumowania aktualnej architektury, poniżej zostaje zamieszczony
+				przykład zapisu na podstawie poprzednich kilku akapitów:\n
+
+				\begin{lstlisting}[frame=single]
+struct test_struct
+{
+	first_field<int> field_0;
+	field<&test_struct::field_0, float> field_1;
+};
 				\end{lstlisting}
+
+				Jak można zauważyć, celem odwołania się do referencji na poprzednie pole, konieczne jest odwołanie się do jego nazwy. Nie pozostaje to bez
+				konsekwencji, które można wykorzystać, a zostanie to zaprezentowane, poprzez zamieszczenie kodu, który ma na celu wydrukować na ekranie
+				zdemanglowany typ pola {\it field\_1}, a także wyjście z tego prostego programu:\n
+
+				\begin{lstlisting}[frame=single]
+#include <serek/serek.hpp>
+
+struct test_struct
+{
+	serek::ffield<int> field_0;
+	serek::field<&test_struct::field_0, float> field_1;
+};
+
+int main()
+{
+	std::cout << serek::type_name<decltype(&test_struct::field_1)>() << std::endl;
+}
+/*
+Konsola:
+	serek::detail::field_impl<&test_struct::field_0, double> test_struct::
+*/
+				\end{lstlisting}
+
+				Wydobycie nazwy pola może nastąpić z zdemanglowanej nazwy typu pola, którą bajecznie prosto uzyskać, ponieważ jest ona zawarta
+				w szablonie.
 			}
 
 			{
