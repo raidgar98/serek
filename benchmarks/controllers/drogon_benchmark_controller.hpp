@@ -36,7 +36,7 @@ namespace drogon_model
 		A c1{};
 		B c2{};
 	};
-}
+}	 // namespace drogon_model
 
 struct drogon_benchmark_controller : public base_benchmark_controller<drogon_benchmark_controller, typename drogon_model::C>
 {

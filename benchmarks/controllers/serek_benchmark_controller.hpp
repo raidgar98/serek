@@ -28,9 +28,9 @@ namespace serek_model_t
 
 	struct B_impl
 	{
-		serek::ffield<std::vector<int> > b1{};
-		serek::field<&B_impl::b1, std::vector<double> > b2{};
-		serek::field<&B_impl::b2, std::vector<A> > b3{};
+		serek::ffield<std::vector<int>> b1{};
+		serek::field<&B_impl::b1, std::vector<double>> b2{};
+		serek::field<&B_impl::b2, std::vector<A>> b3{};
 	};
 	using B = serek::pack<&B_impl::b3>;
 
@@ -40,7 +40,7 @@ namespace serek_model_t
 		serek::field<&C_impl::c1, B> c2{};
 	};
 	using C = serek::pack<&C_impl::c2>;
-}
+}	 // namespace serek_model_t
 
 struct serek_benchmark_controller : public base_benchmark_controller<serek_benchmark_controller, typename serek_model_t::C>
 {

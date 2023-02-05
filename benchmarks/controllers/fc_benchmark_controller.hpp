@@ -37,7 +37,7 @@ namespace fc_model_t
 		A c1{};
 		B c2{};
 	};
-}
+}	 // namespace fc_model_t
 
 struct fc_benchmark_controller : public base_benchmark_controller<fc_benchmark_controller, typename fc_model_t::C>
 {

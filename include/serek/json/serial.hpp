@@ -109,7 +109,7 @@ namespace serek
 				}
 
 				template<reqs::visitor_req vis_t, typename Any>
-				requires serek::requirements::fundamental_req<Any> || reqs::string_type_req<Any>
+					requires serek::requirements::fundamental_req<Any> || reqs::string_type_req<Any>
 				void serial(vis_t& vis, stream_holder& out, const Any* obj)
 				{
 					serek::require(obj);
@@ -118,7 +118,7 @@ namespace serek
 				}
 
 				template<reqs::visitor_req vis_t, typename element_t>
-				requires serek::requirements::fundamental_req<element_t> || reqs::string_type_req<element_t>
+					requires serek::requirements::fundamental_req<element_t> || reqs::string_type_req<element_t>
 				void serial_array_element(vis_t&, stream_holder& out, const element_t& any)
 				{
 					out.put_to_stream(any);

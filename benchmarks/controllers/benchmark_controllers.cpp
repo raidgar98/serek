@@ -38,8 +38,7 @@ void drogon_benchmark_controller::deserialize(model_t& out, const std::string_vi
 		serek::require(false);
 	}
 
-	const auto deserial_A = [&is_not_null, &null](const Json::Value& json, drogon_model::A& o)
-	{
+	const auto deserial_A = [&is_not_null, &null](const Json::Value& json, drogon_model::A& o) {
 		auto x = json.get("a1", null);
 		is_not_null(x);
 		o.a1 = x.asBool();
@@ -61,24 +60,21 @@ void drogon_benchmark_controller::deserialize(model_t& out, const std::string_vi
 		o.a5 = x.asDouble();
 	};
 
-	const auto deserial_B = [&is_not_null, &null, &deserial_A](const Json::Value& json, drogon_model::B& o)
-	{
+	const auto deserial_B = [&is_not_null, &null, &deserial_A](const Json::Value& json, drogon_model::B& o) {
 		auto x = json.get("b1", null);
 		is_not_null(x);
 		o.b1.reserve(x.size());
-		for(const auto& it : x)
-			o.b1.emplace_back(it.asInt());
+		for(const auto& it: x) o.b1.emplace_back(it.asInt());
 
 		x = json.get("b2", null);
 		is_not_null(x);
 		o.b2.reserve(x.size());
-		for(const auto& it : x)
-			o.b2.emplace_back(it.asDouble());
+		for(const auto& it: x) o.b2.emplace_back(it.asDouble());
 
 		x = json.get("b3", null);
 		is_not_null(x);
 		o.b3.reserve(x.size());
-		for(const auto& it : x)
+		for(const auto& it: x)
 		{
 			auto& a = o.b3.emplace_back();
 			deserial_A(it, a);
@@ -101,8 +97,7 @@ void drogon_benchmark_controller::serialize(const model_t& in, std::string& out)
 {
 	Json::Value output;
 
-	const auto serial_A = [](Json::Value& json, const drogon_model::A& in)
-	{
+	const auto serial_A = [](Json::Value& json, const drogon_model::A& in) {
 		json["a1"] = in.a1;
 		json["a2"] = in.a2;
 		json["a3"] = in.a3;
@@ -110,21 +105,18 @@ void drogon_benchmark_controller::serialize(const model_t& in, std::string& out)
 		json["a5"] = in.a5;
 	};
 
-	const auto serial_B = [&serial_A](Json::Value& json, const drogon_model::B& in)
-	{
+	const auto serial_B = [&serial_A](Json::Value& json, const drogon_model::B& in) {
 		json["b1"] = Json::Value(Json::ValueType::arrayValue);
 		json["b1"].resize(in.b1.size());
-		for(const auto& it : in.b1)
-			json["b1"].append(it);
+		for(const auto& it: in.b1) json["b1"].append(it);
 
 		json["b2"] = Json::Value(Json::ValueType::arrayValue);
 		json["b2"].resize(in.b2.size());
-		for(const auto& it : in.b2)
-			json["b2"].append(it);
+		for(const auto& it: in.b2) json["b2"].append(it);
 
 		json["b3"] = Json::Value(Json::ValueType::arrayValue);
 		json["b3"].resize(in.b3.size());
-		for(const auto& it : in.b3)
+		for(const auto& it: in.b3)
 		{
 			Json::Value it_result;
 			serial_A(it_result, it);
@@ -151,7 +143,7 @@ void drogon_benchmark_controller::serialize(const model_t& in, std::string& out)
 void fc_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
 	const auto& variant = fc::json::from_string(std::string{in.data(), in.size()});
-	const auto& obj = variant.get_object();
+	const auto& obj	  = variant.get_object();
 	fc::reflector<model_t>::visit(fc::from_variant_visitor<model_t>(obj, out, 10));
 }
 
@@ -162,15 +154,9 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 	out = fc::json::to_string(mvo);
 }
 
-void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
-{
-	serek::deserial::json::deserialize<model_t>(in, out);
-}
+void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const { serek::deserial::json::deserialize<model_t>(in, out); }
 
-void serek_benchmark_controller::serialize(const model_t& in, std::string& out) const
-{
-	out = serek::serial::json::serialize(in);
-}
+void serek_benchmark_controller::serialize(const model_t& in, std::string& out) const { out = serek::serial::json::serialize(in); }
 
 std::string drogon_benchmark_controller::controller_path() { return "/drogon"; }
 std::string fc_benchmark_controller::controller_path() { return "/fc"; }

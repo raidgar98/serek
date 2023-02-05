@@ -99,8 +99,7 @@ namespace serek
 				const static serek::str_v true_string{"true"};
 				const static serek::str_v false_string{"false"};
 
-				if(const serek::str_v maybe_true{json.begin() + start, json.begin() + start + true_string.size()}; maybe_true == true_string)
-					return true_string.size();
+				if(const serek::str_v maybe_true{json.begin() + start, json.begin() + start + true_string.size()}; maybe_true == true_string) return true_string.size();
 				else if(const serek::str_v maybe_false{json.begin() + start, json.begin() + start + false_string.size()}; maybe_false == false_string)
 					return false_string.size();
 				return 0ul;

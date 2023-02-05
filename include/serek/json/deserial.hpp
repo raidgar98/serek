@@ -55,7 +55,10 @@ namespace serek
 				namespace
 				{
 					template<reqs::integer_type_req Any>
-					void fill(Any& output, const serek::str_v value) { output = static_cast<Any>(std::atoll(value.data())); }
+					void fill(Any& output, const serek::str_v value)
+					{
+						output = static_cast<Any>(std::atoll(value.data()));
+					}
 
 					template<reqs::floating_type_req Any>
 					void fill(Any& output, const serek::str_v value)
@@ -91,7 +94,7 @@ namespace serek
 
 					// this is fundamental types deserialization
 					template<reqs::visitor_req vis_t, typename Any>
-					requires serek::requirements::fundamental_req<Any> || reqs::string_type_req<Any>
+						requires serek::requirements::fundamental_req<Any> || reqs::string_type_req<Any>
 					void deserial(visitor_with_stacked_names_and_tokenized_json& json, Any* output)
 					{
 						serek::require(output);
@@ -112,7 +115,7 @@ namespace serek
 					}
 
 					template<reqs::visitor_req vis_t, typename element_t>
-					requires serek::requirements::fundamental_req<element_t> || reqs::string_type_req<element_t>
+						requires serek::requirements::fundamental_req<element_t> || reqs::string_type_req<element_t>
 					void deserial_array_element(json_tokenizer::result_t in, element_t& out)
 					{
 						serek::require<std::equal_to>(in->element_type, json_element_t::FUNDAMENTAL_TYPE);
@@ -130,7 +133,7 @@ namespace serek
 
 					// this is array deserialization
 					template<reqs::visitor_req vis_t, template<typename T, typename... Argv> typename collection_t, typename element_t, typename... other_container_args>
-					requires reqs::iterable_req<collection_t<element_t, other_container_args...>>
+						requires reqs::iterable_req<collection_t<element_t, other_container_args...>>
 					void deserial(visitor_with_stacked_names_and_tokenized_json& json, collection_t<element_t, other_container_args...>* output)
 					{
 						serek::require(output);
@@ -138,7 +141,7 @@ namespace serek
 						const auto json_iterable = json.pop_for_key(json.top());
 						serek::require<std::equal_to>(json_iterable->element_type, json_element_t::ARRAY_TYPE);
 
-						const size_t pre_reserve_size{ json_iterable->array.size() };
+						const size_t pre_reserve_size{json_iterable->array.size()};
 						output->reserve(pre_reserve_size);
 						for(auto it: json_iterable->array)
 						{

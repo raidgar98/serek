@@ -34,20 +34,16 @@ namespace serek
 		 * @see https://en.cppreference.com/w/cpp/types/is_fundamental
 		 */
 		template<typename T>
-		concept fundamental_req = requires
-		{
-			requires std::is_fundamental_v<T>;
-		};
+		concept fundamental_req = requires { requires std::is_fundamental_v<T>; };
 
 		/**
 		 * @brief checks is given type `T` can be used as type for serialization
 		 */
 		template<typename T>
-		concept field_impl_field_t_req = requires
-		{
-			requires !std::is_fundamental_v<T>;
-			requires !std::is_final_v<T>;
-		};
+		concept field_impl_field_t_req = requires {
+														requires !std::is_fundamental_v<T>;
+														requires !std::is_final_v<T>;
+													};
 	}	 // namespace requirements
 
 	namespace detail

@@ -27,29 +27,19 @@ namespace serek
 		namespace detail
 		{
 			template<typename T>
-			concept string_type_req = requires
-			{
-				requires(std::same_as<serek::str, T> || std::same_as<serek::str_v, T>);
-			};
+			concept string_type_req = requires { requires(std::same_as<serek::str, T> || std::same_as<serek::str_v, T>); };
 
 			template<typename T>
-			concept char_type_req = requires
-			{
-				requires(std::same_as<char, T> || std::same_as<unsigned char, T>);
-			};
+			concept char_type_req = requires { requires(std::same_as<char, T> || std::same_as<unsigned char, T>); };
 
 			template<typename T>
-			concept integer_type_req = requires
-			{
-				requires std::is_integral_v<T>;
-				requires !char_type_req<T>;
-			};
+			concept integer_type_req = requires {
+													requires std::is_integral_v<T>;
+													requires !char_type_req<T>;
+												};
 
 			template<typename T>
-			concept floating_type_req = requires
-			{
-				requires std::is_floating_point_v<T>;
-			};
+			concept floating_type_req = requires { requires std::is_floating_point_v<T>; };
 
 			/**
 			 * @brief checks is given type is iterable
@@ -57,14 +47,14 @@ namespace serek
 			 * @tparam T type to check
 			 */
 			template<typename T>
-			concept iterable_req = requires(T x)
-			{
-				typename T::value_type;
-				requires std::same_as < std::remove_cvref_t<decltype(*x.begin())>,
-				typename T::value_type > ;
-				{x.end()};
-				requires !string_type_req<T>;
-			};
+			concept iterable_req = requires(T x) {
+											  typename T::value_type;
+											  requires std::same_as<std::remove_cvref_t<decltype(*x.begin())>, typename T::value_type>;
+											  {
+												  x.end()
+											  };
+											  requires !string_type_req<T>;
+										  };
 
 			/**
 			 * @brief checks is given type is fundamental wrapper
@@ -72,11 +62,10 @@ namespace serek
 			 * @tparam T type to check
 			 */
 			template<typename T>
-			concept fundamental_wrapper_req = requires
-			{
-				typename T::_____fundamental_type_wrapper;
-				typename T::value_t;
-			};
+			concept fundamental_wrapper_req = requires {
+															 typename T::_____fundamental_type_wrapper;
+															 typename T::value_t;
+														 };
 
 			/**
 			 * @brief checks is given type fullfils visitor requirements
@@ -84,20 +73,18 @@ namespace serek
 			 * @tparam visitor_t type to check
 			 */
 			template<typename visitor_t>
-			concept visitor_req = requires(visitor_t* x)
-			{
-				requires std::same_as<decltype(x->template operator()(new serek::detail::type_holder<int>)), visitor_result_t>;
-				requires std::same_as<decltype(x->last_result), visitor_result_t>;
-				requires std::same_as<decltype(x->that()), void*>;
-				requires std::same_as<decltype(x->template that<int>()), int*>;
-				{x->that(static_cast<void*>(NULL))};
-			};
+			concept visitor_req = requires(visitor_t* x) {
+											 requires std::same_as<decltype(x->template operator()(new serek::detail::type_holder<int>)), visitor_result_t>;
+											 requires std::same_as<decltype(x->last_result), visitor_result_t>;
+											 requires std::same_as<decltype(x->that()), void*>;
+											 requires std::same_as<decltype(x->template that<int>()), int*>;
+											 {
+												 x->that(static_cast<void*>(NULL))
+											 };
+										 };
 
 			template<typename visitor_t>
-			concept visitor_with_member_name_stack = visitor_req<visitor_t> && requires(visitor_t* x)
-			{
-				requires std::same_as<decltype(x->stack_name), std::stack<str>>;
-			};
+			concept visitor_with_member_name_stack = visitor_req<visitor_t> && requires(visitor_t* x) { requires std::same_as<decltype(x->stack_name), std::stack<str>>; };
 
 			/**
 			 * @brief encapsulates types required to define `acceptor_req`
@@ -143,10 +130,7 @@ namespace serek
 			 * @tparam acceptor_t
 			 */
 			template<typename acceptor_t>
-			concept acceptor_req = requires(acceptor_t* x)
-			{
-				requires std::same_as<decltype(x->template visit(new acceptor_req_details::ex_vis)), visitor_result_t>;
-			};
+			concept acceptor_req = requires(acceptor_t* x) { requires std::same_as<decltype(x->template visit(new acceptor_req_details::ex_vis)), visitor_result_t>; };
 
 			/**
 			 * @brief encapsulates helper types to define `acceptor_worker_req`
@@ -160,10 +144,11 @@ namespace serek
 				 * @tparam Argv invocable argument types
 				 */
 				template<typename T, typename... Argv>
-				concept acceptor_worker_req_helper = requires(T x, Argv&&... args)
-				{
-					{x(std::forward<Argv>(args)...)};
-				};
+				concept acceptor_worker_req_helper = requires(T x, Argv&&... args) {
+																	 {
+																		 x(std::forward<Argv>(args)...)
+																	 };
+																 };
 			}	 // namespace acceptor_worker_req_detail
 
 			/**
@@ -172,13 +157,9 @@ namespace serek
 			 * @tparam T type to check
 			 */
 			template<typename T>
-			concept acceptor_worker_req = requires
-			{
-				typename T::value_t;
-			}
-			&&acceptor_worker_req_detail::acceptor_worker_req_helper<
-				 T, typename T::value_t*,
-				 acceptor_req_details::ex_vis*> || acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
+			concept acceptor_worker_req
+				 = requires { typename T::value_t; } && acceptor_worker_req_detail::acceptor_worker_req_helper<T, typename T::value_t*, acceptor_req_details::ex_vis*>
+					|| acceptor_worker_req_detail::acceptor_worker_req_helper<T, const typename T::value_t*, acceptor_req_details::ex_vis*>;
 
 			/**
 			 * @brief checks is given type can be compared like pointerr
@@ -186,10 +167,7 @@ namespace serek
 			 * @tparam T type to check
 			 */
 			template<typename T>
-			concept comparable_as_pointer_req = requires(T x)
-			{
-				requires std::same_as<decltype(x == nullptr), bool>;
-			};
+			concept comparable_as_pointer_req = requires(T x) { requires std::same_as<decltype(x == nullptr), bool>; };
 
 			/**
 			 * @brief checks is given type can be used as exception
@@ -198,16 +176,18 @@ namespace serek
 			 * @tparam T type to check
 			 */
 			template<typename T>
-			concept throwable_req = requires
-			{
-				{T{serek::str_v{}}};
-			};
+			concept throwable_req = requires {
+												{
+													T{serek::str_v{}}
+												};
+											};
 
 			template<typename T>
-			concept can_be_pushed_to_stream = requires(serek::sstr ss, T val)
-			{
-				{ss << val};
-			};
+			concept can_be_pushed_to_stream = requires(serek::sstr ss, T val) {
+															 {
+																 ss << val
+															 };
+														 };
 		}	 // namespace detail
 	}		 // namespace requirements
 

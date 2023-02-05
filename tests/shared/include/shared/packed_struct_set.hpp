@@ -70,6 +70,6 @@ namespace example_structs
 			};
 			using test_array_04_packed = serek::pack<&test_array_04::field_1>;
 
-		}
-	}	 // namespace packed
+		}	 // namespace array
+	}		 // namespace packed
 }	 // namespace example_structs
