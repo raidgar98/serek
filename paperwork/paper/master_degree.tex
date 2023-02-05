@@ -693,6 +693,18 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			{
 				\subsubsection{Problem przechowywania referencji}
 
+				Poprzednie rozwiązanie w przypadku typów prostych umożliwia bardzo proste dodanie dodatkowego pola z referencją. Jednakże rozwiązanie to:
+				po pierwsze przywołuje problem z puchnięciem klasy z każdym dodatkowym polem, a~po drugie mocno komplikuje rozwiązanie z dziedziczeniem po
+				typach złożonych, gdzie naruszenie bazowego interfejsu poprzez dołożenie nowej zmiennej, czy metody naruszałoby wrażenie przeźroczystości
+				biblioteki.
+
+				Celem zaproponowania rozwiązania, należy wskazać czym statyczna referencja na pole klasy jest. Otóż jest to po przesunięcie względem
+				adresu struktury danych. Wynika więc z tej definicji, że jest to adres możliwy do określenia, jeszcze podczas kompilacji,
+				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje jest możliwe. Dzięki czemu, został rozwiązany problem
+				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z typem poprzedniego pola w klasie.
+
+				Teraz, żeby dostać się do pola potrzebny jest wskaźnik na obiekt ({\it this}), a~następnie dodanie do niego posiadanego przesunięcia.
+				Dodatkowo rozwiązany zostaje tutaj jeszcze jeden problem, a mianowicie problem z dostępem do nazwy pól.
 			}
 
 			{
