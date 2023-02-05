@@ -543,34 +543,6 @@ MyClass deserialize_my_class(const std::string& json_text)
 
 			W momencie powstawania tej pracy, autor nie ma informacji o istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
 			stworzenie takiego rozwiązania, a także zbadanie wydajności pod kątem czasu wykonania, względem wcześniej wspomnianych rozwiązań.
-
-			{
-				\subsubsection{Przykład użycia}
-
-				\begin{lstlisting}[frame=single]
-// MyClass.hpp
-class MyClassImpl
-{
-	lib::first_field<bool> field_0;
-	lib::field<&MyClassImpl::field_0, int> field_1;
-	lib::field<&MyClassImpl::field_1, std::string> field_2;
-	lib::field<&MyClassImpl::field_2, std::vector<int>> field_3;
-};
-using MyClass = lib::pack<&MyClassImpl::field_3>;
-
-// MyClass.cpp
-std::string serialize_my_class(const MyClass& obj)
-{
-	return lib::json::serialize(obj);
-}
-
-MyClass deserialize_my_class(const std::string& json_text)
-{
-	return lib::json::deserialize<MyClass>(json_text);
-}
-				\end{lstlisting}
-			}
-
 		}
 	}
 
