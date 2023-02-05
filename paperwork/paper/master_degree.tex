@@ -751,6 +751,29 @@ Konsola:
 			{
 				\subsubsection{Problem punktu startowego}
 
+				Wcześniej wspomniane wybory umożliwiły rozwiązanie wielu problemów i wyzwań. Niestety zawarcie referencji do ostatniego pola
+				struktury danych wewnątrz klasy okazało się nie możliwe, bez odbierania użytkownikowi biblioteki pewnych funkcjonalności.
+				Przekazywanie za pomocą wzorca projektowego {\it CRTP} nie jest możliwe przy deklaracji klasy z wcześniej wspomnianych powodów.\n
+
+				Rozwiązanie, które zostało ostatecznie wykorzystane, to tworzenie aliasu docelowej nazwy klasy zaraz pod definicją klasy,
+				zawierając w niej statyczną referencję do ostatniego pola klasy. Takie rozwiązanie daje maksimum elastyczności użytkownikowi,
+				a także nie wprowadza żadnego zaburzenia w interfejs tworzonej klasy.\n
+
+				Sam alias również nie jest do końca taki prosty, ponieważ korzysta z podobnej sztuczki co klasa odpowiedzialna, za przechowywanie
+				kolejnych pól w klasie. Precyzując: dziedziczy po klasie, do której należy ostatnie pole klasy, dzięki czemu całość zostaje
+				zapakowane w fasadę idealnie przeźroczystą z wygodnym dostępem do każdego pola w klasie. Poniżej zaktualizowany, przykład deklaracji klasy.\n
+
+				\begin{lstlisting}[frame=single]
+#include <serek/serek.hpp>
+
+struct test_struct_impl
+{
+	serek::ffield<int> field_0;
+	serek::field<&test_struct_impl::field_0, float> field_1;
+	serek::field<&test_struct_impl::field_1, double> field_2;
+};
+using test_struct = serek::pack<&test_struct_impl::field_2>;
+				\end{lstlisting}
 			}
 
 			{
