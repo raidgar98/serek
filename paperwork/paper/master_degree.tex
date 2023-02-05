@@ -441,6 +441,48 @@
 				stosowania obiektów pośrednich.
 			}
 
+			{
+				\subsubsection{Przykład użycia}
+
+				\begin{lstlisting}[frame=single]
+class MyClass
+{
+	bool field_0;
+	int field_1;
+	std::string field_2;
+	std::vector<int> field_3;
+};
+
+std::string serialize_my_class(const MyClass& obj)
+{
+	lib::json json{};
+	json["field_0"] = lib::json::to_json_bool(obj.field_0);
+	json["field_1"] = lib::json::to_json_int(obj.field_1);
+	json["field_2"] = lib::json::to_json_string(obj.field_2);
+	json["field_3"] = lib::json::json_array();
+	json["field_3"].reserve(obj.field_3.size());
+	for(const int var : obj.field_3)
+		json["field_3"].append(var);
+	return json.to_string();
+}
+
+MyClass deserialize_my_class(const std::string& json_text)
+{
+	lib::json json = lib::json::parse_from_string(json_text);
+	MyClass result{};
+	result.field_0 = assert_is_field_exist_and_return("field_0").as_bool();
+	result.field_1 = assert_is_field_exist_and_return("field_1").as_int();
+	result.field_2 = assert_is_field_exist_and_return("field_2").as_string();
+	const auto json_array = assert_is_field_exist_and_return("field_3").as_array();
+	result.field_3.reserve(json_array.size());
+	for(const auto& json_element : json_array)
+		result.field_3.emplace_back(json_element.as_int());
+	return result;
+}
+				\end{lstlisting}
+			}
+		}
+
 		{
 			\subsection{Pół automatyczna refleksja pól}
 
@@ -463,6 +505,34 @@
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
 			}
 
+			{
+				\subsubsection{Przykład użycia}
+				\begin{lstlisting}[frame=single]
+// MyClass.hpp
+class MyClass
+{
+	bool field_0;
+	int field_1;
+	std::string field_2;
+	std::vector<int> field_3;
+};
+
+LIB_REFLECTOR(MyClass, (field_0)(field_1)(field_2)(field_3));
+
+// MyClass.cpp
+std::string serialize_my_class(const MyClass& obj)
+{
+	return lib::json::to_json(obj).to_string();
+}
+
+MyClass deserialize_my_class(const std::string& json_text)
+{
+	return lib::json::from_string(json_text).as<MyClass>();
+}
+				\end{lstlisting}
+			}
+		}
+
 		{
 			\subsection{W pełni automatyczna refleksja pól}
 
@@ -471,9 +541,37 @@
 			interfejsu biblioteki w deklarację klasy i nie oczywiste jest dołożenie nowego pola bez skorzystania z narzuconego interfejsu, co
 			radykalnie redukuje możliwość zaistnienia takiego problemu.\n
 
-			W momencie powstawania tej pracy, nie ma informacji o istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
+			W momencie powstawania tej pracy, autor nie ma informacji o istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
 			stworzenie takiego rozwiązania, a także zbadanie wydajności pod kątem czasu wykonania, względem wcześniej wspomnianych rozwiązań.
-			
+
+			{
+				\subsubsection{Przykład użycia}
+
+				\begin{lstlisting}[frame=single]
+// MyClass.hpp
+class MyClassImpl
+{
+	lib::first_field<bool> field_0;
+	lib::field<&MyClassImpl::field_0, int> field_1;
+	lib::field<&MyClassImpl::field_1, std::string> field_2;
+	lib::field<&MyClassImpl::field_2, std::vector<int>> field_3;
+};
+using MyClass = lib::pack<&MyClassImpl::field_3>;
+
+// MyClass.cpp
+std::string serialize_my_class(const MyClass& obj)
+{
+	return lib::json::serialize(obj);
+}
+
+MyClass deserialize_my_class(const std::string& json_text)
+{
+	return lib::json::deserialize<MyClass>(json_text);
+}
+				\end{lstlisting}
+			}
+
+
 		}
 	}
 
