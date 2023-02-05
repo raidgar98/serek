@@ -583,6 +583,75 @@ MyClass deserialize_my_class(const std::string& json_text)
 			{
 				\subsubsection{System budowy oraz środowisko deweloperskie}
 
+				Celem zapewnienia systemu budowy, który jest przystosowany do użycia na wielu platformach, oraz udostępnia narzędzia pozwalające na prostą
+				integracje z innymi bibliotekami, wybór CMake'a\cite{cmake_docs} jest domyślnym wyborem w przypadku tej biblioteki, jak i wielu innych.\n
+
+				Jedną z głównych zalet tego oprogramowania, jest możliwość rozproszonego definiowania celów budowy. Dzięki takiemu podejściu nie jest tworzony
+				jeden wielki plik z definicją całego projektu, tylko wiele plików, które skupiają się na konfiguracji poszczególnych elementów aplikacji.\n
+
+				Dodatkowo istnieje możliwość tworzenia własnych, niekompilowanych (innych niż pliki wykonywalne, czy biblioteki) celów budowy. Zostało to zagospodarowane
+				przez integrację z różnymi narzędziami wspomagającymi rozwój oprogramowania. Pierwszym z nich jest system kontroli wersji {\it git}\cite{git_docs}. Oprócz standardowego
+				zastosowania podczas wytwarzanie oprogramowania, został też zintegrowany podczas budowy oprogramowania, automatycznie pobierając wszystkie pakiety zależne
+				({\it ang. submodules}), dzięki czemu podczas budowy, wszystkie paczki są zaktualizowane.\n
+
+				Kolejnym miejscem jest dodanie statycznej analizy kodu za pomocą programu {\it cppcheck}\cite{cppcheck_repo}, który pomógł znaleźć masę drobnych błędów,
+				jak nie zainicjalizowane zmienne, czy funkcje nie zwracające żadnej wartości, mimo takiej deklaracji. Dodatkowo udało się wyeliminować kilka funkcji,
+				które jak się okazało były martwym kodem nie wołanym w żadnym możliwym przejściu.\n
+
+				Następnym oprogramowaniem, które zostało zintegrowane z systemem budowy, to formater kodu {\it clang-format}\cite{clangformat_docs}, dzięki czemu
+				udało się trzymać jednolity format kodu. Oprócz samych względów estetycznych, sma formater potrafi pomóc w znajdywaniu prostych błędów, polegających
+				na braku klamry, czy średnika, ponieważ w okolicy literówki, najczęściej formatowanie jest wyraźnie inne i przykuwa to wzrok podczas poszukiwań.\n
+
+				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w formie gotowej strony www. Poniżej zrzuty
+				ekranu prezentujące wygląd wygenerowanej dokumentacji.\n
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/documentation_part_1.png}
+					\caption*{Widok na automatycznej dokumentacji na spis wszystkich przestrzeni nazw w projekcie wraz z krótkim opisem}
+					\medskip
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/documentation_part_2.png}
+					\caption*{Widok automatycznej dokumentacji na opis funkcji}
+					\medskip
+				\end{figure}
+
+				\newpage
+
+				Całość opiera się o narzędzie {\it Doxygen}, które za pomocą specjalnych komentarzy w kodzie, jest w stanie wygenerować różnego rodzaju dokumentację.\n
+
+				\begin{lstlisting}[frame=single]
+/**
+* @brief overload of above, allows additionally print given values
+*
+* @tparam operator_t functor that will be used for comparison @see @link https://en.cppreference.com/w/cpp/utility/functional/less @endlink
+* @tparam T type of compared elements
+* @param l_value left operand
+* @param r_value right operand
+* @param error_message message to forward to exception
+*/
+template<template<typename T> typename operator_t, typename T>
+void require(const T& l_value, const T& r_value, const str_v error_message = "comparison failed!")
+{
+	// implementation
+}
+
+/**
+* @brief overload of above, specialized for checking pointers
+*
+* @tparam pointer_t type of pointer to validate
+* @param ptr pointer to check
+* @param error_message message to forward to exception
+*/
+template<reqs::comparable_as_pointer_req pointer_t>
+void require(const pointer_t& ptr, const str_v error_message = "given pointer was null!")
+{
+	// implementation
+}
+				\end{lstlisting}
 			}
 		}
 
