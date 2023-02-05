@@ -154,7 +154,7 @@ namespace serek
 	/**
 	 * @brief overload of above, allows additionally print given values
 	 *
-	 * @tparam operator_t functor that will be used for comparison ( @see std::less )
+	 * @tparam operator_t functor that will be used for comparison @see @link https://en.cppreference.com/w/cpp/utility/functional/less @endlink
 	 * @tparam T type of compared elements
 	 * @param l_value left operand
 	 * @param r_value right operand
