@@ -547,7 +547,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 	}
 
 	{
-		\section{Implementacja biblioteki {\it serek}}
+		\section{Implementacja biblioteki {\it serek}}\label{serek}
 
 		{
 			\subsection{Dobór technologii}
@@ -904,6 +904,62 @@ for(const auto& it: in.b3)
 	json["b3"].append(it_result);
 }
 // ...
+				\end{lstlisting}
+
+				Druga biblioteka, jaka będzie uwzględniona podczas testów, jest biblioteka {\it fc}\cite{fc_repo}, która w dużej mierze jest obwolutą biblioteki
+				{\it Boost}\cite{boost}. Jednakże w zakresie przetwarzania formatu {\it JSON} zapewnia własną implementację. Jej główną wadą są obiekty pośrednie
+				w postaci wariantów oraz zmiennych obiektów wariantowych ({\it ang. mutable variant object}), które z jednej strony zwiększają narzut konwersji,
+				jednakże z drugiej strony dają sporą elastyczność w zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
+
+				Ciekawsze fragmenty dotyczące tej implementacji znajdują się zarówno w nagłówku, gdzie dokonana jest pół automatyczna zewnętrzna refleksja. Same
+				metody serializacji i deserializacji są krótkie i zostaną przytoczone w całości, celem nieco głębszego omówienia.\n
+
+				\begin{lstlisting}[frame=single]
+// fc_benchmark_controller.hpp
+//...
+
+FC_REFLECT(fc_model_t::A, (a1)(a2)(a3)(a4)(a5));
+FC_REFLECT(fc_model_t::B, (b1)(b2)(b3));
+FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
+				\end{lstlisting}
+
+				Biblioteka w głównej mierze bazuje na makrach, które są rozwijane do specjalizacji klasy {\it fc::reflector}, która później jest
+				wykorzystywana przy refleksji podczas przejść z i na formę tekstową. Stosowana jest tutaj notacja listy bąbelkowej, która umożliwia
+				tworzenie wielu list w zakresie jednego makra. Ostatnim elementem podczas omawiania tej biblioteki jest prezentacja implementacji metod.\n
+
+				\begin{lstlisting}[frame=single]
+void fc_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
+{
+	const auto& variant = fc::json::from_string(std::string{in.data(), in.size()});
+	const auto& obj	    = variant.get_object();
+	fc::reflector<model_t>::visit(fc::from_variant_visitor<model_t>(obj, out, 10));
+}
+
+void fc_benchmark_controller::serialize(const model_t& in, std::string& out) const
+{
+	fc::mutable_variant_object mvo{};
+	fc::reflector<model_t>::visit(fc::to_variant_visitor<model_t>(mvo, in, 10));
+	out = fc::json::to_string(mvo);
+}
+				\end{lstlisting}
+
+				Sama biblioteka dominuje ponad sześciokrotnie mniejszym, objętościowo kodem wymaganym do przeprowadzenia implementacji
+				serializacji oraz deserializacji. Kompaktowość tego rozwiązania uwypukla zalety programowania refleksyjnego, które dzięki
+				możliwości spojrzenia w siebie (refleksji) daje możliwość znaczącej redukcji kodu.\n
+
+				Trzecią i jednocześnie ostatnią biblioteką jest opisana szerzej w rozdziale numer \ref{serek} - biblioteka {\it serek}.
+				Jej użycie jest jeszcze krótsze i doliczając dodatkowe linijki na aliasy, całość zamyka się w zaledwie 12 linijkach.
+
+				\begin{lstlisting}[frame=single]
+void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
+{
+	serek::deserial::json::deserialize<model_t>(in, out);
+}
+
+void serek_benchmark_controller::serialize(const model_t& in, std::string& out) const
+{
+	out = serek::serial::json::serialize(in);
+}
 				\end{lstlisting}
 			}
 
