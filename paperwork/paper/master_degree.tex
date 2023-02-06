@@ -813,6 +813,19 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				chcemy dokonać operacji serializacji lub deserializacji, natomiast drugim parametrem jest wizytator.
 			}
 		}
+
+		{
+			\subsection{Potencjalne zalety}
+
+			Wykorzystanie szablonowego metaprogramowania\cite{wiki_meta} ma dwie naczelne funkcje w języku C++. Pierwszą z nich jest
+			ta najbardziej praktyczna umożliwiająca redukcję pisanego kodu, poprzez jego umiejętne sformułowanie, tak aby kompilator
+			sam wygenerował odpowiednie fragmenty. Drugą, często niedocenianą zaletą takiego podejścia, jest możliwość wykorzystania
+			potencjału i wiedzy zgromadzonego w kompilatorze na przestrzeni dziesiątek lat rozwoju. Im bardziej programista odda ster
+			kompilatorowi, tym większa jest szansa na pojawienie się z~punktu widzenia programisty, spontanicznej lub nieoczywistej
+			optymalizacji. Ponieważ cała implementacja opiera się w głównej mierze o ten paradygmat i stara się mocno korzystać
+			z~rozwiązań takich jak wyrażenia stałe ({\it ang. constexpr}), czy koncepty, daje kompilatorowi spore pole do wykazania się
+			i~redukcji czasu wykonania.
+		}
 	}
 
 	{
