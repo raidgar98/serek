@@ -859,6 +859,23 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				Ostatecznie smoczy zasób wymusza na użytkowniku stosowanie się do nowoczesnych wzorców architektonicznych, jakim jest {\it MVC}\cite{mvc}.
 				Sprawia to, że cała biblioteka jest w peletonie pod względem współczesnego podejścia do rozwiązań serwerowych.
 			}
+
+			{
+				\subsubsection{Model danych}
+
+				Żeby przetestować możliwości bibliotek, zarówno pod kątem wydajności jak i elastyczności, na różne struktury danych,
+				również model, który będzie podlegał zarówno serializacji jak i deserializacji musiał być nieco bardziej zróżnicowany.
+				Na całość składa się kombinacja trzech klas, które posiadają relację dziedziczenia oraz kompozycji. Dodatkowo, aby przy
+				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Poniżej
+				diagram UML prezentujący cały model danych.
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/benchmark_model_uml_diagram.png}
+					\caption*{Diagram UML prezentujący model testowych danych}
+					\medskip
+				\end{figure}
+			}
 			}
 
 			{
