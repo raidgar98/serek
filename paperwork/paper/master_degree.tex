@@ -831,8 +831,19 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 	{
 		\section{Testy wydajnościowe}
 
+		Celem sprawdzenia implementacji pod kątem wydajności, przeprowadzono badania w środowisku, gdzie biblioteki pozwalające na przetwarzanie
+		formatu {\it JSON} mogą się najbardziej wykazać, czyli na wejściu i wyjściu serwerów sieciowych, w tym wypadku HTTP. Jak zostało wspomniane
+		na samym wstępie, pochodzący z języka {\it JavaScript} format jest najpowszechniejszym formatem\cite{google_trends_json_api_vs_rest_of_the_world}
+		używanym do wymiany danych pomiędzy aplikacjami na warstwie sieciowej.
+
 		{
 			\subsection{Środowisko testowe}
+
+			Całe środowisko testowe składa się z trzech elementów. Pierwszym z nich są metody posiadające implementację serializacji i~deserializacji
+			wykorzystując w~tym celu trzy różne biblioteki, reprezentujące trzy podejścia do tej tematyki. Drugim elementem jest serwer http, którego
+			naczelnym zadaniem jest bycie zarówno pośrednikiem wymiany danych pomiędzy bibliotekami, a oprogramowaniem testującym wydajność oraz
+			emulatorem środowiska w jakim biblioteki tego typu są najczęściej wykorzystywane. Trzecim i ostatnim elementem całego systemu jest
+			oprogramowanie do testów wydajnościowych, które posiada szereg narzędzi dedykowanych tego typu badaniom.
 
 			{
 				\subsubsection{Dobór technologii}
