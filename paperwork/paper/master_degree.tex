@@ -876,6 +876,39 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 					\medskip
 				\end{figure}
 			}
+
+			{
+				\subsubsection{Biblioteki}
+
+				Podejście z manualną refleksją pól, będzie miało swojego reprezentanta w postaci wcześniej wspomnianej biblioteki {\it jsoncpp}.
+				Posiada ona najbardziej standardowy interfejs wśród przedstawicieli swojej kategorii. Poniżej zostanie zamieszczony jedynie fragment
+				implementacji serializacji. Cała ilość koniecznego kodu, aby dorównać funkcjonalnością pozostałym biblioteką jest zdecydowanie
+				największa. Cała zajmuje obszar pomiędzy $26$ a $141$ linijką, dając sumarycznie $115$ linijek.\n
+
+				\begin{lstlisting}[frame=single]
+// ...
+json["b1"] = Json::Value(Json::ValueType::arrayValue);
+json["b1"].resize(in.b1.size());
+for(const auto& it: in.b1) json["b1"].append(it);
+
+json["b2"] = Json::Value(Json::ValueType::arrayValue);
+json["b2"].resize(in.b2.size());
+for(const auto& it: in.b2) json["b2"].append(it);
+
+json["b3"] = Json::Value(Json::ValueType::arrayValue);
+json["b3"].resize(in.b3.size());
+for(const auto& it: in.b3)
+{
+	Json::Value it_result;
+	serial_A(it_result, it);
+	json["b3"].append(it_result);
+}
+// ...
+				\end{lstlisting}
+			}
+
+			{
+				\subsubsection{Oprogramowanie do testów wydajnościowych}
 			}
 
 			{
