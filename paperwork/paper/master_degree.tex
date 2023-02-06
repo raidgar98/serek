@@ -684,9 +684,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				Dzięki skorzystaniu z struktury {\it std::is\_fundamental\_v<T>}\cite{std_is_fundamental}, za pomocą której jest możliwe wyciągnięcie informacji,
 				czy typ jest prosty, czy nie. Dodatkowo, dzięki wprowadzeniu operatora potrójnego porównania\cite{starship_operator} w~standardzie C++20, możliwym było
 				przyspieszenie procedury przekierowywania operatorów poprzez przeciążenie wyłącznie jednego. Dodatkowo dodanie cichych konwersji dodatkowo redukuje
-				dyskomfort w korzystaniu z fasady.\n
-
-				Implementacja tego typu ma jeszcze jedną bardzo ważną zaletę: jest fasadą idealną, która może zostać przekazana jako referencja
+				dyskomfort w korzystaniu z fasady. Implementacja tego typu ma jeszcze jedną bardzo ważną zaletę: jest fasadą idealną, która może zostać przekazana jako referencja
 				do klasy, którą opakowuje.
 			}
 
@@ -696,12 +694,12 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				Poprzednie rozwiązanie w przypadku typów prostych umożliwia bardzo proste dodanie dodatkowego pola z referencją. Jednakże rozwiązanie to:
 				po pierwsze przywołuje problem z puchnięciem klasy z każdym dodatkowym polem, a~po drugie mocno komplikuje rozwiązanie z dziedziczeniem po
 				typach złożonych, gdzie naruszenie bazowego interfejsu poprzez dołożenie nowej zmiennej, czy metody naruszałoby wrażenie przeźroczystości
-				biblioteki.
+				biblioteki.\n
 
 				Celem zaproponowania rozwiązania, należy wskazać czym statyczna referencja na pole klasy jest. Otóż jest to po przesunięcie względem
 				adresu struktury danych. Wynika więc z tej definicji, że jest to adres możliwy do określenia, jeszcze podczas kompilacji,
 				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje jest możliwe. Dzięki czemu, został rozwiązany problem
-				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z typem poprzedniego pola w klasie.
+				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z typem poprzedniego pola w klasie.\n
 
 				Teraz, żeby dostać się do pola potrzebny jest wskaźnik na obiekt ({\it this}), a~następnie dodanie do niego posiadanego przesunięcia.
 				Dodatkowo rozwiązany zostaje tutaj jeszcze jeden problem, a mianowicie problem z dostępem do nazwy pól.
