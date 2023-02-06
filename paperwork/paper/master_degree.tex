@@ -846,7 +846,19 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 			oprogramowanie do testów wydajnościowych, które posiada szereg narzędzi dedykowanych tego typu badaniom.
 
 			{
-				\subsubsection{Dobór technologii}
+				\subsubsection{Serwer}
+
+				Jako dostawce usług serwerowych, zdecydowano się na wykorzystanie biblioteki {\it Drogon}\cite{drogon}. Jak sami autorzy twierdzą,
+				jest to biblioteka pisana między innymi w standardzie C++ 20, czyli obecnie najwyższym stabilnym. Posiada prosty interfejs oraz
+				wsparcie dla najnowszych zdobyczy języka, takich jak korutyny czy widoki.\n
+
+				Dodatkowo biblioteka ta jest oparta o system budowy użyty przez bibliotekę {\it serek} co zdecydowanie uprości integrację. Ponadto
+				cała biblioteka jest dostarcza z~skonfigurowaną biblioteką {\it jsoncpp}\cite{jsoncpp_repo}, która zostanie wykorzystana jako
+				reprezentant podejścia z~manualną refleksją pól.\n
+
+				Ostatecznie smoczy zasób wymusza na użytkowniku stosowanie się do nowoczesnych wzorców architektonicznych, jakim jest {\it MVC}\cite{mvc}.
+				Sprawia to, że cała biblioteka jest w peletonie pod względem współczesnego podejścia do rozwiązań serwerowych.
+			}
 			}
 
 			{
