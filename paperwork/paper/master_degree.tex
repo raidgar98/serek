@@ -955,7 +955,7 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 				możliwości spojrzenia w siebie (refleksji) daje możliwość znaczącej redukcji kodu.\n
 
 				Trzecią i jednocześnie ostatnią biblioteką jest opisana szerzej w rozdziale numer \ref{serek} - biblioteka {\it serek}.
-				Jej użycie jest jeszcze krótsze i doliczając dodatkowe linijki na aliasy, całość zamyka się w zaledwie 12 linijkach.
+				Jej użycie jest jeszcze krótsze i doliczając dodatkowe linijki na aliasy, całość zamyka się w zaledwie $12$ linijkach.\n
 
 				\begin{lstlisting}[frame=single]
 void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
@@ -972,6 +972,84 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 			{
 				\subsubsection{Oprogramowanie do testów wydajnościowych}
+
+				{\it Jmeter}\texttrademark\cite{jmeter} jest oprogramowaniem stworzonym przez fundację {\it Apache}, napisaną w języku {\it Java}. jej przeznaczeniem
+				jest projektowanie oraz wykonanie testów wydajnościowych. Sam wachlarz możliwości jakie oferuje rozpościera się od prostego odpytywania serwisu, poprzez
+				tworzenie złożonych wielokrotnie zagnieżdżonych struktur warunkowych i pętel wykonujących wielokrotne logowania kończąc na tworzeniu interaktywnych
+				raportów w formie stron wwww. Specyfika tego problemu wymaga jedynie części z wymienionych powyżej możliwości.
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/main_pane.png}
+					\caption{Widok ogólnej konfiguracji całego testu}
+					\medskip
+				\end{screenshot}
+
+				Pierwszy panel do konfiguracji, pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja, aby testy były uruchamiane sekwencyjnie,
+				co sprawi, że wydzielone grupy wątków dla każdej z bibliotek nie będą na siebie wpływać.\n
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/thread_group_config.png}
+					\caption{Konfiguracja grupy wątków}
+					\medskip
+				\end{screenshot}
+
+				Ustawienia każdej z trzech grup wątków są takie same. Pozwalają sprecyzować ilość zapytań na każdym z uruchamianych wątków, a także ile ma się ich pojawić.
+				Ustawienie ilości zapytań na wartość ujemną sprawi, że zapytania będą wysyłane w sposób ciągły do momentu wystąpienia punktu przerwania, na przykład czas, czy warunkowa
+				ilość powtórzeń. Na powyższym zrzucie ekranu jednak nie widnieją żadne liczby, jest to spowodowane możliwością tworzenia zmiennych i odnoszenia się do nich w dowolnym innym
+				komponencie.\n
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/variables.png}
+					\caption{Konfiguracja zmiennych}
+					\medskip
+				\end{screenshot}
+
+				Tworzenie zmiennych odbywa się w dedykowanym widoku, gdzie istnieje możliwość przypisania nazw zmiennym, określenia ich wartości, a także zapisania krótkiego
+				tekstu pomocy. Tajemniczy zapis w kolumnie wartości, jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu {\it Jmeter}\texttrademark,
+				ponieważ powinno się to odbywać z poziomu terminala, o czym informuje nas sama aplikacji podczas jej uruchomienia. Uruchomienie z poziomu terminala daje możliwość
+				nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi {\it -J nazwa\_pola=nowa\_wartość}).\n
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/jmeter_gui_warn.png}
+					\caption{Ostrzeżenie dotyczące nie przeprowadzania testów wydajnościowych w trybie graficznym}
+					\medskip
+				\end{screenshot}
+
+				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
+				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
+				zostało zdefiniowane jako plik {\it CSV}, którego stokenizowana każda linijka jest przekazywana do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu,
+				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych.\n
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/csv_config.png}
+					\caption{Konfiguracja punktu źródła danych do zapytań}
+					\medskip
+				\end{screenshot}
+
+				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta {\it HTTP} oraz sprecyzowanie ścieżek pod jakimi dostępne są konkretne biblioteki.
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/http_serek_config.png}
+					\caption{Konfiguracja klienta {\it HTTP} dla biblioteki {\it serek}}
+					\medskip
+				\end{screenshot}
+
+				Konfiguracja zostaje na sam koniec skonfigurowana, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie, zaledwie stu próbek
+				na każdej bibliotece. Zaglądając do zakładki z zagregowanym raportem można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
+				zostają informacji między innymi o ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie.
+
+				\begin{screenshot}[H]
+					\centering
+					\includegraphics[width=15cm,keepaspectratio=true]{./img/jmeter_ss/aggregate_report.png}
+					\caption{Szybki raport wygenerowany przez aplikację}
+					\medskip
+				\end{screenshot}
 			}
 
 			{
