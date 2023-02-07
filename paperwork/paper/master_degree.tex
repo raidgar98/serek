@@ -86,7 +86,7 @@
 \cfoot{\thepage\ z \zpageref{LastPage}}
 
 % document info
-\title{Implementacja i badanie wydajności serializacji wykonanej w paradygmacie meta-programowania względem standardowych rozwiązań w języku C++}
+\title{Implementacja i badanie wydajności serializacji wykonanej w paradygmacie metaprogramowania względem standardowych rozwiązań w języku C++}
 \author{inż. Krzysztof MOCHOCKI}
 \date{}
 
@@ -243,11 +243,11 @@
 
 		\vspace*{\vfill}
 
-		{\bfseries\ Słowa kluczowe:} serializacja, deserializacja, C++, szablony, wydajność, meta-programowanie
+		{\bfseries\ Słowa kluczowe:} serializacja, deserializacja, C++, szablony, wydajność, metaprogramowanie
 
 		\vspace*{\vfill}
 
-		{\bfseries\ Thesis title:} Implementation and performance testing of serialization performed in the meta-programming paradigm against standard solutions in the C++ language
+		{\bfseries\ Thesis title:} Implementation and performance testing of serialization performed in the metaprogramming paradigm against standard solutions in the C++ language
 
 		\vspace*{\vfill}
 
@@ -255,7 +255,7 @@
 
 		\vspace*{\vfill}
 
-		{\bfseries\ Keywords:} serialization, deserialization, C++, templates, performance, meta-programming
+		{\bfseries\ Keywords:} serialization, deserialization, C++, templates, performance, metaprogramming
 
 		\vspace*{\vfill}
 
@@ -293,26 +293,26 @@
 		umożliwiają iterowanie po elementach struktur danych, czy ich serializację, jednakże nie są one wciąż wdrożone do
 		standardu \cite*{cpp_extension_reflexpr_short}.\n
 
-		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{Popularność haseł według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}
+		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność haseł według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}
 
 		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie, jest on
 		najbardziej powszechnym standardem komunikacji na świecie.\n
 
 		Aktualnie możemy rozróżnić trzy podstawowe podejścia do tego problemu. Pierwsze, gdzie programista tylko wspomaga się
-		zewnętrzną biblioteką, której jedynym zadaniem jest zapewnienie zgodności ze standardem formatu, zarówno podczas serializacji
+		zewnętrzną biblioteką, której jedynym zadaniem jest zapewnienie zgodności ze standardem formatu, jednakowo podczas serializacji
 		oraz deserializacji, natomiast nie zapewnia refleksji typów złożonych, których serializację bądź deserializację musi
 		dokonać samodzielnie.\n
 
 		Kolejnym podejściem do problemu jest rozwiązanie oparte na bibliotece, która również jak powyżej zawiera funkcję
 		serializacji i deserializacji typów prostych, jednakże dodatkowo zawiera funkcję zewnętrznej refleksji typów,
-		która najczęściej już na podstawie statycznych referencji do pola klasy, jest wstanie wydedukować typy i automatycznie
+		która najczęściej już na podstawie statycznych referencji do pola klasy, jest w stanie wydedukować typy i automatycznie
 		poprowadzić proces serializacji lub deserializacji.\n
 
 		Trzecim podejściem jest zastosowanie wewnętrznej refleksji. W innych językach najczęściej jest dostarczona przez język.
 		Przykładowo w języku Python jest ona wyrażona w postaci pola \code{\_\_dict\_\_}, które dostarcza programiście całą klasę
 		w postaci dynamicznej struktury danych typu klucz-wartość: słownika, gdzie kluczem jest nazwa pola klasy o typie
 		łańcucha znakowego, natomiast wartością jest konkretna wartość w obecnej instancji klasy. Z punktu widzenia tematu
-		niniejszej pracy, daje to pełny i prosty wgląd w strukturę zarówno klasy jak i hierarchii klas.
+		niniejszej pracy, daje to pełny i prosty wgląd w strukturę zarówno klasy, jak i hierarchii klas.
 	}
 
 	% theory
@@ -355,7 +355,7 @@
 			Jest lekkim formatem danych wywodzącym się z języka JavaScript. Jak pokazano na wykresie numer jeden,
 			\JSON jest formatem o największej rozpoznawalności wśród tekstowych reprezentacji danych. Swój sukces
 			zawdzięcza swojej formie: bardzo czytelnej dla człowieka, jednocześnie wydajnej dla komputerów zarówno
-			podczas przetwarzania jak i generowania. Cecha ta sprawia, że praktycznie każdy współcześnie używany język
+			podczas przetwarzania, jak i generowania. Cecha ta sprawia, że praktycznie każdy współcześnie używany język
 			programowania ma jego obsługę\cite{json_short} w~bibliotece standardowej lub posiada zastęp zewnętrznych
 			bibliotek.\n
 
@@ -419,14 +419,14 @@
 			\begin{quotation}
 				[\ldots] refleksyjne systemy obliczeniowe umożliwiają przetwarzanie poprzez obserwację i~modyfikację
 				właściwości własnego zachowania, zwłaszcza właściwości, które zazwyczaj obserwuje się tylko z~zewnętrznego,
-				meta-poziomowego punktu widzenia. [\ldots]
+				meta poziomowego punktu widzenia. [\ldots]
 			\end{quotation}
 
 			Dobrym przykładem programowania refleksyjnego, jest kompletna kontrola nad typami danych w języku Python,
 			gdzie istnieje pełna możliwość dynamicznego przeglądania, dodawania, czy usuwania pól w klasie (lub wyłącznie w jednym obiekcie)
 			podczas działania programu. Jest to na tyle rozbudowany obszar w~tym języku, że istnieją biblioteki takie jak
 			\nonpl{dataclasses}\cite{python_dataclass}, które podmieniają prostą definicję klasy z wyłącznie statycznymi polami,
-			na definicję klasy z stworzonymi konstruktorami, reprezentacjami i zwykłymi polami, należącymi do obiektu.
+			na definicję klasy ze stworzonymi konstruktorami, reprezentacjami i zwykłymi polami, należącymi do obiektu.
 
 			Warto nadmienić, że język C++ domyślnie nie posiada zbyt wielu mechanizmów ułatwiających programowanie refleksyjne,
 			co jest przyczółkiem problematyki całej niniejszej pracy.
@@ -455,10 +455,10 @@
 				Redukcja członka klasy nie jest jeszcze problemem, ponieważ kompilator od razu poinformuje programistę o tym, że próbuje operować na polu,
 				które (już) nie istnieje, jednakże w przypadku dodania pola, programista może nieświadomie dodać pole, które nie będzie podlegało serializacji
 				lub deserializacji. Kolejne wada tego rozwiązania kryje się w mechanizmie konwersji typów, a mianowicie jeżeli typ danego pola zostanie
-				zmieniony i przez przypadek istnieje niejawna, możliwa konwersja między starym, a nowym typem, serializacja oraz deserializacja może
-				dyskretnie dokonywać błędnych operacji. Dobrym przykładem jest zmiana reprezentacji procentów z liczby całkowitej od 0 do 100,
-				na typ zmiennoprzecinkowy od 0.0 do 1.0. Jeżeli podmienimy typ w klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
-				od 0\% do 99\% zostaną zaokrąglone do wartości całkowitej: 0. Istnieją mechanizmy pozwalające na uchronienie programisty przed takim
+				zmieniony i przez przypadek istnieje niejawna, możliwa konwersja między starym a nowym typem, serializacja oraz deserializacja może
+				dyskretnie dokonywać błędnych operacji. Dobrym przykładem jest zmiana reprezentacji procentów z liczby całkowitej od $0$ do $100$,
+				na typ zmiennoprzecinkowy od $0.0$ do $1.0$. Jeżeli podmienimy typ w klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
+				od $0\%$ do $99\%$ zostaną zaokrąglone do wartości całkowitej: $0$. Istnieją mechanizmy pozwalające na uchronienie programisty przed takim
 				czarnym scenariuszem, na przykład w postaci testów wzorcowych (\ang{pattern tests}), lub korzystanie w inteligentny sposób z szablonów,
 				które mogłyby dedukować odpowiednią metodę obsługi pola, jednakże nie są one dostarczone od razu oraz nie wynikają z filozofii
 				korzystania z tego typu bibliotek.\n
@@ -466,11 +466,11 @@
 				Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
 				biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w implementacji własnych, niecodziennych sposobów serializacji,
 				które w przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\footnote{
-					autor jest zdania, że nazwa \nonpl{hash} nie powinna być spolszczona do słowa \nonpl{hasz}, lub \nonpl{skrót}\cite{hash_po_angielskiemu}
-				}, od strony programu, najlepiej, żeby był reprezentowany binarnie, ponieważ zajmuje o wiele mniej miejsca oraz wygodnie się go przetwarza,
+					Autor jest zdania, że nazwa \nonpl{hash} nie powinna być spolszczona do słowa \nonpl{hasz}, lub \nonpl{skrót} \cite{hash_po_angielskiemu}
+				}, od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
 				przez człowieka. Biblioteki z manualną refleksją typów bez problemu obsłużą tego typu momenty, ponieważ programista może bez problemu
-				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania niestety wymagają sprytnego przeładowywania funkcji, lub
+				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania niestety wymagają sprytnego przeładowywania funkcji lub
 				stosowania obiektów pośrednich.
 			}
 
@@ -520,20 +520,20 @@ MyClass deserialize_my_class(const std::string& json_text)
 			\subsection{Pół automatyczna refleksja pól}
 
 			Podejście to wymaga biblioteki, która posiada odpowiednie funkcje lub makra, umożliwiające dokonanie pół automatycznej
-			refleksji pól struktury danych. Po skorzystaniu z takiego zewnętrznego zasobu, programista nie ma bezpośredniego dostępu do samego momentu
+			refleksji pól struktury danych. Po skorzystaniu z takiego zewnętrznego zasobu programista nie ma bezpośredniego dostępu do samego momentu
 			wpisania lub odczytu wartości z pól klasy. Przykładem takiej biblioteki jest \nonpl{fc}\cite{fc_repo}.\n
 
 			{
 				\subsubsection{Wady i zalety}
 
-				Fakt ukrycia tego mechanizmu przez bibliotekę, ujawnia pierwszą trudność przy wykorzystaniu tego podejścia: trudność w ustawienia własnych
-				metod serializacji, szczególnie, jeżeli biblioteka nie przewiduje takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość,
+				Fakt ukrycia tego mechanizmu przez bibliotekę ujawnia pierwszą trudność przy wykorzystaniu tego podejścia: trudność w ustawienia własnych
+				metod serializacji, szczególnie jeżeli biblioteka nie przewiduje takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość,
 				to może ono doprowadzać do skomplikowania interfejsu, co zaś może doprowadzać do podwyższenia poziomu wejścia dla nowych programistów.
 
 				Jednakże to podejście nie rozwiązuje w pełni również problemu przedstawionego w poprzednim podrozdziale, gdzie została wspomniana
 				możliwość zmiany struktury klasy, na co nie zareaguje sam mechanizm serializacji z uwagi na istnienie
-				konieczności manualnego wpisania jakie pola chcemy, żeby podlegały serializacji. Podejście z pół-automatyczną refleksją
-				chroni programistę przed usunięciem pola, oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
+				konieczności manualnego wpisania jakie pola chcemy, żeby podlegały serializacji. Podejście z półautomatyczną refleksją
+				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
 			}
@@ -569,12 +569,12 @@ MyClass deserialize_my_class(const std::string& json_text)
 		{
 			\subsection{W pełni automatyczna refleksja pól}
 
-			Rozwiązanie koncepcyjnie, jest mocno zbliżone do poprzedniego, jednakże ma jedną podstawową różnicę, która rozwiązuje ostatni
+			Rozwiązanie koncepcyjnie jest mocno zbliżone do poprzedniego, jednakże ma jedną podstawową różnicę, która rozwiązuje ostatni
 			problem dotyczący dodania nowego pola w klasie. Jest to możliwe, ponieważ architektura oparta o taką bibliotekę, wymusza wplecenie
-			interfejsu biblioteki w deklarację klasy i nie oczywiste jest dołożenie nowego pola bez skorzystania z narzuconego interfejsu, co
+			interfejsu biblioteki w deklarację klasy i nieoczywiste jest dołożenie nowego pola bez skorzystania z narzuconego interfejsu, co
 			radykalnie redukuje możliwość zaistnienia takiego problemu.\n
 
-			W momencie powstawania tej pracy, autor nie ma informacji o istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
+			W momencie powstawania tej pracy autor nie ma informacji o istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
 			stworzenie takiego rozwiązania, a także zbadanie wydajności pod kątem czasu wykonania, względem wcześniej wspomnianych rozwiązań.
 		}
 	}
@@ -589,22 +589,22 @@ MyClass deserialize_my_class(const std::string& json_text)
 				\subsubsection{System budowy oraz środowisko deweloperskie}
 
 				Celem zapewnienia systemu budowy, który jest przystosowany do użycia na wielu platformach, oraz udostępnia narzędzia pozwalające na prostą
-				integracje z innymi bibliotekami, wybór \nonpl{cmake}'a\cite{cmake_docs} jest domyślnym wyborem w przypadku tej biblioteki, jak i wielu innych.\n
+				integrację z innymi bibliotekami, wybór \nonpl{cmake}'a\cite{cmake_docs} jest domyślnym wyborem w przypadku tej biblioteki, jak i wielu innych.\n
 
 				Jedną z głównych zalet tego oprogramowania, jest możliwość rozproszonego definiowania celów budowy. Dzięki takiemu podejściu nie jest tworzony
 				jeden wielki plik z definicją całego projektu, tylko wiele plików, które skupiają się na konfiguracji poszczególnych elementów aplikacji.\n
 
 				Dodatkowo istnieje możliwość tworzenia własnych, niekompilowanych (innych niż pliki wykonywalne, czy biblioteki) celów budowy. Zostało to zagospodarowane
 				przez integrację z różnymi narzędziami wspomagającymi rozwój oprogramowania. Pierwszym z nich jest system kontroli wersji \nonpl{git}\cite{git_docs}. Oprócz standardowego
-				zastosowania podczas wytwarzanie oprogramowania, został też zintegrowany podczas budowy oprogramowania, automatycznie pobierając wszystkie pakiety zależne
+				zastosowania podczas wytwarzania oprogramowania został też zintegrowany podczas budowy oprogramowania, automatycznie pobierając wszystkie pakiety zależne
 				(\ang{submodules}), dzięki czemu podczas budowy, wszystkie paczki są zaktualizowane.\n
 
 				Kolejnym miejscem jest dodanie statycznej analizy kodu za pomocą programu \nonpl{cppcheck}\cite{cppcheck_repo}, który pomógł znaleźć masę drobnych błędów,
-				jak nie zainicjalizowane zmienne, czy funkcje nie zwracające żadnej wartości, mimo takiej deklaracji. Dodatkowo udało się wyeliminować kilka funkcji,
-				które jak się okazało były martwym kodem nie wołanym w żadnym możliwym przejściu.\n
+				jak nie zainicjalizowane zmienne, czy funkcje niezwracające żadnej wartości, mimo takiej deklaracji. Dodatkowo udało się wyeliminować kilka funkcji,
+				które jak się okazało, były martwym kodem, niewołanym w żadnym możliwym przejściu.\n
 
-				Następnym oprogramowaniem, które zostało zintegrowane z systemem budowy, to formater kodu \nonpl{clang-format}\cite{clangformat_docs}, dzięki czemu
-				udało się trzymać jednolity format kodu. Oprócz samych względów estetycznych, sma formater potrafi pomóc w znajdywaniu prostych błędów, polegających
+				Następnym oprogramowaniem, które zostało zintegrowane z systemem budowy, to formator kodu \nonpl{clang-format}\cite{clangformat_docs}, dzięki czemu
+				udało się trzymać jednolity format kodu. Oprócz samych względów estetycznych sam formator potrafi pomóc w znajdywaniu prostych błędów, polegających
 				na braku klamry, czy średnika, ponieważ w okolicy literówki, najczęściej formatowanie jest wyraźnie inne i przykuwa to wzrok podczas poszukiwań.\n
 
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w formie gotowej strony www. Poniżej zrzuty
@@ -651,7 +651,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 
 			Problematyka całego podejścia jest dwuwymiarowa, ponieważ istnieje konieczność stworzenia interfejsu biblioteki, która wykluczy, lub znacząco
 			zredukuje możliwość wystąpienia wcześniej wspomnianych problemów. Dodatkowo należy przewidzieć możliwość zadawania własnych metod serializacji,
-			najlepiej w jednolity sposób. Poza tymi wymaganiami, został sformułowany jeszcze jeden warunek dla całej implementacji: brak korzystania z makr.\n
+			najlepiej w jednolity sposób. Poza tymi wymaganiami został sformułowany jeszcze jeden warunek dla całej implementacji: brak korzystania z makr.\n
 
 			Jak zostało wspomniane w rozdziale poświęconym omówieniu definicji refleksji, język C++ nie posiada zbyt dużego wsparcia dla programowania
 			refleksyjnego. Będzie to wyzwanie ściśle techniczne, a dokładnie implementacyjne. Rozwiązanie tego problemu daje bardzo wymierne korzyści,
@@ -659,9 +659,9 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			postać binarna.\n
 
 			Intuicyjnym podejściem wydaje się wykorzystanie wzorca ciekawie powtarzającego się wzoru szablonu\footnote{
-				CRTP (\ang{curiously recurring template pattern}) - wzorzec projektowy polegający na przekazaniu klasie rodzica, typu klasy dziecka\cite{crtp_definition}
+				CRTP (\ang{curiously recurring template pattern}) - wzorzec projektowy polegający na przekazaniu klasie rodzica, typu klasy dziecka \cite{crtp_definition}
 			}, które umożliwiałoby potencjalnie abstrakcję niezbędnych narzędzi do przejścia po polach klasy dziecka u rodzica. To podejście niestety jest skazane na
-			porażkę. Jest to spowodowane miejscem korzystania z~tego wzorca, a mianowice, przy samej deklaracji klasy, co jest zbyt wczesnym etapem, gdy pola nie są
+			porażkę. Jest to spowodowane miejscem korzystania z~tego wzorca, a mianowicie, przy samej deklaracji klasy, co jest zbyt wczesnym etapem, gdy pola nie są
 			jeszcze zdefiniowane. Dodatkowo to rozwiązanie, gdzie wszystkie pola byłyby wymienione jako referencje u rodzica ma jeszcze jedną, jak zresztą każde
 			inne rozwiązanie opierające się na wymienieniu w sekwencji wszystkich pól, wadę: nie eliminuje wciąż problemu gapiostwa programisty, który mógłby zapomnieć
 			dopisać nowe pole w strukturze danych, dlatego zaszła konieczność wplecenia interfejsu pomiędzy deklaracje pól klasy.
@@ -671,40 +671,40 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			\subsection{Architektura}
 
 			Rozwiązaniem bolączek wspomnianych w poprzednim rozdziale jest zastosowanie autorskiego rozwiązania: statycznej listy jednokierunkowe, na podstawie
-			referencji do pól klasy. Podejście to wykorzystuje fakt, że dostęp do referencji do pole numer jeden uzyskujemy w momencie postawienia średnika przy jego deklaracji.
-			Dlatego najwcześniej gdy się da do takiego pola odwołać, jest deklaracja następnego pola, lub zewnętrze klasy, które również zostanie tutaj zagospodarowane,
+			referencji do pól klasy. Podejście to wykorzystuje fakt, że dostęp do referencji do pola numer jeden uzyskujemy w momencie postawienia średnika przy jego deklaracji.
+			Dlatego najwcześniej, gdy się da do takiego pola odwołać, jest deklaracja następnego pola, lub zewnętrze klasy, które również zostanie tutaj zagospodarowane,
 			ale nieco inaczej niż we wcześniej wspomnianej pół automatycznej refleksji typów. Jeżeli więc pociągnąć ten koncept dalej, gdzie pole drugie wskazuje, na
-			pole pierwsze, a pole trzecie na drugie i tak dalej, otrzymujemy formalnie rzecz ujmując listę jednokierunkową, której zakończeniem jest pierwszy członek
-			klasy. Rozwiązanie to już koncepcyjnie rozwiązuje największą bolączkę poprzednich rozwiązań: oderwanie miejsca refleksji od bieżącego stanu klasy.
+			pole pierwsze, a pole trzecie na drugie i tak dalej. Taka klasa staje się w ten sposób listą jednokierunkową, której zakończeniem jest pierwszy członek klasy.
+			Rozwiązanie to już koncepcyjnie rozwiązuje największą bolączkę poprzednich rozwiązań: oderwanie miejsca refleksji od bieżącego stanu klasy.
 			Teraz każde pole przy deklaracji wskazuje na poprzednie, jest więc to rzucające się w oczy, przy dodawaniu lub usuwaniu pól klasy, nie do pominięcia.\n
 
 			Jednakże rozwiązanie jednego problemu nasuwa kolejne. Pierwszym jest rozwiązanie problemu dostępu do właściwych typów pod kolejnymi polami, a także
 			miejscem na przechowywanie tej referencji, która mogłaby sprawić, że cała klasa przytyje w zależności od środowiska o $N * 8$, lub $N * 4$ bajty,
-			gdzie N jest liczbą pól. Dodatkowo, wciąż jest problem z początkiem listy, czyli referencją na ostatnie pole klasy. O ile koniec jest oczywisty,
+			gdzie N jest liczbą pól. Dodatkowo wciąż jest problem z początkiem listy, czyli referencją na ostatnie pole klasy. O ile koniec jest oczywisty,
 			w postaci pierwszego pola, to początek już nie i wymaga osobnego zainteresowania. Kolejnym kłopotem jest miejsce pobrania nazwy pola, co jest
-			konieczne, aby móc zbudować obiekt \JSON, gdzie w wcześniej prezentowanych rozwiązaniach użytkownik sam deklarował nazwę pola, lub nazwa ta
+			konieczne, aby móc zbudować obiekt \JSON, gdzie we wcześniej prezentowanych rozwiązaniach użytkownik sam deklarował nazwę pola, lub nazwa ta
 			była w prosty sposób wyłuskiwana przez makro.\n
 
 			{
 				\subsubsection{Problem dostępu do wartości pola}
 
-				Rozwiązania są co najmniej dwa. Pierwszym, które nie zostało wybrane, to skorzystanie z interfejsu jakie oferują wskaźniki. Oznacza to,
-				przechowywanie wartości jako pole jakiejś obwoluty (\ang{wrapper}), a dostęp do niego poprzez operator dostępu do pola $\rightarrow$. Jednakże,
-				problemem tego rozwiązania jest przeniesienie odpowiedzialności za zaimplementowanie wszystkich operatorów, konstruktorów, czy destruktorów
+				Rozwiązania są co najmniej dwa. Pierwszym, które nie zostało wybrane, to skorzystanie z interfejsu, jakie oferują wskaźniki. Oznacza to,
+				przechowywanie wartości jako pole jakiejś obwoluty (\ang{wrapper}), a dostęp do niego poprzez operator dostępu do pola $\rightarrow$. Jednakże problemem
+				tego rozwiązania jest przeniesienie odpowiedzialności za zaimplementowanie wszystkich operatorów, konstruktorów, czy destruktorów
 				na klasę otaczającą, oraz poprawne ich przekazanie do klasy wewnątrz. Przy tym podejściu ryzyko popełnienia gafy jest bardzo wysokie, dlatego też
 				pojawiła się kolejna koncepcja.\n
 
 				Polega ona na zaciągnięciu do pracy wcześniej wspomnianego wzorca \CRTP, oraz publiczne dziedziczenie po każdym polu, co sprawiłoby, że
-				do interfejs zostaje identyczny, dla dowolnej klasy, a jedyne co pozostaje do zaimplementowania, to poprawne przekierowanie konstruktorów
+				interfejs zostaje identyczny, dla dowolnej klasy, a jedyne co pozostaje do zaimplementowania, to poprawne przekierowanie konstruktorów
 				i destruktorów.\n
 
-				Jednakże, C++ jest językiem, gdzie istnieje rozróżnienie na typy złożone i~proste, po których nie można dziedziczyć. Aby pokryć ten przypadek,
-				można skorzystać z rozbudowanego modułu do metaprogramowania w języku C++ i napisać dwie specjalizacje. Jedną dla typów prostych, który
-				w dużym stopniu korzysta z~opisanego wcześniej rozwiązania, gdzie ilość rzeczy do przekierowania, nie jest tak duża. Drugą zaś,
-				dla typów złożonych, gdzie można wykorzystać wcześniej wspomniany wzorzec \CRTP i dziedziczyć po typach złożonych, takich jak klasa, czy struktura.\n
+				Jednakże C++ jest językiem, gdzie istnieje rozróżnienie na typy złożone i~proste, po których nie można dziedziczyć. Aby pokryć ten przypadek,
+				można skorzystać z rozbudowanego modułu do metaprogramowania w języku C++ i napisać dwie specjalizacje. Jedna dla typów prostych, w~dużym stopniu
+				korzystając z~opisanego wcześniej rozwiązania, gdzie ilość rzeczy do przekierowania, nie jest tak duża. Drugą zaś, dla typów złożonych,
+				gdzie można wykorzystać wcześniej wspomniany wzorzec \CRTP i dziedziczyć po typach złożonych, takich jak klasa, czy struktura.\n
 
-				Dzięki skorzystaniu z struktury \code{std::is\_fundamental\_v<T>}\cite{std_is_fundamental}, za pomocą której jest możliwe wyciągnięcie informacji,
-				czy typ jest prosty, czy nie. Dodatkowo, dzięki wprowadzeniu operatora potrójnego porównania\cite{starship_operator} w~standardzie C++20, możliwym było
+				Dzięki skorzystaniu ze struktury \code{std::is\_fundamental\_v<T>}\cite{std_is_fundamental}, za pomocą której jest możliwe wyciągnięcie informacji,
+				czy typ jest prosty, czy nie. Co więcej, dzięki wprowadzeniu operatora potrójnego porównania \cite{starship_operator} w~standardzie C++20, możliwe było
 				przyspieszenie procedury przekierowywania operatorów poprzez przeciążenie wyłącznie jednego. Dodatkowo dodanie cichych konwersji dodatkowo redukuje
 				dyskomfort w korzystaniu z fasady. Implementacja tego typu ma jeszcze jedną bardzo ważną zaletę: jest fasadą idealną, która może zostać przekazana jako referencja
 				do klasy, którą opakowuje.
@@ -718,12 +718,12 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				typach złożonych, gdzie naruszenie bazowego interfejsu poprzez dołożenie nowej zmiennej, czy metody naruszałoby wrażenie przeźroczystości
 				biblioteki.\n
 
-				Celem zaproponowania rozwiązania, należy wskazać czym statyczna referencja na pole klasy jest. Otóż jest to po przesunięcie względem
-				adresu struktury danych. Wynika więc z tej definicji, że jest to adres możliwy do określenia, jeszcze podczas kompilacji,
-				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje jest możliwe. Dzięki czemu, został rozwiązany problem
+				Aby zaproponować rozwiązanie, należy podać definicję statycznej referencji na pole klasy. Otóż jest to przesunięcie względem
+				adresu struktury danych. Wynika więc z tej definicji, że jest to wartość możliwa do określenia, jeszcze podczas kompilacji,
+				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje, jest możliwe. Dzięki czemu został rozwiązany problem
 				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z typem poprzedniego pola w klasie.\n
 
-				Teraz, żeby dostać się do pola potrzebny jest wskaźnik na obiekt (\code{this}), a~następnie dodanie do niego posiadanego przesunięcia.
+				Teraz, żeby dostać się do pola, potrzebny jest wskaźnik na obiekt (\code{this}), a~następnie dodanie do niego posiadanego przesunięcia.
 				Dodatkowo rozwiązany zostaje tutaj jeszcze jeden problem, a mianowicie problem z dostępem do nazwy pól.
 			}
 
@@ -743,7 +743,7 @@ struct test_struct
 
 				Jak można zauważyć, celem odwołania się do referencji na poprzednie pole, konieczne jest odwołanie się do jego nazwy. Nie pozostaje to bez
 				konsekwencji, które można wykorzystać, a zostanie to zaprezentowane, poprzez zamieszczenie kodu, który ma na celu wydrukować na ekranie
-				zdemanglowany typ pola \code{field\_1}, a także wyjście z tego prostego programu:\n
+				rozczesywany (\ang{demangled}) typ pola \code{field\_1}, a także wyjście z tego prostego programu:\n
 
 				\begin{lstlisting}[frame=single]
 #include <serek/serek.hpp>
@@ -775,13 +775,12 @@ Konsola:
 				struktury danych wewnątrz klasy okazało się nie możliwe, bez odbierania użytkownikowi biblioteki pewnych funkcjonalności.
 				Przekazywanie za pomocą wzorca projektowego \CRTP nie jest możliwe przy deklaracji klasy z wcześniej wspomnianych powodów.\n
 
-				Rozwiązanie, które zostało ostatecznie wykorzystane, to tworzenie aliasu docelowej nazwy klasy zaraz pod definicją klasy,
-				zawierając w niej statyczną referencję do ostatniego pola klasy. Takie rozwiązanie daje maksimum elastyczności użytkownikowi,
-				a także nie wprowadza żadnego zaburzenia w interfejs tworzonej klasy.\n
+				Rozwiązanie to tworzenie aliasu docelowej nazwy klasy zaraz pod definicją klasy, zawierając w niej statyczną referencję do ostatniego pola klasy.
+				Takie rozwiązanie daje maksimum elastyczności użytkownikowi, a także nie wprowadza żadnego zaburzenia w interfejs tworzonej klasy.\n
 
 				Sam alias również nie jest do końca taki prosty, ponieważ korzysta z podobnej sztuczki co klasa odpowiedzialna, za przechowywanie
 				kolejnych pól w klasie. Precyzując: dziedziczy po klasie, do której należy ostatnie pole klasy, dzięki czemu całość zostaje
-				zapakowane w fasadę idealnie przeźroczystą z wygodnym dostępem do każdego pola w klasie. Poniżej zaktualizowany, przykład deklaracji klasy.\n
+				zapakowane w fasadę idealnie przeźroczystą z wygodnym dostępem do każdego pola w klasie. Poniżej urzeczywistniony, przykład deklaracji klasy.\n
 
 				\begin{lstlisting}[frame=single]
 #include <serek/serek.hpp>
@@ -814,7 +813,7 @@ using test_struct = serek::pack<&test_struct_impl::field_2>;
 				Dlatego koniecznością stało się wydzielenie kodu od serializacji do osobnej klasy. Szczęśliwie, istnieje wzorzec projektowy,
 				który bardzo dobrze sprawdza się w przypadku konieczności wydzielenia funkcjonalności poza klasę - wizytator\cite{visitor_description}.
 				Użycie go w przypadku tej implementacji jest bardzo proste i intuicyjne. Biblioteka zapewnia klasę bazową, po której dziedzicząc
-				użytkownik tworzy własnego wizytatora w którym definiuje obsługę swoich typów, jako przeciążenia operatora wywołania (\code{operator()}),
+				użytkownik tworzy własnego wizytatora, w którym definiuje obsługę swoich typów, jako przeciążenia operatora wywołania (\code{operator()}),
 				natomiast, wszystkie pozostałe przekierowuje do klasy bazowe, która ma zaimplementowane obsługę typów fundamentalnych.\n
 
 				\begin{lstlisting}[frame=single]
@@ -840,7 +839,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 			Wykorzystanie szablonowego metaprogramowania\cite{wiki_meta} ma dwie naczelne funkcje w języku C++. Pierwszą z nich jest
 			ta najbardziej praktyczna umożliwiająca redukcję pisanego kodu, poprzez jego umiejętne sformułowanie, tak aby kompilator
 			sam wygenerował odpowiednie fragmenty. Drugą, często niedocenianą zaletą takiego podejścia, jest możliwość wykorzystania
-			potencjału i wiedzy zgromadzonego w kompilatorze na przestrzeni dziesiątek lat rozwoju. Im bardziej programista odda ster
+			potencjału i wiedzy zgromadzonego w kompilatorze przez dziesiątki lat rozwoju. Im bardziej programista odda ster
 			kompilatorowi, tym większa jest szansa na pojawienie się z~punktu widzenia programisty, spontanicznej lub nieoczywistej
 			optymalizacji. Ponieważ cała implementacja opiera się w głównej mierze o ten paradygmat i stara się mocno korzystać
 			z~rozwiązań takich jak wyrażenia stałe (\ang{constexpr}), czy koncepty, daje kompilatorowi spore pole do wykazania się
@@ -853,7 +852,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 
 		Celem sprawdzenia implementacji pod kątem wydajności, przeprowadzono badania w środowisku, gdzie biblioteki pozwalające na przetwarzanie
 		formatu \JSON mogą się najbardziej wykazać, czyli na wejściu i wyjściu serwerów sieciowych, w tym wypadku \HTTP. Jak zostało wspomniane
-		na samym wstępie, pochodzący z języka \nonpl{JavaScript} format jest najpowszechniejszym formatem\cite{google_trends_json_api_vs_rest_of_the_world}
+		na samym wstępie, pochodzący z języka \nonpl{JavaScript} format jest najpowszechniejszym formatem \cite{google_trends_json_api_vs_rest_of_the_world}
 		używanym do wymiany danych pomiędzy aplikacjami na warstwie sieciowej.
 
 		{
@@ -861,8 +860,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 
 			Całe środowisko testowe składa się z trzech elementów. Pierwszym z nich są metody posiadające implementację serializacji i~deserializacji
 			wykorzystując w~tym celu trzy różne biblioteki, reprezentujące trzy podejścia do tej tematyki. Drugim elementem jest serwer http, którego
-			naczelnym zadaniem jest bycie zarówno pośrednikiem wymiany danych pomiędzy bibliotekami, a oprogramowaniem testującym wydajność oraz
-			emulatorem środowiska w jakim biblioteki tego typu są najczęściej wykorzystywane. Trzecim i ostatnim elementem całego systemu jest
+			naczelnym zadaniem jest bycie jednakowo pośrednikiem wymiany danych pomiędzy bibliotekami a oprogramowaniem testującym wydajność oraz
+			emulatorem środowiska, w jakim biblioteki tego typu są najczęściej wykorzystywane. Trzecim i ostatnim elementem całego systemu jest
 			oprogramowanie do testów wydajnościowych, które posiada szereg narzędzi dedykowanych tego typu badaniom.
 
 			{
@@ -872,8 +871,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				jest to biblioteka pisana między innymi w standardzie C++ 20, czyli obecnie najwyższym stabilnym. Posiada prosty interfejs oraz
 				wsparcie dla najnowszych zdobyczy języka, takich jak korutyny czy widoki.\n
 
-				Dodatkowo biblioteka ta jest oparta o system budowy użyty przez bibliotekę \serek co zdecydowanie uprości integrację. Ponadto
-				cała biblioteka jest dostarcza z~skonfigurowaną biblioteką \nonpl{jsoncpp}\cite{jsoncpp_repo}, która zostanie wykorzystana jako
+				Dodatkowo biblioteka ta oparta jest o system budowy użyty przez bibliotekę \serek, co zdecydowanie uprości integrację. Ponadto
+				cała biblioteka jest dostarcza ze skonfigurowaną biblioteką \nonpl{jsoncpp}\cite{jsoncpp_repo}, która zostanie wykorzystana jako
 				reprezentant podejścia z~manualną refleksją pól.\n
 
 				Ostatecznie smoczy zasób wymusza na użytkowniku stosowanie się do nowoczesnych wzorców architektonicznych, jakim jest \nonpl{MVC}\cite{mvc}.
@@ -883,9 +882,9 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 			{
 				\subsubsection{Model danych}
 
-				Żeby przetestować możliwości bibliotek, zarówno pod kątem wydajności jak i elastyczności, na różne struktury danych,
-				również model, który będzie podlegał zarówno serializacji jak i deserializacji musiał być nieco bardziej zróżnicowany.
-				Na całość składa się kombinacja trzech klas, które posiadają relację dziedziczenia oraz kompozycji. Dodatkowo, aby przy
+				Żeby przetestować możliwości bibliotek, zarówno pod kątem wydajności, jak i elastyczności, na różne struktury danych,
+				również model, który będzie podlegał zarówno serializacji, jak i deserializacji musiał być nieco bardziej zróżnicowany.
+				Na całość składa się kombinacja trzech klas, które posiadają relację dziedziczenia oraz kompozycji. Co więcej, aby przy
 				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Poniżej
 				diagram UML prezentujący cały model danych.
 
@@ -901,8 +900,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				\subsubsection{Biblioteki}
 
 				Podejście z manualną refleksją pól, będzie miało swojego reprezentanta w postaci wcześniej wspomnianej biblioteki \nonpl{jsoncpp}.
-				Posiada ona najbardziej standardowy interfejs wśród przedstawicieli swojej kategorii. Poniżej zostanie zamieszczony jedynie fragment
-				implementacji serializacji. Cała ilość koniecznego kodu, aby dorównać funkcjonalnością pozostałym biblioteką jest zdecydowanie
+				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Poniżej zostanie zamieszczony jedynie fragment
+				implementacji serializacji. Cała ilość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom, jest zdecydowanie
 				największa. Cała zajmuje obszar pomiędzy $26$ a $141$ linijką, dając sumarycznie $115$ linijek.\n
 
 				\begin{lstlisting}[frame=single]
@@ -931,7 +930,7 @@ for(const auto& it: in.b3)
 				w postaci wariantów oraz zmiennych obiektów wariantowych (\ang{mutable variant object}), które z jednej strony zwiększają narzut konwersji,
 				jednakże z drugiej strony dają sporą elastyczność w zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
-				Ciekawsze fragmenty dotyczące tej implementacji znajdują się zarówno w nagłówku, gdzie dokonana jest pół automatyczna zewnętrzna refleksja. Same
+				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w pliku nagłówkowym, gdzie dokonana jest pół automatyczna zewnętrzna refleksja. Same
 				metody serializacji i deserializacji są krótkie i zostaną przytoczone w całości, celem nieco głębszego omówienia.\n
 
 				\begin{lstlisting}[frame=single]
@@ -986,49 +985,49 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			{
 				\subsubsection{Oprogramowanie do testów wydajnościowych}
 
-				\Jmeter\cite{jmeter} jest oprogramowaniem stworzonym przez fundację \nonpl{Apache}, napisaną w języku \nonpl{Java}. jej przeznaczeniem
-				jest projektowanie oraz wykonanie testów wydajnościowych. Sam wachlarz możliwości jakie oferuje rozpościera się od prostego odpytywania serwisu, poprzez
+				\Jmeter\cite{jmeter} jest oprogramowaniem stworzonym przez fundację \nonpl{Apache}, napisaną w języku \nonpl{Java}. Jej przeznaczeniem
+				jest projektowanie oraz wykonanie testów wydajnościowych. Sam wachlarz możliwości, jakie oferuje, rozpościera się od prostego odpytywania serwisu, poprzez
 				tworzenie złożonych wielokrotnie zagnieżdżonych struktur warunkowych i pętel wykonujących wielokrotne logowania kończąc na tworzeniu interaktywnych
 				raportów w formie stron wwww. Specyfika tego problemu wymaga jedynie części z wymienionych powyżej możliwości.
 
-				\putss{./img/jmeter_ss/main_pane.png}{Widok ogólnej konfiguracji całego testu}
+				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}
 
 				Pierwszy panel do konfiguracji, pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja, aby testy były uruchamiane sekwencyjnie,
 				co sprawi, że wydzielone grupy wątków dla każdej z bibliotek nie będą na siebie wpływać.\n
 
-				\putss{./img/jmeter_ss/thread_group_config.png}{Konfiguracja grupy wątków}
+				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków}
 
 				Ustawienia każdej z trzech grup wątków są takie same. Pozwalają sprecyzować ilość zapytań na każdym z uruchamianych wątków, a także ile ma się ich pojawić.
 				Ustawienie ilości zapytań na wartość ujemną sprawi, że zapytania będą wysyłane w sposób ciągły do momentu wystąpienia punktu przerwania, na przykład czas, czy warunkowa
 				ilość powtórzeń. Na powyższym zrzucie ekranu jednak nie widnieją żadne liczby, jest to spowodowane możliwością tworzenia zmiennych i odnoszenia się do nich w dowolnym innym
 				komponencie.\n
 
-				\putss{./img/jmeter_ss/variables.png}{Konfiguracja zmiennych}
+				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych}
 
 				Tworzenie zmiennych odbywa się w dedykowanym widoku, gdzie istnieje możliwość przypisania nazw zmiennym, określenia ich wartości, a także zapisania krótkiego
-				tekstu pomocy. Tajemniczy zapis w kolumnie wartości, jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
+				tekstu pomocy. Tajemniczy zapis w kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
 				ponieważ powinno się to odbywać z poziomu terminala, o czym informuje nas sama aplikacji podczas jej uruchomienia. Uruchomienie z poziomu terminala daje możliwość
 				nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
 
-				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{Ostrzeżenie dotyczące nie przeprowadzania testów wydajnościowych w trybie graficznym}
+				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w trybie graficznym}
 
 				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
 				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
-				zostało zdefiniowane jako plik \nonpl{CSV}, którego stokenizowana każda linijka jest przekazywana do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu,
+				zostało zdefiniowane jako plik \nonpl{CSV}, którego każda podzielona na tokeny linijka jest przekazywana do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
 				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych.\n
 
 
-				\putss{./img/jmeter_ss/csv_config.png}{Konfiguracja punktu źródła danych do zapytań}
+				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}
 
-				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP oraz sprecyzowanie ścieżek pod jakimi dostępne są konkretne biblioteki.
+				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.
 
-				\putss{./img/jmeter_ss/http_serek_config.png}{Konfiguracja klienta \HTTP dla biblioteki \serek}
+				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP dla biblioteki \serek}
 
-				Konfiguracja zostaje na sam koniec skonfigurowana, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie, zaledwie stu próbek
-				na każdej bibliotece. Zaglądając do zakładki z zagregowanym raportem można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
+				Konfiguracja zostaje dokończona, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
+				na każdej bibliotece. Zaglądając do zakładki z agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
 				zostają informacji między innymi o ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie.
 
-				\putss{./img/jmeter_ss/aggregate_report.png}{Szybki raport wygenerowany przez aplikację}
+				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}
 			}
 
 			{
@@ -1056,18 +1055,18 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 	\newpage
 
 	{
-		\putfig{./charts/output_with_charts_as_images/throughput_per_library.png}{Wykres przepustowości cząstkowej, dla \Delta t  = 1s}
+		\putfig{./charts/output_with_charts_as_images/throughput_per_library.png}{ Wykres przepustowości cząstkowej, dla \Delta t  = 1s}
 	}
 
 	{
 		\putfig{./charts/pre_generated_charts/throughput_summary_per_library_summary.png}{
-			Zestawienie zagregowanych charakterystyk opisujących przepustowość, dla różnych bibliotek
+			Zestawienie agregowanych charakterystyk opisujących przepustowość, dla różnych bibliotek
 		}
 	}
 
 	{
 		\putfig{./charts/pre_generated_charts/total_request_time_per_library_summary.png}{
-			Zestawienie zagregowanych charakterystyk opisujących całkowity czas wykonania zapytania, dla różnych bibliotek
+			Zestawienie agregowanych charakterystyk opisujących całkowity czas wykonania zapytania, dla różnych bibliotek
 		}
 	}
 
