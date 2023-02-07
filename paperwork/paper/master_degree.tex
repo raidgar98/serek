@@ -1032,6 +1032,23 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 			{
 				\subsubsection{Konfiguracja}
+
+				Konfiguracja całego środowiska została dobrana tak, aby nie doprowadzić do wpływu warunków zewnętrznych na pomiary. Rozpoczynając od infrastruktury sieciowej:
+				wybranie wyłącznie lokalnego interfejsu sieciowego, następuje izolacja od wpływu warstwy transportowej w postaci urządzeń sieciowych czy ruchu innych urządzeń.
+				Dodatkowo zarówno klient, jak i serwer nie znajdują się w środowiskach wirtualnych, czy emulowanych, więc nie zostaje dołożony narzut wirtualnych kart sieciowych.\n
+
+				Sam serwer \HTTP został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i zabezpieczające nie interferowały w pomiary. Oznacza to rezygnację z~szyfrowania,
+				a także mechanizmu \nonpl{CORS}. Jednakże eliminacja czynników potencjalnie spowalniających cały proces to nie koniec. Wymagane jest również wyeliminowanie
+				czynników mogących przyspieszyć działanie serwisu. Takim mechanizmem jest pamięć podręczna (\ang{cache}), która została wyłączona. Kolejnym elementem, który mógłby mieć negatywny
+				wpływ na wyniki, jest ustawienie obsługi nagłówka \code{Keep-Alive}. Czas podtrzymania połączenia został wydłużony maksymalnie, celem eliminacji narzutu wynikającego
+				z~tworzenia i~zamykania połączenia.\n
+
+				Konfiguracja strony klienckiej była bardzo prosta, ponieważ ograniczyła się wyłącznie do wykorzystania wspomnianego powyżej mechanizmu podtrzymania sesji. Natomiast,
+				zgodnie z rekomendacją oprogramowania \Jmeter, klient podczas testu wydajnościowego został uruchomiony w trybie niegraficznym.\n
+
+				Ostatnim elementem był system operacyjny, któremu należało oznajmić, że oba procesy będą bardzo ważne i nie należy im przeszkadzać podczas ich istnienia. Zostało to
+				osiągnięte poprzez ustawienie obu procesom (oraz ich wątkom) najwyższe możliwe priorytety, poprzez komendę \code{renice -20 <pid>}.
+				Także sama maszyna nie miała innych obciążających aplikacji włączonych w tle.
 			}
 		}
 
