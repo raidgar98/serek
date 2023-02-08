@@ -146,19 +146,21 @@
 
 % aliases
 \newcommand{\n}{\newline}
-\newcommand{\putss}[2]{
+\newcommand{\putss}[3]{
 \begin{screenshot}[H]
 	\centering
 	\includegraphics[width=15cm,keepaspectratio=true]{#1}
 	\caption{#2}
+	\label{#3}
 	\medskip
 \end{screenshot}
 }
-\newcommand{\putfig}[2]{
-\begin{figure}[H]
+\newcommand{\putfig}[3]{
+	\begin{figure}[H]
 	\centering
-	\includegraphics[width=15cm,keepaspectratio=true]{#1}
+	\includegraphics[width=15cm,height=10cm,keepaspectratio=true]{#1}
 	\caption{#2}
+	\label{#3}
 	\medskip
 \end{figure}
 }
@@ -294,7 +296,7 @@
 		umożliwiają iterowanie po elementach struktur danych, czy ich serializację, jednakże nie są one wciąż wdrożone do
 		standardu \cite*{cpp_extension_reflexpr_short}.\n
 
-		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność haseł według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}
+		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność haseł według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}{json_vs_world}
 
 		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie, jest on
 		najbardziej powszechnym standardem komunikacji na świecie.\n
@@ -611,8 +613,8 @@ MyClass deserialize_my_class(const std::string& json_text)
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w formie gotowej strony www. Poniżej zrzuty
 				ekranu prezentujące wygląd wygenerowanej dokumentacji.\n
 
-				\putss{./img/documentation_part_1.png}{Widok na automatycznej dokumentacji na spis wszystkich przestrzeni nazw w projekcie wraz z krótkim opisem}
-				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji}
+				\putss{./img/documentation_part_1.png}{Widok na automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
+				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji}{docs_2}
 
 				\newpage
 
@@ -889,12 +891,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Poniżej
 				diagram UML prezentujący cały model danych.
 
-				\begin{figure}[H]
-					\centering
-					\includegraphics[width=15cm,keepaspectratio=true]{./img/benchmark_model_uml_diagram.png}
-					\caption{Diagram UML prezentujący model testowych danych}
-					\medskip
-				\end{figure}
+				\putfig{./img/benchmark_model_uml_diagram.png}{Diagram UML prezentujący model testowych danych}{uml_diagram}
 			}
 
 			{
@@ -991,26 +988,26 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				tworzenie złożonych wielokrotnie zagnieżdżonych struktur warunkowych i pętel wykonujących wielokrotne logowania kończąc na tworzeniu interaktywnych
 				raportów w formie stron wwww. Specyfika tego problemu wymaga jedynie części z wymienionych powyżej możliwości.
 
-				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}
+				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}{jmeter_main_config}
 
 				Pierwszy panel do konfiguracji, pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja, aby testy były uruchamiane sekwencyjnie,
 				co sprawi, że wydzielone grupy wątków dla każdej z bibliotek nie będą na siebie wpływać.\n
 
-				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków}
+				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków}{jmeter_thread_config}
 
 				Ustawienia każdej z trzech grup wątków są takie same. Pozwalają sprecyzować ilość zapytań na każdym z uruchamianych wątków, a także ile ma się ich pojawić.
 				Ustawienie ilości zapytań na wartość ujemną sprawi, że zapytania będą wysyłane w sposób ciągły do momentu wystąpienia punktu przerwania, na przykład czas, czy warunkowa
 				ilość powtórzeń. Na powyższym zrzucie ekranu jednak nie widnieją żadne liczby, jest to spowodowane możliwością tworzenia zmiennych i odnoszenia się do nich w dowolnym innym
 				komponencie.\n
 
-				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych}
+				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych}{jmeter_var_config}
 
 				Tworzenie zmiennych odbywa się w dedykowanym widoku, gdzie istnieje możliwość przypisania nazw zmiennym, określenia ich wartości, a także zapisania krótkiego
 				tekstu pomocy. Tajemniczy zapis w kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
 				ponieważ powinno się to odbywać z poziomu terminala, o czym informuje nas sama aplikacji podczas jej uruchomienia. Uruchomienie z poziomu terminala daje możliwość
 				nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
 
-				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w trybie graficznym}
+				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym}{jmeter_warn}
 
 				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
 				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
@@ -1018,17 +1015,17 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych.\n
 
 
-				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}
+				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}{jmeter_config_csv}
 
 				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.
 
-				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP dla biblioteki \serek}
+				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP dla biblioteki \serek}{jmeter_config_http}
 
 				Konfiguracja zostaje dokończona, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
 				na każdej bibliotece. Zaglądając do zakładki z agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
 				zostają informacji między innymi o ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie.
 
-				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}
+				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}{jmeter_report}
 			}
 
 			{
