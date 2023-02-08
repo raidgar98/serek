@@ -114,7 +114,16 @@
 \usepackage{tocloft}
 \setcounter{tocdepth}{2}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\usepackage[hidelinks]{hyperref}
+
+% hide hyperlinks and set pdf properties
+\usepackage[pdftex, hidelinks,
+	pdfauthor={\MyAuthor},
+	pdftitle={\MyTitle},
+	pdfsubject={Praca Magisterska},
+	pdfkeywords={\polishkeywords},
+	pdfproducer={Latex with hyperref},
+	pdfcreator={pdflatex}
+]{hyperref}
 
 % add page break with new section
 \newcommand{\sectionbreak}{\pagebreak}
