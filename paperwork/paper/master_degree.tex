@@ -1129,9 +1129,30 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			}
 		}
 
-	{
-		\putfig{./charts/pre_generated_charts/total_request_time_per_library_summary.png}{
-			Zestawienie agregowanych charakterystyk opisujących całkowity czas wykonania zapytania, dla różnych bibliotek
+		{
+			\section{Podsumowanie i~wnioski}
+
+			Biblioteka oparta na pełnej automatycznej refleksji pól, która nie odbiega wydajnościowo od bieżących rozwiązań jest możliwa do napisania korzystając
+			z~standardu C++ 20 w~2023 i~niniejsza praca jest na to dowodem. Osiągnięte wyniki są rezultatem pracy jednego programisty na przeciągu dwóch lat
+			pracy, głównie skupionej dookoła prototypownia i~eksperymentowaniu. Dokonując analizy zmian (\ang{commit}) w~repozytorium\footnote{
+				Analiza zmian w~repozytorium była możliwa dzięki zastosowaniu notacji \nonpl{gitmoji}\cite{gitmoji}, która wymusza na programiście dobrą praktykę
+				ograniczania jednej zmiany (\ang{commit}), do bardzo małej porcji i~oznaczenie poprzez stosowną ikonę.
+			} (wykres numer \ref{commit}) wychodzi, że mniej niż $1\%$ wszystkich zmian (dokładnie $3$ zmiany) stanowiły optymalizacje wydajnościowe. Daje to pewien obraz,
+			niedopracowania tej biblioteki, stawiając ją raczej jako dowód na działanie pomysłu (\ang{proof of concept}).\n
+
+			\putfig{./charts/pre_generated_charts/commit_percentage.png}{Udział rodzajów zmian w~całym repozytorium \serek}{commit}
+
+			\newpage
+
+			Kolejnym problemem bibliotek tworzących tak spory dystans pomiędzy modelem danych a~punktem jego serializacji, jest zwiększenie poziomu trudności
+			przy wytwarzaniu kodu, a~dokładnie przy analizie błędów. Niejednokrotnie wyjście z~kompilatora po znalezieniu błędu przekraczało kilka megabajtów,
+			co zdecydowanie utrudnia znalezienie błędu. Sprawa mimo wszystko jest ułatwiona z~uwagi na wprowadzone koncepty w~języku C++, dzięki którym kompilator
+			zdecydowanie precyzyjniej i~czytelniej dla programisty wskazuje niedoskonałości.\n
+
+			Cała implementacja jest ciekawą odmianą dla obecnych rozwiązań i~zasługuje na większe zainteresowanie w~środowisku, ponieważ istnieje wiele przesłanek, że
+			jest to rewolucja w~podejściu do programowania refleksyjnego w~języku C++. Trzeba również nadmienić, że serializacja do formatu \JSON w~przypadku tej biblioteki
+			jest zaledwie wstępem do jej możliwości. Zapewniony mechanizm refleksji klas otwiera możliwości do tworzenia wizytatorów do obsługi typów takich jak \nonpl{YAML}, \nonpl{SQL}
+			czy nawet \nonpl{XML}.
 		}
 	}
 
