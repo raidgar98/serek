@@ -3,12 +3,12 @@
 	"title": "Wykres przepustowości cząstkowej dla poszczególnych bibliotek",
 	"columns":{
 		"second": "int",
-		"drogon": "int",
+		"jsoncpp": "int",
 		"fc": "int",
 		"serek": "int"
 	},
 	"series": [
-		"drogon",
+		"jsoncpp",
 		"fc",
 		"serek"
 	],
