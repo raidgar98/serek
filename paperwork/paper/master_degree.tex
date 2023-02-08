@@ -1097,17 +1097,37 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				}
 			}
 
-	\newpage
+			{
+				\subsubsection{Analiza}
 
-	{
-		\putfig{./charts/output_with_charts_as_images/throughput_per_library.png}{ Wykres przepustowości cząstkowej, dla \Delta t  = 1s}
-	}
+				Bibliotek \serek\  okazała się najszybsza, będąc zaledwie nieznacznie szybsza od implementacji w~\nonpl{jsoncpp}. Na wykresie numer \ref{sumfig_1}
+				można zaobserwować, że biblioteka \serek\ w~każdej z~czterech statystyk dla zbioru wyników jest nieznacznie szybsza. Nieco więcej o~sukcesie tej biblioteki,
+				można dowiedzieć się z~kolejnego wykresu (numer \ref{sumfig_2}), gdzie można zaobserwować, że jest to jednocześnie najwolniejsza biblioteka w~serializacji.
+				Sukces więc nie jest bezwzględny, a~biblioteka zawdzięcza go błyskawicznej deserializacji. Mimo opisanego przygotowania i~próby zniwelowania wpływu
+				czynników zewnętrznych nie udało się ich pozbyć całkowicie. Świadczy o~tym różnica pomiędzy czasem zmierzonym przez oprogramowanie \Jmeter, a~sumą czasów
+				serializacji i~deserializacji zmierzonych przez serwer. Mimo, że dane wejściowe i~sposób ich dostarczenia do biblioteki były identyczne
+				we wszystkich trzech przypadkach, czasy wynikające z~powyższej różnicy są różne i~wymykają się próbie ustalenia skąd one pochodzą. Kolejną wartą omówienia sprawą
+				jest sromotna porażka biblioteki \nonpl{fc}. Mimo podjęcia kilku prób optymalizacji poprzez przeszukanie przykładów, dokumentacji
+				oraz testów nie doprowadziło do poprawy czasu, szczególnie w~aspekcie deserializacji. Możliwe, że jest to nie dokończony element biblioteki, lub zostały popełnione
+				błędy podczas implementacji.\n
 
-	{
-		\putfig{./charts/pre_generated_charts/throughput_summary_per_library_summary.png}{
-			Zestawienie agregowanych charakterystyk opisujących przepustowość, dla różnych bibliotek
+				Biblioteka \nonpl{jsoncpp} jednakże wydaje się wygrywać w~kategorii, która nie była brana pod uwagę przy projektowaniu badania, jednakże zostanie
+				ona wspomniana. Dokonując analizy wykresu numer \ref{sumfig_4}, można dostrzec, że przepustowość biblioteki \serek, znacząco się różni od pozostałych bibliotek.
+				Żeby dokonać uściślenia tematu, tak prezentują się odchylenia standardowe, dla każdej z~bibliotek:
+
+				{
+					\begin{itemize}
+						\setlength\itemsep{0mm}
+						\item \serek: $0.697$
+						\item \nonpl{fc}: $0.552$
+						\item \nonpl{jsoncpp}: $0.509$
+					\end{itemize}
+				}
+
+				Zarówno wykres jak i~policzone odchylenie standardowe wyraźnie wskazują, że najmniej stabilną biblioteką pod katem wydajności jest biblioteka \serek.
+				Natomiast \nonpl{jsoncpp} zachowuje stabilne osiągi.
+			}
 		}
-	}
 
 	{
 		\putfig{./charts/pre_generated_charts/total_request_time_per_library_summary.png}{
