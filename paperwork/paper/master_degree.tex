@@ -1066,17 +1066,36 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 			{
 				\subsubsection{Surowe dane}
-			}
 
-			{
-				\subsubsection{Analiza}
-			}
-		}
+				Prezentacja danych powinna się rozpocząć od przeglądu ogólnych charakterystyk zbioru. Poniżej kilka wykresów, obrazujących zebrane dane.
+				Pierwsze dwa prezentują wartości w~milisekundach, odnosząc się do czasu trwania opisanej operacji. Dwa kolejne prezentują wartości skumulowane
+				w~postaci przepustowości, określanej jako ilość zapytań na sekundę. W~przypadku tych ostatnich trzeba zaznaczyć, że dziedzina (sekunda trwania testu),
+				została skrócona o~wartość pierwszą i~ostatnią, jest to spowodowane metodologią wyliczania, gdzie od czasu zapytania (w milisekundach) był odejmowany
+				czas pierwszego pomiaru, a~następnie dochodziło do zaokrąglenia do pełnych sekund, uzyskując w~ten sposób przyporządkowanie każdego pomiaru do konkretnej sekundy trwania testu.
+				Ponieważ test nie zaczynał się o~okrągłej sekundzie, ilość zapytań w~pierwszej i~ostatniej sekundzie była wartością skrajną (zdecydowanie mniejszą niż reszta pomiarów).
 
-		{
-			\subsection{Wnioski}
-		}
-	}
+				{
+					\putfig{./charts/pre_generated_charts/total_request_time_per_library_summary.png}{
+						Zestawienie agregowanych charakterystyk opisujących całkowity czas wykonania zapytania, dla różnych bibliotek
+					}{sumfig_1}
+				}
+
+				{
+					\putfig{./charts/pre_generated_charts/total_serial_and_deserial_library_summmary.png}{
+						Zestawienie sumarycznych czasów serializacji, deserializacji, całego zapytania oraz ich różnicy
+					}{sumfig_2}
+				}
+
+				{
+					\putfig{./charts/pre_generated_charts/throughput_summary_per_library_summary.png}{
+						Zestawienie agregowanych charakterystyk opisujących przepustowość, dla różnych bibliotek
+					}{sumfig_3}
+				}
+
+				{
+					\putfig{./charts/output_with_charts_as_images/throughput_per_library.png}{ Wykres przepustowości cząstkowej, dla \Delta t  = 1s}{sumfig_4}
+				}
+			}
 
 	\newpage
 
