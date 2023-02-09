@@ -485,12 +485,9 @@
 				przez człowieka. Biblioteki z~manualną refleksją typów bez problemu obsłużą tego typu momenty, ponieważ programista może bez problemu
 				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania niestety wymagają sprytnego przeładowywania funkcji lub
 				stosowania obiektów pośrednich.
-			}
 
-			{
-				\subsubsection{Przykład użycia}
-
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 class MyClass
 {
 	bool field_0;
@@ -525,7 +522,10 @@ MyClass deserialize_my_class(const std::string& json_text)
 		result.field_3.emplace_back(json_element.as_int());
 	return result;
 }
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Przykładowa implementacja funkcji serializacji i deserializacji za pomocą biblioteki z wyłącznie manualną refleksją pól}
+					\label{manual_reflection_example}
+				\end{captioned}
 			}
 		}
 
@@ -551,9 +551,8 @@ MyClass deserialize_my_class(const std::string& json_text)
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
 			}
 
-			{
-				\subsubsection{Przykład użycia}
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 // MyClass.hpp
 class MyClass
 {
@@ -575,7 +574,10 @@ MyClass deserialize_my_class(const std::string& json_text)
 {
 	return lib::json::from_string(json_text).as<MyClass>();
 }
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{Przykładowa implementacja funkcji serializacji i deserializacji za pomocą biblioteki z pół automatyczną refleksją pól}
+					\label{half_automatic_example}
+				\end{captioned}
 			}
 		}
 
@@ -631,7 +633,8 @@ MyClass deserialize_my_class(const std::string& json_text)
 				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie,
 				jest w~stanie wygenerować różnego rodzaju dokumentację.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 /**
 * @brief overload of above, allows additionally print given values
 *
@@ -655,7 +658,10 @@ void require(const T& l_value, const T& r_value, const str_v error_message = "co
 template<reqs::comparable_as_pointer_req pointer_t>
 void require(const pointer_t& ptr, const str_v error_message = "given pointer was null!")
 {/* implementation */}
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Udokumentowane funkcje zgodnie ze standardem \nonpl{Doxygen}}
+					\label{doxygen_code}
+				\end{captioned}
 			}
 		}
 
@@ -746,18 +752,24 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				Celem pokazania, w~jaki sposób następuje dostęp do nazwy pola i~jednocześnie podsumowania aktualnej architektury, poniżej zostaje zamieszczony
 				przykład zapisu na podstawie poprzednich kilku akapitów:\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 struct test_struct
 {
 	first_field<int> field_0;
 	field<&test_struct::field_0, float> field_1;
 };
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Szkicowy zapis biblioteki w pełni automatycznej refleksji, na podstawie dotychczasowych akapitów}
+					\label{serek_summary}
+				\end{captioned}
+
 
 				Jak można zauważyć, celem odwołania się do referencji na poprzednie pole, konieczne jest odwołanie się do jego nazwy. Nie pozostaje to bez
-				konsekwencji, które można wykorzystać, a~zostanie to zaprezentowane, poprzez zamieszczenie kodu, który ma na celu wydrukować na ekranie
-				rozczesywany (\ang{demangled}) typ pola \code{field\_1}, a~także wyjście z~tego prostego programu:\n
+				konsekwencji, które można wykorzystać, a~zostanie to zaprezentowane, poprzez zamieszczenie kodu na rysunku numer \ref{typename_example}, który
+				ma na celu wydrukować na ekranie rozczesywany (\ang{demangled}) typ pola \code{field\_1}, a~także wyjście z~tego prostego programu:\n
 
+				\begin{captioned}[H]
 				\begin{lstlisting}[frame=single]
 #include <serek/serek.hpp>
 
@@ -776,6 +788,9 @@ Konsola:
 	serek::detail::field_impl<&test_struct::field_0, double> test_struct::
 */
 				\end{lstlisting}
+				\caption{ Prosty program wraz z wyjściem ilustrujący źródło wyodrębniania nazw pól}
+				\label{typename_example}
+			\end{captioned}
 
 				Wydobycie nazwy pola może nastąpić z~zdemanglowanej nazwy typu pola, którą bajecznie prosto uzyskać, ponieważ jest ona zawarta
 				w szablonie.
@@ -795,7 +810,8 @@ Konsola:
 				kolejnych pól w~klasie. Precyzując: dziedziczy po klasie, do której należy ostatnie pole klasy, dzięki czemu całość zostaje
 				zapakowane w~fasadę idealnie przeźroczystą z~wygodnym dostępem do każdego pola w~klasie. Poniżej urzeczywistniony, przykład deklaracji klasy.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 #include <serek/serek.hpp>
 
 struct test_struct_impl
@@ -805,7 +821,10 @@ struct test_struct_impl
 	serek::field<&test_struct_impl::field_1, double> field_2;
 };
 using test_struct = serek::pack<&test_struct_impl::field_2>;
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Pełna definicja struktury, korzystając z biblioteki \serek}
+					\label{serek_full_example}
+				\end{captioned}
 			}
 
 			{
@@ -829,7 +848,8 @@ using test_struct = serek::pack<&test_struct_impl::field_2>;
 				użytkownik tworzy własnego wizytatora, w~którym definiuje obsługę swoich typów, jako przeciążenia operatora wywołania (\code{operator()}),
 				natomiast, wszystkie pozostałe przekierowuje do klasy bazowe, która ma zaimplementowane obsługę typów fundamentalnych.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 struct hash_json_serializer : public serek::deserial::json::json_visitor_deserializer
 {
 	serek::visitor_result_t operator()(hash_t& any)
@@ -838,7 +858,10 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 		return true;
 	}
 };
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Przykład implementacji wizytatora, spełniającego wymagania biblioteki \serek, wraz z zdefiniowaną obsługą własnego typu \code{hash_t}}
+					\label{visitor_ex}
+				\end{captioned}
 
 				Powyższy przykład jest już gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez niniejszą
 				bibliotekę. Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
@@ -912,7 +935,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				implementacji serializacji. Cała ilość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom, jest zdecydowanie
 				największa. Cała zajmuje obszar pomiędzy $26$ a~$141$ linijką, dając sumarycznie $115$ linijek.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 // ...
 json["b1"] = Json::Value(Json::ValueType::arrayValue);
 json["b1"].resize(in.b1.size());
@@ -931,7 +955,10 @@ for(const auto& it: in.b3)
 	json["b3"].append(it_result);
 }
 // ...
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Fragment implementacji serializacji przy wykorzystaniu biblioteki \nonpl{jsoncpp}}
+					\label{jsoncpp_impl}
+				\end{captioned}
 
 				Druga biblioteka, jaka będzie uwzględniona podczas testów, jest biblioteka \nonpl{fc}\cite{fc_repo}, która w~dużej mierze jest obwolutą biblioteki
 				\nonpl{Boost}\cite{boost}. Jednakże w~zakresie przetwarzania formatu \JSON zapewnia własną implementację. Jej główną wadą są obiekty pośrednie
@@ -941,20 +968,25 @@ for(const auto& it: in.b3)
 				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym, gdzie dokonana jest pół automatyczna zewnętrzna refleksja. Same
 				metody serializacji i~deserializacji są krótkie i~zostaną przytoczone w~całości, celem nieco głębszego omówienia.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 // fc_benchmark_controller.hpp
 //...
 
 FC_REFLECT(fc_model_t::A, (a1)(a2)(a3)(a4)(a5));
 FC_REFLECT(fc_model_t::B, (b1)(b2)(b3));
 FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Fragment nagłówka z definicją refleksji przy wykorzystaniu biblioteki \nonpl{fc}}
+					\label{fc_impl_header}
+				\end{captioned}
 
 				Biblioteka w~głównej mierze bazuje na makrach, które są rozwijane do specjalizacji klasy \code{fc::reflector}, która później jest
 				wykorzystywana przy refleksji podczas przejść z~i na formę tekstową. Stosowana jest tutaj notacja listy bąbelkowej, która umożliwia
 				tworzenie wielu list w~zakresie jednego makra. Ostatnim elementem podczas omawiania tej biblioteki jest prezentacja implementacji metod.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					begin{lstlisting}[frame=single]
 void fc_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
 	const auto& variant = fc::json::from_string(std::string{in.data(), in.size()});
@@ -968,7 +1000,10 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 	fc::reflector<model_t>::visit(fc::to_variant_visitor<model_t>(mvo, in, 10));
 	out = fc::json::to_string(mvo);
 }
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Implementacje funkcji do serializacji i deserializacji przy wykorzystaniu biblioteki \nonpl{fc}}
+					\label{fc_impl_source}
+				\end{captioned}
 
 				Sama biblioteka dominuje ponad sześciokrotnie mniejszym, objętościowo kodem wymaganym do przeprowadzenia implementacji
 				serializacji oraz deserializacji. Kompaktowość tego rozwiązania uwypukla zalety programowania refleksyjnego, które dzięki
@@ -977,7 +1012,8 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 				Trzecią i~jednocześnie ostatnią biblioteką jest opisana szerzej w~rozdziale numer \ref{serek} - biblioteka \serek.
 				Jej użycie jest jeszcze krótsze i~doliczając dodatkowe linijki na aliasy, całość zamyka się w~zaledwie $12$ linijkach.\n
 
-				\begin{lstlisting}[frame=single]
+				\begin{captioned}[H]
+					\begin{lstlisting}[frame=single]
 void serek_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
 	serek::deserial::json::deserialize<model_t>(in, out);
@@ -987,7 +1023,10 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 {
 	out = serek::serial::json::serialize(in);
 }
-				\end{lstlisting}
+					\end{lstlisting}
+					\caption{ Implementacje funkcji do serializacji i deserializacji przy wykorzystaniu biblioteki \serek}
+					\label{serek_impl_source}
+				\end{captioned}
 			}
 
 			{
