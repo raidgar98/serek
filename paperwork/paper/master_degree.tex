@@ -135,17 +135,15 @@
 
 % source: https://tex.stackexchange.com/a/237203
 \usepackage{newfloat}
-\DeclareFloatingEnvironment[listname={}]{screenshot}
+\DeclareFloatingEnvironment[listname={}]{captioned}
 \addto\captionspolish{%
-	\renewcommand{\figurename}{Wykres}%
-	\renewcommand{\screenshotname}{Zrzut ekranu}%
+	\renewcommand{\captionedname}{Rysunek}%
 }
 
 % configuration of figure captions
 % source: https://tex.stackexchange.com/a/276796
 \usepackage{caption}
-\captionsetup[figure]{labelfont={bf}, labelformat={default}, labelsep=period, name={Wykres}}
-\captionsetup[screenshot]{labelfont={bf}, labelformat={default}, labelsep=period, name={Zrzut ekranu}}
+\captionsetup[captioned]{labelfont={bf}, labelformat={default}, labelsep=period, name={Rysunek}}
 
 % configure placing of figures in-text
 % source: https://tex.stackexchange.com/a/8633
@@ -157,22 +155,22 @@
 % aliases
 \newcommand{\n}{\newline}
 \newcommand{\putss}[3]{
-\begin{screenshot}[H]
+\begin{captioned}[H]
 	\centering
 	\includegraphics[width=15cm,keepaspectratio=true]{#1}
 	\caption{#2}
 	\label{#3}
 	\medskip
-\end{screenshot}
+\end{captioned}
 }
 \newcommand{\putfig}[3]{
-	\begin{figure}[H]
+\begin{captioned}[H]
 	\centering
 	\includegraphics[width=15cm,height=10cm,keepaspectratio=true]{#1}
 	\caption{#2}
 	\label{#3}
 	\medskip
-\end{figure}
+\end{captioned}
 }
 
 % styles
