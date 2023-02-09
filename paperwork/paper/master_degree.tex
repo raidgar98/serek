@@ -595,6 +595,50 @@ MyClass deserialize_my_class(const std::string& json_text)
 	}
 
 	{
+		\section{Cel i~Zakres Pracy}
+
+		Niniejsza praca ma dwa cele. Pierwszym z nich jest implementacja biblioteki \serek, która ma dawać możliwość pełnej refleksji pól klasy oraz zapewniać
+		prosty interfejs do serializacji oraz deserializacji, który będzie umożliwiać proste podmienianie metod obsługi typów własnych użytkownika. Kolejnym celem
+		jest przeprowadzenie testów wydajnościowych mających na celu porównanie powszechnie używanych współcześnie bibliotek ze stworzoną na potrzeby tej pracy eksperymentalną
+		implementacją.
+
+		{
+			\subsection{Implementacja}
+
+			Wyznacznikiem ukończenia implementacji biblioteki, będzie moment pozytywnego wykonania na bieżąco pisanych testów oraz stworzenie zreflektowanego obiektu z~prawidłowego
+			ciągu znaków w~formacie \JSON, a~także operacja odwrotna. Celem sformalizowania zakresu dla tego celu, wymagane jest:
+
+			\begin{itemize}
+				\setlength\itemsep{0mm}
+				\item zaprojektowanie przyjaznego programiście interfejsu biblioteki
+				\item implementacja mechanizmu w pełni automatycznej refleksji
+				\item implementacja mechanizmu serializacji
+				\item implementacja mechanizmu deserializacji
+				\item implementacja testów potwierdzających działanie powyższych punktów
+			\end{itemize}
+		}
+
+		{
+			\newpage
+			\subsection{Badania wydajnościowe}
+
+			Celem sprawdzenia wydajności biblioteki, zostaną w~kontrze przetestowane dwie inne biblioteki. Zostaną one wybrane po jednej do opisanych w~poprzednim rozdziale
+			rodzajów podejść do tego tematu. Badania z~ich wykorzystaniem zostaną przeprowadzone w dedykowanym do takiego celu oprogramowaniu, celem uzyskania jak najbardziej rzetelnych
+			wyników. Zakres pracy do wykonania, celem osiągnięcia tego celu jest następujący:
+
+			\begin{itemize}
+				\setlength\itemsep{0mm}
+				\item implementacja środowiska do testowania wydajności trzech bibliotek
+				\item zaprojektowanie scenariusza testowego tak, aby każda biblioteka była testowana w sposób izolowany i jednakowy
+				\item implementacja serializacji oraz deserializacji korzystając z trzech bibliotek
+				\item przeprowadzenie badań
+				\item analiza uzyskanych danych
+			\end{itemize}
+		}
+
+	}
+
+	{
 		\section{Implementacja biblioteki \serek}\label{serek}
 
 		{
