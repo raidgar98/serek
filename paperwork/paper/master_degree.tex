@@ -308,7 +308,7 @@
 
 		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność haseł według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}{json_vs_world}
 
-		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie, jest on
+		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie (rysunek \ref{json_vs_world}), jest on
 		najbardziej powszechnym standardem komunikacji na świecie.\n
 
 		Aktualnie możemy rozróżnić trzy podstawowe podejścia do tego problemu. Pierwsze, gdzie programista tylko wspomaga się
@@ -463,7 +463,7 @@
 				Cechą charakterystyczną takich bibliotek jest sposób zapisu funkcji, które są odpowiedzialne za serializację lub deserializację
 				danej klasy, ponieważ są to najczęściej długie wielokrotnie zagnieżdżone funkcje, przekształcające po kolei wszystkie pola klasy.
 				Opis ten od razu wskazuje na najważniejszą wadę tego podejścia. W~przypadku zmiany struktury danych, na przykład poprzez usunięcie
-				lub dodanie pola, wymagane jest ingerencja w~kod w~obu funkcjach.\n
+				lub dodanie pola, wymagane jest ingerencja w~kod w~obu funkcjach (patrz rysunek \ref{manual_reflection_example}).\n
 
 				Redukcja członka klasy nie jest jeszcze problemem, ponieważ kompilator od razu poinformuje programistę o~tym, że próbuje operować na polu,
 				które (już) nie istnieje, jednakże w~przypadku dodania pola, programista może nieświadomie dodać pole, które nie będzie podlegało serializacji
@@ -541,7 +541,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 
 				Fakt ukrycia tego mechanizmu przez bibliotekę ujawnia pierwszą trudność przy wykorzystaniu tego podejścia: trudność w~ustawienia własnych
 				metod serializacji, szczególnie jeżeli biblioteka nie przewiduje takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość,
-				to może ono doprowadzać do skomplikowania interfejsu, co zaś może doprowadzać do podwyższenia poziomu wejścia dla nowych programistów.
+				to może ono doprowadzać do skomplikowania interfejsu, co zaś może doprowadzać do podwyższenia poziomu wejścia dla nowych programistów.\n
 
 				Jednakże to podejście nie rozwiązuje w~pełni również problemu przedstawionego w~poprzednim podrozdziale, gdzie została wspomniana
 				możliwość zmiany struktury klasy, na co nie zareaguje sam mechanizm serializacji z~uwagi na istnienie
@@ -549,7 +549,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a~nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
-			}
+				Opisane wady i zalety można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -667,14 +667,14 @@ MyClass deserialize_my_class(const std::string& json_text)
 				na braku klamry, czy średnika, ponieważ w~okolicy literówki, najczęściej formatowanie jest wyraźnie inne i~przykuwa to wzrok podczas poszukiwań.\n
 
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w~formie gotowej strony www. Poniżej zrzuty
-				ekranu prezentujące wygląd wygenerowanej dokumentacji.\n
+				ekranu prezentujące wygląd wygenerowanej dokumentacji (rysunek \ref{docs_1} i \ref{docs_2}).\n
 
 				\putss{./img/documentation_part_1.png}{Widok na automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
 				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji}{docs_2}
 
 				\newpage
 
-				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie,
+				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie (rysunek numer \ref{doxygen_code}),
 				jest w~stanie wygenerować różnego rodzaju dokumentację.\n
 
 				\begin{captioned}[H]
@@ -793,8 +793,8 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			{
 				\subsubsection{Problem dostępu do nazwy pola}
 
-				Celem pokazania, w~jaki sposób następuje dostęp do nazwy pola i~jednocześnie podsumowania aktualnej architektury, poniżej zostaje zamieszczony
-				przykład zapisu na podstawie poprzednich kilku akapitów:\n
+				Celem pokazania, w~jaki sposób następuje dostęp do nazwy pola i~jednocześnie podsumowania aktualnej architektury, na rysunku numer \ref{serek_summary} zamieszczony
+				został przykład zapisu na podstawie poprzednich kilku akapitów:\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -836,8 +836,8 @@ Konsola:
 				\label{typename_example}
 			\end{captioned}
 
-				Wydobycie nazwy pola może nastąpić z~zdemanglowanej nazwy typu pola, którą bajecznie prosto uzyskać, ponieważ jest ona zawarta
-				w szablonie.
+				Wydobycie nazwy pola może nastąpić z~rozczesanej nazwy pola, którą bajecznie prosto uzyskać, ponieważ jest ona zawarta
+				w tekstowej reprezentacji szablonu.
 			}
 
 			{
@@ -852,7 +852,8 @@ Konsola:
 
 				Sam alias również nie jest do końca taki prosty, ponieważ korzysta z~podobnej sztuczki co klasa odpowiedzialna, za przechowywanie
 				kolejnych pól w~klasie. Precyzując: dziedziczy po klasie, do której należy ostatnie pole klasy, dzięki czemu całość zostaje
-				zapakowane w~fasadę idealnie przeźroczystą z~wygodnym dostępem do każdego pola w~klasie. Poniżej urzeczywistniony, przykład deklaracji klasy.\n
+				zapakowane w~fasadę idealnie przeźroczystą z~wygodnym dostępem do każdego pola w~klasie. Na rysunku \ref{serek_full_example} urzeczywistniony,
+				przykład deklaracji klasy.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -907,8 +908,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 					\label{visitor_ex}
 				\end{captioned}
 
-				Powyższy przykład jest już gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez niniejszą
-				bibliotekę. Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
+				Przykład na rysunku numer \ref{visitor_ex} jest gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez bibliotekę
+				\serek\. Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
 				chcemy dokonać operacji serializacji lub deserializacji, natomiast drugim parametrem jest wizytator.
 			}
 		}
@@ -975,7 +976,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				\subsubsection{Biblioteki}
 
 				Podejście z~manualną refleksją pól, będzie miało swojego reprezentanta w~postaci wcześniej wspomnianej biblioteki \nonpl{jsoncpp}.
-				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Poniżej zostanie zamieszczony jedynie fragment
+				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Na rysunku numer \ref{jsoncpp_impl} zostanie zamieszczony jedynie fragment
 				implementacji serializacji. Cała ilość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom, jest zdecydowanie
 				największa. Cała zajmuje obszar pomiędzy $26$ a~$141$ linijką, dając sumarycznie $115$ linijek.\n
 
@@ -1009,8 +1010,9 @@ for(const auto& it: in.b3)
 				w postaci wariantów oraz zmiennych obiektów wariantowych (\ang{mutable variant object}), które z~jednej strony zwiększają narzut konwersji,
 				jednakże z~drugiej strony dają sporą elastyczność w~zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
-				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym, gdzie dokonana jest pół automatyczna zewnętrzna refleksja. Same
-				metody serializacji i~deserializacji są krótkie i~zostaną przytoczone w~całości, celem nieco głębszego omówienia.\n
+				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym (rysunek \ref{fc_impl_header}), gdzie dokonana jest
+				pół automatyczna zewnętrzna refleksja. Same metody serializacji i~deserializacji są krótkie i~zostaną przytoczone w~całości (rysunek \ref{fc_impl_source}),
+				celem nieco głębszego omówienia.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -1054,7 +1056,8 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 				możliwości spojrzenia w~siebie (refleksji) daje możliwość znaczącej redukcji kodu.\n
 
 				Trzecią i~jednocześnie ostatnią biblioteką jest opisana szerzej w~rozdziale numer \ref{serek} - biblioteka \serek.
-				Jej użycie jest jeszcze krótsze i~doliczając dodatkowe linijki na aliasy, całość zamyka się w~zaledwie $12$ linijkach.\n
+				Jej użycie jest jeszcze krótsze (patrz rysunek numer \ref{serek_impl_source}) i~doliczając dodatkowe linijki na aliasy,
+				całość zamyka się w~zaledwie $12$ linijkach.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -1083,40 +1086,40 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}{jmeter_main_config}
 
-				Pierwszy panel do konfiguracji, pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja, aby testy były uruchamiane sekwencyjnie,
-				co sprawi, że wydzielone grupy wątków dla każdej z~bibliotek nie będą na siebie wpływać.\n
+				Pierwszy panel do konfiguracji (rysunek numer \ref{jmeter_main_config}), pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja,
+				aby testy były uruchamiane sekwencyjnie, co sprawi, że wydzielone grupy wątków dla każdej z~bibliotek nie będą na siebie wpływać.\n
 
 				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków}{jmeter_thread_config}
 
-				Ustawienia każdej z~trzech grup wątków są takie same. Pozwalają sprecyzować ilość zapytań na każdym z~uruchamianych wątków, a~także ile ma się ich pojawić.
+				Ustawienia każdej z~trzech grup wątków (rysunek \ref{jmeter_thread_config}) są takie same. Pozwalają sprecyzować ilość zapytań na każdym z~uruchamianych wątków, a~także ile ma się ich pojawić.
 				Ustawienie ilości zapytań na wartość ujemną sprawi, że zapytania będą wysyłane w~sposób ciągły do momentu wystąpienia punktu przerwania, na przykład czas, czy warunkowa
 				ilość powtórzeń. Na powyższym zrzucie ekranu jednak nie widnieją żadne liczby, jest to spowodowane możliwością tworzenia zmiennych i~odnoszenia się do nich w~dowolnym innym
 				komponencie.\n
 
 				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych}{jmeter_var_config}
 
-				Tworzenie zmiennych odbywa się w~dedykowanym widoku, gdzie istnieje możliwość przypisania nazw zmiennym, określenia ich wartości, a~także zapisania krótkiego
-				tekstu pomocy. Tajemniczy zapis w~kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
-				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia. Uruchomienie z~poziomu terminala daje możliwość
-				nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
+				Tworzenie zmiennych odbywa się w~dedykowanym widoku, przedstawionym na rysunku numer \ref{jmeter_var_config}. Istnieje możliwość przypisania nazw zmiennym, określenia ich wartości,
+				a~także zapisania krótkiego tekstu pomocy. Tajemniczy zapis w~kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
+				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia w sposób przedstawiony na rysunku numer \ref{jmeter_warn}.
+				Uruchomienie z~poziomu terminala daje możliwość nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
 
 				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym}{jmeter_warn}
 
 				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
 				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
 				zostało zdefiniowane jako plik \nonpl{CSV}, którego każda podzielona na tokeny linijka jest przekazywana do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
-				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych.\n
-
+				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych. Na rysunku numer \ref{jmeter_config_csv} zostały przedstawione udostępnione opcje przez środowisko testowe.\n
 
 				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}{jmeter_config_csv}
 
-				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.
+				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP (rysunek numer \ref{jmeter_config_http}) oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.\n
 
 				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP dla biblioteki \serek}{jmeter_config_http}
 
 				Konfiguracja zostaje dokończona, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
 				na każdej bibliotece. Zaglądając do zakładki z~agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
-				zostają informacji między innymi o~ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie.
+				zostają informacji między innymi o~ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie. Wyniki
+				zostają zaprezentowane w formie tabeli, tak jak na rysunku numer \ref{jmeter_report}.\n
 
 				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}{jmeter_report}
 			}
@@ -1219,7 +1222,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			pracy, głównie skupionej dookoła prototypownia i~eksperymentowaniu. Dokonując analizy zmian (\ang{commit}) w~repozytorium\footnote{
 				Analiza zmian w~repozytorium była możliwa dzięki zastosowaniu notacji \nonpl{gitmoji}\cite{gitmoji}, która wymusza na programiście dobrą praktykę
 				ograniczania jednej zmiany (\ang{commit}), do bardzo małej porcji i~oznaczenie poprzez stosowną ikonę.
-			} (wykres numer \ref{commit}) wychodzi, że mniej niż $1\%$ wszystkich zmian (dokładnie $3$ zmiany) stanowiły optymalizacje wydajnościowe. Daje to pewien obraz,
+			} (rysunek numer \ref{commit}) wychodzi, że mniej niż $1\%$ wszystkich zmian (dokładnie $3$ zmiany) stanowiły optymalizacje wydajnościowe. Daje to pewien obraz,
 			niedopracowania tej biblioteki, stawiając ją raczej jako dowód na działanie pomysłu (\ang{proof of concept}).\n
 
 			\putfig{./charts/pre_generated_charts/commit_percentage.png}{Udział rodzajów zmian w~całym repozytorium \serek}{commit}
