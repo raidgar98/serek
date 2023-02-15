@@ -415,27 +415,11 @@
 				Cechą charakterystyczną takich bibliotek jest sposób zapisu funkcji, które są odpowiedzialne za serializację lub deserializację
 				danej klasy, ponieważ są to najczęściej długie wielokrotnie zagnieżdżone funkcje, przekształcające po kolei wszystkie pola klasy.
 				Opis ten od razu wskazuje na najważniejszą wadę tego podejścia. W~przypadku zmiany struktury danych, na przykład poprzez usunięcie
-				lub dodanie pola, wymagana jest ingerencja w~kod w~obu funkcjach (patrz rysunek \ref{manual_reflection_example}).\n
-
-				Redukcja członka klasy nie jest jeszcze problemem, ponieważ kompilator od razu poinformuje programistę o~tym, że próbuje operować na polu,
-				które (już) nie istnieje, jednakże w~przypadku dodania pola, programista może nieświadomie dodać pole, które nie będzie podlegało serializacji
-				lub deserializacji. Kolejne wada tego rozwiązania kryje się w~mechanizmie konwersji typów, a~mianowicie jeżeli typ danego pola zostanie
-				zmieniony i~przez przypadek istnieje niejawna, możliwa konwersja między starym a~nowym typem, serializacja oraz deserializacja może
-				dyskretnie dokonywać błędnych operacji. Dobrym przykładem jest zmiana reprezentacji procentów z~liczby całkowitej od $0$ do $100$,
-				na typ zmiennoprzecinkowy od $0.0$ do $1.0$. Jeżeli podmienimy typ w~klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
-				od $0\%$ do $99\%$ zostaną zaokrąglone do wartości całkowitej: $0$. Istnieją mechanizmy pozwalające na uchronienie programisty przed takim
-				czarnym scenariuszem, na przykład w~postaci testów wzorcowych (\ang{pattern tests}), lub korzystanie w~inteligentny sposób z~szablonów,
-				które mogłyby dedukować odpowiednią metodę obsługi pola, jednakże nie są one dostarczone od razu oraz nie wynikają z~filozofii
-				korzystania z~tego typu bibliotek.\n
-
-				Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
-				biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w~implementacji własnych, niecodziennych sposobów serializacji,
-				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\cite{hash_po_angielskiemu},
-				od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
-				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
-				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z takimi wyzwaniami, ponieważ programista może bez problemu
-				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
-				stosowania obiektów pośrednich.
+				lub dodanie pola, wymagana jest ingerencja w~kod w~obu funkcjach, co zostało przedstawione na rysunku \ref{manual_reflection_example}).
+				Pierwszy blok kodu obrazuje przykładową klasę, która zostanie poddana procesowi serializacji oraz deserializacji. Pierwsza funkcja
+				\code{serialize\_my\_class} posiada przepis na wspomaganą biblioteką serializację klasy, natomiast kolejna (\code{deserialize\_my\_class})
+				jej deserializację. Należy zwrócić uwagę, że usunięcie, dodanie lub edycja nazwy pola lub jego typu wymusza na programiście modyfikację
+				obu funkcji.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -477,6 +461,26 @@ MyClass deserialize_my_class(const std::string& json_text)
 					\caption{ Przykładowa implementacja funkcji serializacji i deserializacji za pomocą biblioteki z wyłącznie manualną refleksją pól}
 					\label{manual_reflection_example}
 				\end{captioned}
+
+				Redukcja członka klasy nie jest jeszcze problemem, ponieważ kompilator od razu poinformuje programistę o~tym, że próbuje operować na polu,
+				które (już) nie istnieje, jednakże w~przypadku dodania pola, programista może nieświadomie dodać pole, które nie będzie podlegało serializacji
+				lub deserializacji. Kolejne wada tego rozwiązania kryje się w~mechanizmie konwersji typów, a~mianowicie jeżeli typ danego pola zostanie
+				zmieniony i~przez przypadek istnieje niejawna, możliwa konwersja między starym a~nowym typem, serializacja oraz deserializacja może
+				dyskretnie dokonywać błędnych operacji. Dobrym przykładem jest zmiana reprezentacji procentów z~liczby całkowitej od $0$ do $100$,
+				na typ zmiennoprzecinkowy od $0.0$ do $1.0$. Jeżeli podmienimy typ w~klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
+				od $0\%$ do $99\%$ zostaną zaokrąglone do wartości całkowitej: $0$. Istnieją mechanizmy pozwalające na uchronienie programisty przed takim
+				czarnym scenariuszem, na przykład w~postaci testów wzorcowych (\ang{pattern tests}), lub korzystanie w~inteligentny sposób z~szablonów,
+				które mogłyby dedukować odpowiednią metodę obsługi pola, jednakże nie są one dostarczone od razu oraz nie wynikają z~filozofii
+				korzystania z~tego typu bibliotek.\n
+
+				Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
+				biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w~implementacji własnych, niecodziennych sposobów serializacji,
+				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\cite{hash_po_angielskiemu},
+				od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
+				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
+				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z takimi wyzwaniami, ponieważ programista może bez problemu
+				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
+				stosowania obiektów pośrednich.
 			}
 		}
 
@@ -500,7 +504,10 @@ MyClass deserialize_my_class(const std::string& json_text)
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a~nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
-				Opisane wady i zalety można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}.\n
+				Opisane wady i zalety można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}. Wspomniany
+				rysunek prezentuje dwa pliki, wyróżnione za pomocą odpowiedniego komentarza. Pierwszy fragment prezentuje przykładową klasę oraz
+				jej zewnętrzną manualną refleksję z pomocą przykładowej biblioteki. Druga część (po komentarzu \code{// MyClass.cpp}) pokazuje
+				całą implementację odpowiednio funkcji serializacji oraz deserializacji.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -638,8 +645,11 @@ MyClass deserialize_my_class(const std::string& json_text)
 
 				\newpage
 
-				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie (rysunek numer \ref{doxygen_code}),
-				jest w~stanie wygenerować różnego rodzaju dokumentację.\n
+				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie, pokazanych na rysunku numer \ref{doxygen_code},
+				jest w~stanie wygenerować różnego rodzaju dokumentację. Wspomniane komentarze umieszczone są powyżej deklaracji (w~tym wypadku również definicji) i~zawierają
+				opisy parametrów szablonów (\code{@tparam}) oraz argumentów funkcji (\code{@param}). Dodatkowo w~sekcji wyróżnionej za pomocą znacznika \code{@brief}, został
+				umieszczony skrócony opis funkcji. Jeżeli opisywany obiekt zwracałby jakąś wartość jest również możliwe opisanie zarówno typu jak i~znaczenia zwracanych wartości
+				za pomocą znacznika \code{@returns}.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -757,7 +767,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				\subsubsection{Problem dostępu do nazwy pola}
 
 				Celem pokazania, w~jaki sposób następuje dostęp do nazwy pola i~jednocześnie podsumowania aktualnej architektury, na rysunku numer \ref{serek_summary} zamieszczony
-				został przykład zapisu na podstawie poprzednich kilku akapitów:\n
+				został przykład zapisu na podstawie poprzednich kilku akapitów, gdzie należy zwrócić uwagę na definicje typów kolejnych pól.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -852,7 +862,7 @@ using test_struct = serek::pack<&test_struct_impl::field_2>;
 
 				Dlatego koniecznością stało się wydzielenie kodu od serializacji do osobnej klasy. Szczęśliwie, istnieje wzorzec projektowy,
 				który bardzo dobrze sprawdza się w~przypadku konieczności wydzielenia funkcjonalności poza klasę - wizytator\cite{visitor_description}.
-				Użycie go w~przypadku tej implementacji jest bardzo proste i~intuicyjne. Biblioteka zapewnia klasę bazową, po której dziedzicząc
+				Użycie go w~przypadku tej implementacji jest bardzo proste i~intuicyjne. Biblioteka zapewnia klasę bazową, po której dziedzicząc,
 				użytkownik tworzy własnego wizytatora, w~którym definiuje obsługę swoich typów, jako przeciążenia operatora wywołania (\code{operator()}),
 				natomiast, wszystkie pozostałe przekierowuje do klasy bazowe, która ma zaimplementowane obsługę typów fundamentalnych.\n
 
@@ -872,7 +882,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				\end{captioned}
 
 				Przykład na rysunku numer \ref{visitor_ex} jest gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez bibliotekę
-				\serek\. Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
+				\serek . Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
 				chcemy dokonać operacji serializacji lub deserializacji, natomiast drugim parametrem jest wizytator.
 			}
 		}
@@ -940,8 +950,9 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 
 				Podejście z~manualną refleksją pól, będzie miało swojego reprezentanta w~postaci wcześniej wspomnianej biblioteki \nonpl{jsoncpp}.
 				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Na rysunku numer \ref{jsoncpp_impl} zostanie zamieszczony jedynie fragment
-				implementacji serializacji. Objętość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom, jest zdecydowanie
-				największa. Cała zajmuje obszar w pliku \nonpl{benchmarks/controllers/benchmark_controllers.cpp} pomiędzy $26$ a~$141$ wierszem, dając sumarycznie $115$ linii kodu.\n
+				implementacji serializacji, gdzie widać serializację kolejnych pól klasy \code{B}. Objętość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom,
+				jest zdecydowanie największa. Cała zajmuje obszar w pliku \nonpl{benchmarks/controllers/benchmark_controllers.cpp} pomiędzy $26$ a~$141$ wierszem,
+				dając sumarycznie $115$ linii kodu.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -974,8 +985,8 @@ for(const auto& it: in.b3)
 				jednakże z~drugiej strony dają sporą elastyczność w~zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
 				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym (rysunek \ref{fc_impl_header}), gdzie dokonana jest
-				pół automatyczna zewnętrzna refleksja. Same metody serializacji i~deserializacji są krótkie i~zostaną przytoczone w~całości (rysunek \ref{fc_impl_source}),
-				celem nieco głębszego omówienia.\n
+				pół automatyczna zewnętrzna refleksja pól wszystkich klas modelu (\code{FC_REFLECT} oraz \code{FC_REFLECT_DERIVED}). Same metody
+				deserializacji oraz serializacji są w~odpowiadającej kolejności umieszczone w~całości na rysunku numer \ref{fc_impl_source}.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -1034,7 +1045,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 	out = serek::serial::json::serialize(in);
 }
 					\end{lstlisting}
-					\caption{ Implementacje funkcji do serializacji i deserializacji przy wykorzystaniu biblioteki \serek}
+					\caption{ Implementacje odpowiednio funkcji do deserializacji i serializacji przy wykorzystaniu biblioteki \serek}
 					\label{serek_impl_source}
 				\end{captioned}
 			}
