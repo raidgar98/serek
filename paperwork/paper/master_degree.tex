@@ -430,9 +430,8 @@
 
 				Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
 				biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w~implementacji własnych, niecodziennych sposobów serializacji,
-				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\footnote{
-					Autor jest zdania, że nazwa \nonpl{hash} nie powinna być spolszczona do słowa \nonpl{hasz}, lub \nonpl{skrót} \cite{hash_po_angielskiemu}
-				}, od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
+				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\cite{hash_po_angielskiemu},
+				od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
 				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z takimi wyzwaniami, ponieważ programista może bez problemu
 				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
@@ -687,11 +686,10 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			ponieważ otwiera to drzwi do całej gamy rozwiązań z~serializacji, nie tylko w~formacie \JSON, ale także do takich formatów jak SQL, czy
 			postać binarna.\n
 
-			Intuicyjnym podejściem wydaje się wykorzystanie wzorca ciekawie powtarzającego się wzoru szablonu\footnote{
-				CRTP (\ang{curiously recurring template pattern}) - wzorzec projektowy polegający na przekazaniu klasie rodzica, typu klasy dziecka \cite{crtp_definition}
-			}, które umożliwiałoby potencjalnie abstrakcję niezbędnych narzędzi do przejścia po polach klasy dziecka u~rodzica. To podejście jest skazane na
-			porażkę. Jest to spowodowane miejscem korzystania z~tego wzorca, a~mianowicie, przy samej deklaracji klasy, co jest zbyt wczesnym etapem, gdy pola nie są
-			jeszcze zdefiniowane. Dodatkowo to rozwiązanie, gdzie wszystkie pola byłyby wymienione jako referencje u~rodzica ma jeszcze jedną, jak zresztą każde
+			Intuicyjnym podejściem wydaje się wykorzystanie wzorca projektowego polegającego na przekazaniu klasie rodzica, typu klasy dziecka - \nonpl{CRTP}
+			(\ang{curiously recurring template pattern}). Umożliwiałoby to potencjalnie abstrakcję niezbędnych narzędzi do przejścia po polach klasy dziecka u~rodzica.
+			To podejście jest skazane na porażkę. Jest to spowodowane miejscem korzystania z~tego wzorca, a~mianowicie, przy samej deklaracji klasy, co jest zbyt wczesnym etapem,
+			gdy pola nie są jeszcze zdefiniowane. Dodatkowo to rozwiązanie, gdzie wszystkie pola byłyby wymienione jako referencje u~rodzica ma jeszcze jedną, jak zresztą każde
 			inne rozwiązanie opierające się na wymienieniu w~sekwencji wszystkich pól, wadę: nie eliminuje wciąż problemu gapiostwa programisty, który mógłby zapomnieć
 			dopisać nowe pole w~strukturze danych, dlatego zaszła konieczność wplecenia interfejsu pomiędzy deklaracje pól klasy.
 		}
