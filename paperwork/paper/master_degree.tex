@@ -252,7 +252,7 @@
 
 		\vspace*{\vfill}
 
-		{\bfseries\ Streszczenie:} Praca ma sprawdzić możliwość skonstruowania biblioteki do w pełni automatycznej refleksji typów, a także przetestować jej wydajność w zestawieniu do innych powszechnie używanych bibliotek.
+		{\bfseries\ Streszczenie:} Praca ma sprawdzić możliwość skonstruowania biblioteki do w~pełni automatycznej refleksji typów, a~także przetestować jej wydajność w~zestawieniu do innych powszechnie używanych bibliotek.
 
 		\vspace*{\vfill}
 
@@ -264,7 +264,7 @@
 
 		\vspace*{\vfill}
 
-		{\bfseries\ Abstract:} Purpose of this paper is to check the possibility of constructing a library for fully automatic type reflection, as well as to test its performance in comparison to other commonly used libraries.
+		{\bfseries\ Abstract:} Purpose of this paper is to check the possibility of constructing a~library for fully automatic type reflection, as well as to test its performance in comparison to other commonly used libraries.
 
 		\vspace*{\vfill}
 
@@ -458,7 +458,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 	return result;
 }
 					\end{lstlisting}
-					\caption{ Przykładowa implementacja funkcji serializacji i deserializacji za pomocą biblioteki z wyłącznie manualną refleksją pól}
+					\caption{ Przykładowa implementacja funkcji serializacji i~deserializacji za pomocą biblioteki z~wyłącznie manualną refleksją pól}
 					\label{manual_reflection_example}
 				\end{captioned}
 
@@ -478,7 +478,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\cite{hash_po_angielskiemu},
 				od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
-				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z takimi wyzwaniami, ponieważ programista może bez problemu
+				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z~takimi wyzwaniami, ponieważ programista może bez problemu
 				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
 				stosowania obiektów pośrednich.
 			}
@@ -504,9 +504,9 @@ MyClass deserialize_my_class(const std::string& json_text)
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a~nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
-				Opisane wady i zalety można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}. Wspomniany
+				Opisane wady i~zalety można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}. Wspomniany
 				rysunek prezentuje dwa pliki, wyróżnione za pomocą odpowiedniego komentarza. Pierwszy fragment prezentuje przykładową klasę oraz
-				jej zewnętrzną manualną refleksję z pomocą przykładowej biblioteki. Druga część (po komentarzu \code{// MyClass.cpp}) pokazuje
+				jej zewnętrzną manualną refleksję z~pomocą przykładowej biblioteki. Druga część (po komentarzu \code{// MyClass.cpp}) pokazuje
 				całą implementację odpowiednio funkcji serializacji oraz deserializacji.\n
 
 				\begin{captioned}[H]
@@ -533,7 +533,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 	return lib::json::from_string(json_text).as<MyClass>();
 }
 					\end{lstlisting}
-					\caption{Przykładowa implementacja funkcji serializacji i deserializacji za pomocą biblioteki z pół automatyczną refleksją pól}
+					\caption{Przykładowa implementacja funkcji serializacji i~deserializacji za pomocą biblioteki z~pół automatyczną refleksją pól}
 					\label{half_automatic_example}
 				\end{captioned}
 			}
@@ -556,7 +556,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 		\section{Cel i~Zakres Pracy}
 
 		Celem jest przeprowadzenie testów wydajnościowych mających na celu porównanie powszechnie używanych współcześnie bibliotek odpowiedzialnych
-		za obsługę serializacji i deserializacji do formatu \JSON ze stworzoną na potrzeby tej pracy eksperymentalną
+		za obsługę serializacji i~deserializacji do formatu \JSON ze stworzoną na potrzeby tej pracy eksperymentalną
 		implementacją biblioteką \serek, stworzoną na potrzeby tej pracy.
 
 		{
@@ -568,7 +568,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 			\begin{itemize}
 				\setlength\itemsep{0mm}
 				\item zaprojektowanie przyjaznego programiście interfejsu biblioteki
-				\item implementacja mechanizmu w pełni automatycznej refleksji
+				\item implementacja mechanizmu w~pełni automatycznej refleksji
 				\item implementacja mechanizmu serializacji
 				\item implementacja mechanizmu deserializacji
 				\item implementacja testów potwierdzających działanie powyższych punktów
@@ -580,14 +580,14 @@ MyClass deserialize_my_class(const std::string& json_text)
 			\subsection{Badania wydajnościowe}
 
 			Celem sprawdzenia wydajności biblioteki, zostaną w~kontrze przetestowane dwie inne biblioteki. Zostaną one wybrane po jednej do opisanych w~poprzednim rozdziale
-			rodzajów podejść do tego tematu. Badania z~ich wykorzystaniem zostaną przeprowadzone w dedykowanym do takiego celu oprogramowaniu, celem uzyskania jak najbardziej
+			rodzajów podejść do tego tematu. Badania z~ich wykorzystaniem zostaną przeprowadzone w~dedykowanym do takiego celu oprogramowaniu, celem uzyskania jak najbardziej
 			rzetelnych wyników. Zakres pracy do wykonania, celem osiągnięcia tego jest:
 
 			\begin{itemize}
 				\setlength\itemsep{0mm}
 				\item implementacja środowiska do testowania wydajności trzech bibliotek
-				\item zaprojektowanie scenariusza testowego tak, aby każda biblioteka była testowana w sposób izolowany i jednakowy
-				\item implementacja serializacji oraz deserializacji korzystając z trzech bibliotek
+				\item zaprojektowanie scenariusza testowego tak, aby każda biblioteka była testowana w~sposób izolowany i~jednakowy
+				\item implementacja serializacji oraz deserializacji korzystając z~trzech bibliotek
 				\item przeprowadzenie badań
 				\item analiza uzyskanych danych
 			\end{itemize}
@@ -638,7 +638,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				na braku klamry, czy średnika, ponieważ w~okolicy literówki, najczęściej formatowanie jest wyraźnie inne i~przykuwa to wzrok podczas poszukiwań.\n
 
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w~formie gotowej strony www. Poniżej zrzuty
-				ekranu prezentujące wygląd wygenerowanej dokumentacji (rysunek \ref{docs_1} i \ref{docs_2}).\n
+				ekranu prezentujące wygląd wygenerowanej dokumentacji (rysunek \ref{docs_1} i~\ref{docs_2}).\n
 
 				\putss{./img/documentation_part_1.png}{Widok automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
 				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}}{docs_2}
@@ -777,7 +777,7 @@ struct test_struct
 	field<&test_struct::field_0, float> field_1;
 };
 					\end{lstlisting}
-					\caption{ Szkicowy zapis biblioteki w pełni automatycznej refleksji, na podstawie dotychczasowych akapitów}
+					\caption{ Szkicowy zapis biblioteki w~pełni automatycznej refleksji, na podstawie dotychczasowych akapitów}
 					\label{serek_summary}
 				\end{captioned}
 
@@ -805,7 +805,7 @@ Konsola:
 	serek::detail::field_impl<&test_struct::field_0, double> test_struct::
 */
 				\end{lstlisting}
-				\caption{ Prosty program wraz z wyjściem ilustrujący źródło wyodrębniania nazw pól}
+				\caption{ Prosty program wraz z~wyjściem ilustrujący źródło wyodrębniania nazw pól}
 				\label{typename_example}
 			\end{captioned}
 
@@ -840,7 +840,7 @@ struct test_struct_impl
 };
 using test_struct = serek::pack<&test_struct_impl::field_2>;
 					\end{lstlisting}
-					\caption{ Pełna definicja struktury, korzystając z biblioteki \serek}
+					\caption{ Pełna definicja struktury, korzystając z~biblioteki \serek}
 					\label{serek_full_example}
 				\end{captioned}
 			}
@@ -877,7 +877,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 	}
 };
 					\end{lstlisting}
-					\caption{ Przykład implementacji wizytatora, spełniającego wymagania biblioteki \serek, wraz z zdefiniowaną obsługą własnego typu \code{hash_t}}
+					\caption{ Przykład implementacji wizytatora, spełniającego wymagania biblioteki \serek, wraz z~zdefiniowaną obsługą własnego typu \code{hash_t}}
 					\label{visitor_ex}
 				\end{captioned}
 
@@ -951,7 +951,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				Podejście z~manualną refleksją pól, będzie miało swojego reprezentanta w~postaci wcześniej wspomnianej biblioteki \nonpl{jsoncpp}.
 				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Na rysunku numer \ref{jsoncpp_impl} zostanie zamieszczony jedynie fragment
 				implementacji serializacji, gdzie widać serializację kolejnych pól klasy \code{B}. Objętość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom,
-				jest zdecydowanie największa. Cała zajmuje obszar w pliku \nonpl{benchmarks/controllers/benchmark_controllers.cpp} pomiędzy $26$ a~$141$ wierszem,
+				jest zdecydowanie największa. Cała zajmuje obszar w~pliku \nonpl{benchmarks/controllers/benchmark_controllers.cpp} pomiędzy $26$ a~$141$ wierszem,
 				dając sumarycznie $115$ linii kodu.\n
 
 				\begin{captioned}[H]
@@ -985,7 +985,7 @@ for(const auto& it: in.b3)
 				jednakże z~drugiej strony dają sporą elastyczność w~zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
 				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym (rysunek \ref{fc_impl_header}), gdzie dokonana jest
-				pół automatyczna zewnętrzna refleksja pól wszystkich klas modelu (\code{FC_REFLECT} oraz \code{FC_REFLECT_DERIVED}). Same metody
+				pół automatyczna zewnętrzna refleksja pól wszystkich klas modelu (\code{FC\_REFLECT} oraz \code{FC\_REFLECT\_DERIVED}). Same metody
 				deserializacji oraz serializacji są w~odpowiadającej kolejności umieszczone w~całości na rysunku numer \ref{fc_impl_source}.\n
 
 				\begin{captioned}[H]
@@ -997,7 +997,7 @@ FC_REFLECT(fc_model_t::A, (a1)(a2)(a3)(a4)(a5));
 FC_REFLECT(fc_model_t::B, (b1)(b2)(b3));
 FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
 					\end{lstlisting}
-					\caption{ Fragment nagłówka z definicją refleksji przy wykorzystaniu biblioteki \nonpl{fc}}
+					\caption{ Fragment nagłówka z~definicją refleksji przy wykorzystaniu biblioteki \nonpl{fc}}
 					\label{fc_impl_header}
 				\end{captioned}
 
@@ -1021,7 +1021,7 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 	out = fc::json::to_string(mvo);
 }
 					\end{lstlisting}
-					\caption{ Implementacje funkcji do serializacji i deserializacji przy wykorzystaniu biblioteki \nonpl{fc}}
+					\caption{ Implementacje funkcji do serializacji i~deserializacji przy wykorzystaniu biblioteki \nonpl{fc}}
 					\label{fc_impl_source}
 				\end{captioned}
 
@@ -1045,7 +1045,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 	out = serek::serial::json::serialize(in);
 }
 					\end{lstlisting}
-					\caption{ Implementacje odpowiednio funkcji do deserializacji i serializacji przy wykorzystaniu biblioteki \serek}
+					\caption{ Implementacje odpowiednio funkcji do deserializacji i~serializacji przy wykorzystaniu biblioteki \serek}
 					\label{serek_impl_source}
 				\end{captioned}
 			}
@@ -1074,7 +1074,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				Tworzenie zmiennych odbywa się w~dedykowanym widoku, przedstawionym na rysunku numer \ref{jmeter_var_config}. Istnieje możliwość przypisania nazw zmiennym, określenia ich wartości,
 				a~także zapisania krótkiego tekstu pomocy. Tajemniczy zapis w~kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
-				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia w sposób przedstawiony na rysunku numer \ref{jmeter_warn}.
+				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia w~sposób przedstawiony na rysunku numer \ref{jmeter_warn}.
 				Uruchomienie z~poziomu terminala daje możliwość nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
 
 				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym}{jmeter_warn}
@@ -1093,7 +1093,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				Konfiguracja zostaje dokończona, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
 				na każdej bibliotece. Zaglądając do zakładki z~agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
 				zostają informacji między innymi o~ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie. Wyniki
-				zostają zaprezentowane w formie tabeli, tak jak na rysunku numer \ref{jmeter_report}.\n
+				zostają zaprezentowane w~formie tabeli, tak jak na rysunku numer \ref{jmeter_report}.\n
 
 				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}{jmeter_report}
 			}
