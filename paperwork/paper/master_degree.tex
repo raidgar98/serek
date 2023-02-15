@@ -313,12 +313,12 @@
 		trzeciego kwartału $2020$ roku do początku $2022$, co może być spowodowane pandemią \nonpl{COVID-19}, której wpływ na tempo gospodarki światowej,
 		jest całkiem prawdopodobnie widoczny również tutaj.\n
 
-		Aktualnie możemy rozróżnić trzy podstawowe podejścia do tego problemu. Pierwsze, gdzie programista tylko wspomaga się
+		Aktualnie możemy rozróżnić trzy podstawowe podejścia do wyzwania serializacji w~języku C++. Pierwsze, gdzie programista tylko wspomaga się
 		zewnętrzną biblioteką, której jedynym zadaniem jest zapewnienie zgodności ze standardem formatu, jednakowo podczas serializacji
 		oraz deserializacji, natomiast nie zapewnia refleksji typów złożonych, których serializację bądź deserializację musi
 		dokonać samodzielnie.\n
 
-		Kolejnym podejściem do problemu jest rozwiązanie oparte na bibliotece, która również jak powyżej zawiera funkcję
+		Kolejnym podejściem do tej kwestii jest rozwiązanie oparte na bibliotece, która również jak wspomniana powyżej zawiera funkcję
 		serializacji i~deserializacji typów prostych, jednakże dodatkowo zawiera funkcję zewnętrznej refleksji typów,
 		która najczęściej już na podstawie statycznych referencji do pola klasy, jest w~stanie wydedukować typy i~automatycznie
 		poprowadzić proces serializacji lub deserializacji.\n
@@ -405,7 +405,7 @@
 		{
 			\subsection{Manualna refleksja pól}
 
-			Jest to najbardziej trywialne podejście do problemu, które zakłada samodzielną implementację całego przejścia
+			Jest to najbardziej trywialne podejście do wyzwania konwersji reprezentacji danych, które zakłada samodzielną implementację całego przejścia
 			po polach klasy. Biblioteka służy tylko jako interfejs do serializacji, jednakże nie zapewnia automatycznej
 			zamiany typów złożonych, jedynie typów prostych. Przykładem takiej biblioteki jest \nonpl{jsoncpp}\cite{jsoncpp_repo}.\n
 
@@ -434,7 +434,7 @@
 					Autor jest zdania, że nazwa \nonpl{hash} nie powinna być spolszczona do słowa \nonpl{hasz}, lub \nonpl{skrót} \cite{hash_po_angielskiemu}
 				}, od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
-				przez człowieka. Biblioteki z~manualną refleksją typów bez problemu obsłużą tego typu momenty, ponieważ programista może bez problemu
+				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z takimi wyzwaniami, ponieważ programista może bez problemu
 				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
 				stosowania obiektów pośrednich.
 
@@ -495,7 +495,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				metod serializacji, szczególnie jeżeli biblioteka nie przewiduje takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość,
 				to może ono doprowadzać do skomplikowania interfejsu, co zaś może doprowadzać do podwyższenia poziomu wejścia dla nowych programistów.\n
 
-				Jednakże to podejście nie rozwiązuje w~pełni również problemu przedstawionego w~poprzednim podrozdziale, gdzie została wspomniana
+				Jednakże to podejście nie rozwiązuje również w~pełni problemu przedstawionego w~poprzednim podrozdziale, gdzie została wspomniana
 				możliwość zmiany struktury klasy, na co nie zareaguje sam mechanizm serializacji z~uwagi na istnienie
 				konieczności manualnego wpisania jakie pola chcemy, żeby podlegały serializacji. Podejście z~półautomatyczną refleksją
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
@@ -679,11 +679,11 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			\subsection{Problematyka i~wyzwania podczas implementacji}
 
 			Problematyka całego podejścia jest dwuwymiarowa, ponieważ istnieje konieczność stworzenia interfejsu biblioteki, która wykluczy, lub znacząco
-			zredukuje możliwość wystąpienia wcześniej wspomnianych problemów. Dodatkowo należy przewidzieć możliwość zadawania własnych metod serializacji,
+			zredukuje możliwość wystąpienia wcześniej wspomnianych przeszkód. Dodatkowo należy przewidzieć możliwość zadawania własnych metod serializacji,
 			najlepiej w~jednolity sposób. Poza tymi wymaganiami został sformułowany jeszcze jeden warunek dla całej implementacji: brak korzystania z~makr.\n
 
 			Jak zostało wspomniane w~rozdziale poświęconym omówieniu definicji refleksji, język C++ nie posiada zbyt dużego wsparcia dla programowania
-			refleksyjnego. Będzie to wyzwanie ściśle techniczne, a~dokładnie implementacyjne. Rozwiązanie tego problemu daje bardzo wymierne korzyści,
+			refleksyjnego. Będzie to wyzwanie ściśle techniczne, a~dokładnie implementacyjne. Rozwiązanie tego wyzwania daje bardzo wymierne korzyści,
 			ponieważ otwiera to drzwi do całej gamy rozwiązań z~serializacji, nie tylko w~formacie \JSON, ale także do takich formatów jak SQL, czy
 			postać binarna.\n
 
@@ -707,9 +707,9 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			Rozwiązanie to już koncepcyjnie rozwiązuje największą bolączkę poprzednich rozwiązań: oderwanie miejsca refleksji od bieżącego stanu klasy.
 			Teraz każde pole przy deklaracji wskazuje na poprzednie, jest więc to rzucające się w~oczy, przy dodawaniu lub usuwaniu pól klasy, nie do pominięcia.\n
 
-			Jednakże rozwiązanie jednego problemu nasuwa kolejne. Pierwszym jest rozwiązanie problemu dostępu do właściwych typów pod kolejnymi polami, a~także
-			miejscem na przechowywanie tej referencji, która mogłaby sprawić, że cała klasa przytyje w~zależności od środowiska o~$N * 8$, lub $N * 4$ bajty,
-			gdzie N jest liczbą pól. Dodatkowo wciąż jest problem z~początkiem listy, czyli referencją na ostatnie pole klasy. O~ile koniec jest oczywisty,
+			Jednakże przejście jednej przeszkody stwarza kolejne. Pierwszym jest rozwiązanie problemu dostępu do właściwych typów pod kolejnymi polami, a~także
+			miejscem na przechowywanie referencji, która mogłaby sprawić, że cała klasa przytyje w~zależności od środowiska o~$N * 8$, lub $N * 4$ bajty,
+			gdzie $N$ jest liczbą pól. Dodatkowo wciąż jest problem z~początkiem listy, czyli referencją na ostatnie pole klasy. O~ile koniec jest oczywisty,
 			w postaci pierwszego pola, to początek już nie i~wymaga osobnego zainteresowania. Kolejnym kłopotem jest miejsce pobrania nazwy pola, co jest
 			konieczne, aby móc zbudować obiekt \JSON, gdzie we wcześniej prezentowanych rozwiązaniach użytkownik sam deklarował nazwę pola, lub nazwa ta
 			była w~prosty sposób wyłuskiwana przez makro.\n
@@ -749,11 +749,11 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 
 				Aby zaproponować rozwiązanie, należy podać definicję statycznej referencji na pole klasy. Otóż jest to przesunięcie względem
 				adresu struktury danych. Wynika więc z~tej definicji, że jest to wartość możliwa do określenia, jeszcze podczas kompilacji,
-				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje, jest możliwe. Dzięki czemu został rozwiązany problem
+				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje, jest możliwe. Dzięki czemu została rozwiązana przeszkoda
 				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z~typem poprzedniego pola w~klasie.\n
 
 				Teraz, żeby dostać się do pola, potrzebny jest wskaźnik na obiekt (\code{this}), a~następnie dodanie do niego posiadanego przesunięcia.
-				Dodatkowo rozwiązany zostaje tutaj jeszcze jeden problem, a~mianowicie problem z~dostępem do nazwy pól.
+				Dodatkowo rozwiązane zostaje tutaj jeszcze jedno wyzwanie, a~mianowicie problem z~dostępem do nazwy pól.
 			}
 
 			{
@@ -841,7 +841,7 @@ using test_struct = serek::pack<&test_struct_impl::field_2>;
 			{
 				\subsubsection{Problem prostej podmiany sposobu obsługi typu}
 
-				Jest to ostatni z~naczelnych problemów, wymienionych na przestrzeni poprzednich akapitów. Rozwiązanie tego problemu,
+				Jest to ostatni z~naczelnych problemów, wymienionych na przestrzeni poprzednich akapitów. Rozwiązanie tego wyzwania,
 				wymagało przemyślenia, lokalizacji kodu od serializacji i~deserializacji, oraz sposobu na przemieszczanie się po takiej
 				statycznej jednokierunkowej liście pól w~klasie.\n
 
@@ -1048,7 +1048,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				\Jmeter\cite{jmeter} jest oprogramowaniem stworzonym przez fundację \nonpl{Apache}, napisaną w~języku \nonpl{Java}. Jej przeznaczeniem
 				jest projektowanie oraz wykonanie testów wydajnościowych. Sam wachlarz możliwości, jakie oferuje, rozpościera się od prostego odpytywania serwisu, poprzez
 				tworzenie złożonych wielokrotnie zagnieżdżonych struktur warunkowych i~pętel wykonujących wielokrotne logowania kończąc na tworzeniu interaktywnych
-				raportów w~formie stron wwww. Specyfika tego problemu wymaga jedynie części z~wymienionych powyżej możliwości.
+				raportów w~formie stron wwww. Specyfika tego badania wymaga jedynie części z~wymienionych powyżej możliwości.
 
 				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}{jmeter_main_config}
 
