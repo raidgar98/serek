@@ -346,23 +346,9 @@
 				bytes - is {\bf deserialization}. The deserialization process recreates the object,
 				thus making the data easier to read and modify as a~native structure in a~programming language.
 			\end{quotation}
-
-			{\noindent Tłumacząc na język polski (tłumaczenie własne):}
-
-			\begin{quotation}
-				{\bf Serializacja} to proces konwersji obiektu danych - kombinacji kodu i~danych
-				reprezentowanych w~regionie przechowywania danych - w~serię bajtów zapisujących
-				stan obiektu w~łatwej do przesłania formie. [\ldots] \n
-
-				Proces odwrotny - konstruowanie struktury danych lub obiektu z~szeregu
-				bajtów - to {\bf deserializacja}. Proces deserializacji odtwarza obiekt,
-				dzięki temu dane są łatwiejsze do odczytania i~modyfikacji jako
-				natywna struktura w~języku programowania.
-			\end{quotation}
 		}
 
 		{
-			\newpage
 			\subsection{Format \JSON}
 
 			Jest lekkim formatem danych wywodzącym się z~języka JavaScript. Jak pokazano na wykresie numer jeden,
@@ -392,20 +378,6 @@
 				manipulates another program is clearly an instance of metaprogramming. [\ldots]
 			\end{quotation}
 
-			\newpage
-			{\noindent Tłumacząc na język polski (tłumaczenie własne):}
-
-			\begin{quotation}
-					W językoznawstwie metajęzyk definiuje się w~następujący sposób [Słownik]:\n
-
-				„dowolny język lub system symboliczny używany do omawiania, opisywania lub analizowania
-					innego języka lub systemu symbolicznego”\n
-
-					Ta definicja charakteryzuje główną ideę metaprogramowania, która obejmuje pisanie
-				programów powiązanych meta-relacją, czyli relacją „bycia”. Program, który
-				manipuluje innym programem jest ewidentnie przykładem metaprogramowania. [\ldots]
-			\end{quotation}
-
 			Paradygmat meta programowania w~przypadku niniejszej pracy będzie można zaobserwować przy
 			rozwiązaniach z~zastosowaniem szablonów, a~także nowinki językowej w~języku C++: konceptów.
 			Meta-relacja będzie się ujawniać, gdy kompilator (który w~tym wypadku będzie wykonawcą meta języka),
@@ -425,14 +397,6 @@
 				[\ldots] reflective computational systems allow computations to observe and modify properties
 				of their own behavior, especially properties that are typically observed only from some
 				external, meta-level view point. [\ldots]
-			\end{quotation}
-
-			{\noindent Tłumacząc na język polski (tłumaczenie własne):}
-
-			\begin{quotation}
-				[\ldots] refleksyjne systemy obliczeniowe umożliwiają przetwarzanie poprzez obserwację i~modyfikację
-				właściwości własnego zachowania, zwłaszcza właściwości, które zazwyczaj obserwuje się tylko z~zewnętrznego,
-				meta poziomowego punktu widzenia. [\ldots]
 			\end{quotation}
 
 			Dobrym przykładem programowania refleksyjnego, jest kompletna kontrola nad typami danych w~języku Python,
@@ -1032,7 +996,7 @@ FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
 				tworzenie wielu list w~zakresie jednego makra. Ostatnim elementem podczas omawiania tej biblioteki jest prezentacja implementacji metod.\n
 
 				\begin{captioned}[H]
-					begin{lstlisting}[frame=single]
+					\begin{lstlisting}[frame=single]
 void fc_benchmark_controller::deserialize(model_t& out, const std::string_view in) const
 {
 	const auto& variant = fc::json::from_string(std::string{in.data(), in.size()});
