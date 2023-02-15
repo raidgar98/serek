@@ -548,16 +548,15 @@ MyClass deserialize_my_class(const std::string& json_text)
 	{
 		\section{Cel i~Zakres Pracy}
 
-		Niniejsza praca ma dwa cele. Pierwszym z nich jest implementacja biblioteki \serek, która ma dawać możliwość pełnej refleksji pól klasy oraz zapewniać
-		prosty interfejs do serializacji oraz deserializacji, który będzie umożliwiać proste podmienianie metod obsługi typów własnych użytkownika. Kolejnym celem
-		jest przeprowadzenie testów wydajnościowych mających na celu porównanie powszechnie używanych współcześnie bibliotek ze stworzoną na potrzeby tej pracy eksperymentalną
-		implementacją.
+		Celem jest przeprowadzenie testów wydajnościowych mających na celu porównanie powszechnie używanych współcześnie bibliotek odpowiedzialnych
+		za obsługę serializacji i deserializacji do formatu \JSON ze stworzoną na potrzeby tej pracy eksperymentalną
+		implementacją biblioteką \serek, stworzoną na potrzeby tej pracy.
 
 		{
 			\subsection{Implementacja}
 
 			Wyznacznikiem ukończenia implementacji biblioteki, będzie moment pozytywnego wykonania na bieżąco pisanych testów oraz stworzenie zreflektowanego obiektu z~prawidłowego
-			ciągu znaków w~formacie \JSON, a~także operacja odwrotna. Celem sformalizowania zakresu dla tego celu, wymagane jest:
+			ciągu znaków w~formacie \JSON, a~także operacja odwrotna. Celem sformalizowania tego etapu, wymagane jest:
 
 			\begin{itemize}
 				\setlength\itemsep{0mm}
@@ -574,8 +573,8 @@ MyClass deserialize_my_class(const std::string& json_text)
 			\subsection{Badania wydajnościowe}
 
 			Celem sprawdzenia wydajności biblioteki, zostaną w~kontrze przetestowane dwie inne biblioteki. Zostaną one wybrane po jednej do opisanych w~poprzednim rozdziale
-			rodzajów podejść do tego tematu. Badania z~ich wykorzystaniem zostaną przeprowadzone w dedykowanym do takiego celu oprogramowaniu, celem uzyskania jak najbardziej rzetelnych
-			wyników. Zakres pracy do wykonania, celem osiągnięcia tego celu jest następujący:
+			rodzajów podejść do tego tematu. Badania z~ich wykorzystaniem zostaną przeprowadzone w dedykowanym do takiego celu oprogramowaniu, celem uzyskania jak najbardziej
+			rzetelnych wyników. Zakres pracy do wykonania, celem osiągnięcia tego jest:
 
 			\begin{itemize}
 				\setlength\itemsep{0mm}
