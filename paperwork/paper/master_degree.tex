@@ -633,8 +633,8 @@ MyClass deserialize_my_class(const std::string& json_text)
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w~formie gotowej strony www. Poniżej zrzuty
 				ekranu prezentujące wygląd wygenerowanej dokumentacji (rysunek \ref{docs_1} i \ref{docs_2}).\n
 
-				\putss{./img/documentation_part_1.png}{Widok na automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
-				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji}{docs_2}
+				\putss{./img/documentation_part_1.png}{Widok automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
+				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}}{docs_2}
 
 				\newpage
 
@@ -929,8 +929,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				Żeby przetestować możliwości bibliotek, zarówno pod kątem wydajności, jak i~elastyczności, na różne struktury danych,
 				również model, który będzie podlegał zarówno serializacji, jak i~deserializacji musiał być nieco bardziej zróżnicowany.
 				Na całość składa się kombinacja trzech klas, które posiadają relację dziedziczenia oraz kompozycji. Co więcej, aby przy
-				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Poniżej
-				diagram UML prezentujący cały model danych.
+				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Diagram UML prezentujący
+				cały model danych został umieszczony poniżej na rysunku numer \ref{uml_diagram}.
 
 				\putfig{./img/benchmark_model_uml_diagram.png}{Diagram UML prezentujący model testowych danych}{uml_diagram}
 			}
