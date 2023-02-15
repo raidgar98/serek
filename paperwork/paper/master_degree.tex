@@ -940,8 +940,8 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 
 				Podejście z~manualną refleksją pól, będzie miało swojego reprezentanta w~postaci wcześniej wspomnianej biblioteki \nonpl{jsoncpp}.
 				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Na rysunku numer \ref{jsoncpp_impl} zostanie zamieszczony jedynie fragment
-				implementacji serializacji. Cała ilość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom, jest zdecydowanie
-				największa. Cała zajmuje obszar pomiędzy $26$ a~$141$ linijką, dając sumarycznie $115$ linijek.\n
+				implementacji serializacji. Objętość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom, jest zdecydowanie
+				największa. Cała zajmuje obszar w pliku \nonpl{benchmarks/controllers/benchmark_controllers.cpp} pomiędzy $26$ a~$141$ wierszem, dając sumarycznie $115$ linii kodu.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -1019,8 +1019,8 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 				możliwości spojrzenia w~siebie (refleksji) daje możliwość znaczącej redukcji kodu.\n
 
 				Trzecią i~jednocześnie ostatnią biblioteką jest opisana szerzej w~rozdziale numer \ref{serek} - biblioteka \serek.
-				Jej użycie jest jeszcze krótsze (patrz rysunek numer \ref{serek_impl_source}) i~doliczając dodatkowe linijki na aliasy,
-				całość zamyka się w~zaledwie $12$ linijkach.\n
+				Jej użycie jest jeszcze krótsze (patrz rysunek numer \ref{serek_impl_source}) i~doliczając dodatkowe wiersze na aliasy,
+				całość zamyka się w~zaledwie $12$ liniach kodu.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -1070,7 +1070,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
 				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
-				zostało zdefiniowane jako plik \nonpl{CSV}, którego każda podzielona na tokeny linijka jest przekazywana do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
+				zostało zdefiniowane jako plik \nonpl{CSV}, którego każdy podzielony na tokeny wiersz jest przekazywany do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
 				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych. Na rysunku numer \ref{jmeter_config_csv} zostały przedstawione udostępnione opcje przez środowisko testowe.\n
 
 				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}{jmeter_config_csv}
