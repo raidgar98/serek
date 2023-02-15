@@ -298,7 +298,7 @@
 		reprezentacji danych, echem przeszłości, ponieważ języki te posiadają natywne wsparcie do reprezentacji struktur danych
 		zapewnione przez ichniejsze biblioteki standardowe.\n
 
-		Niestety w~momencie powstawania bieżącej pracy programiści języka C++ wciąż muszą uwzględniać problematykę
+		W~momencie powstawania bieżącej pracy programiści języka C++ wciąż muszą uwzględniać problematykę
 		serializacji podczas projektowania aplikacji oraz doboru bibliotek. Standard języka C++ w~roku 2023 posiada szeroką
 		paletę narzędzi do pisania szablonów klas i~struktur, niestety nie posiada żadnych narzędzi do łatwego przeglądania
 		struktur danych. Jest to oczywiście podyktowane względami wydajnościowymi oraz chęcią zachowania wstecznej
@@ -433,7 +433,7 @@
 				}, od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
 				przez człowieka. Biblioteki z~manualną refleksją typów bez problemu obsłużą tego typu momenty, ponieważ programista może bez problemu
-				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania niestety wymagają sprytnego przeładowywania funkcji lub
+				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
 				stosowania obiektów pośrednich.
 
 				\begin{captioned}[H]
@@ -687,7 +687,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 
 			Intuicyjnym podejściem wydaje się wykorzystanie wzorca ciekawie powtarzającego się wzoru szablonu\footnote{
 				CRTP (\ang{curiously recurring template pattern}) - wzorzec projektowy polegający na przekazaniu klasie rodzica, typu klasy dziecka \cite{crtp_definition}
-			}, które umożliwiałoby potencjalnie abstrakcję niezbędnych narzędzi do przejścia po polach klasy dziecka u~rodzica. To podejście niestety jest skazane na
+			}, które umożliwiałoby potencjalnie abstrakcję niezbędnych narzędzi do przejścia po polach klasy dziecka u~rodzica. To podejście jest skazane na
 			porażkę. Jest to spowodowane miejscem korzystania z~tego wzorca, a~mianowicie, przy samej deklaracji klasy, co jest zbyt wczesnym etapem, gdy pola nie są
 			jeszcze zdefiniowane. Dodatkowo to rozwiązanie, gdzie wszystkie pola byłyby wymienione jako referencje u~rodzica ma jeszcze jedną, jak zresztą każde
 			inne rozwiązanie opierające się na wymienieniu w~sekwencji wszystkich pól, wadę: nie eliminuje wciąż problemu gapiostwa programisty, który mógłby zapomnieć
@@ -807,7 +807,7 @@ Konsola:
 			{
 				\subsubsection{Problem punktu startowego}
 
-				Wcześniej wspomniane wybory umożliwiły rozwiązanie wielu problemów i~wyzwań. Niestety zawarcie referencji do ostatniego pola
+				Wcześniej wspomniane wybory umożliwiły rozwiązanie wielu problemów i~wyzwań. Zawarcie referencji do ostatniego pola
 				struktury danych wewnątrz klasy okazało się nie możliwe, bez odbierania użytkownikowi biblioteki pewnych funkcjonalności.
 				Przekazywanie za pomocą wzorca projektowego \CRTP nie jest możliwe przy deklaracji klasy z~wcześniej wspomnianych powodów.\n
 
