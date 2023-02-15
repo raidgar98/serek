@@ -1105,6 +1105,10 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				wybranie wyłącznie lokalnego interfejsu sieciowego, następuje izolacja od wpływu warstwy transportowej w~postaci urządzeń sieciowych czy ruchu innych urządzeń.
 				Dodatkowo zarówno klient, jak i~serwer nie znajdują się w~środowiskach wirtualnych, czy emulowanych, więc nie zostaje dołożony narzut wirtualnych kart sieciowych.\n
 
+				Zestaw testujący został wygenerowany za pomocą dedykowanego skryptu w~języku \nonpl{Python}. Składał się on z~$10'000$ próbek w~postaci poprawnych zserializowanych
+				reprezentacji w~formacie \JSON wyżej przedstawionego modelu (patrz rysunek \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266'436$ bajtów.
+				Każda z~wygenerowanych tablic posiada długość $1'000$ elementów, natomiast każda liczba została wygenerowana na pełnym swoim zakresie, zależnym od typów.\n
+
 				Sam serwer \HTTP został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i~zabezpieczające nie interferowały w~pomiary. Oznacza to rezygnację z~szyfrowania,
 				a także mechanizmu \nonpl{CORS}. Jednakże eliminacja czynników potencjalnie spowalniających cały proces to nie koniec. Wymagane jest również wyeliminowanie
 				czynników mogących przyspieszyć działanie serwisu. Takim mechanizmem jest pamięć podręczna (\ang{cache}), która została wyłączona. Kolejnym elementem, który mógłby mieć negatywny
