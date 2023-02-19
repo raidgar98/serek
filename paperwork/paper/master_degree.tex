@@ -375,7 +375,6 @@
 		}
 
 		{
-			\newpage
 			\subsection{Definicja programowania refleksyjnego}
 
 			Definicję programowania zorientowanego na refleksję podaje Jonathan M. Sobel oraz Daniel P. Friedman
@@ -566,7 +565,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 			ciągu znaków w~formacie \JSON, a~także operacja odwrotna. Celem sformalizowania tego etapu, wymagane jest:
 
 			\begin{itemize}
-				\setlength\itemsep{0mm}
+				\setlength\itemsep{-2mm}
 				\item zaprojektowanie przyjaznego programiście interfejsu biblioteki
 				\item implementacja mechanizmu w~pełni automatycznej refleksji
 				\item implementacja mechanizmu serializacji
@@ -576,7 +575,6 @@ MyClass deserialize_my_class(const std::string& json_text)
 		}
 
 		{
-			\newpage
 			\subsection{Badania wydajnościowe}
 
 			Celem sprawdzenia wydajności biblioteki, zostaną w~kontrze przetestowane dwie inne biblioteki. Zostaną one wybrane po jednej do opisanych w~poprzednim rozdziale
@@ -584,7 +582,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 			rzetelnych wyników. Zakres pracy do wykonania, celem osiągnięcia tego jest:
 
 			\begin{itemize}
-				\setlength\itemsep{0mm}
+				\setlength\itemsep{-2mm}
 				\item implementacja środowiska do testowania wydajności trzech bibliotek
 				\item zaprojektowanie scenariusza testowego tak, aby każda biblioteka była testowana w~sposób izolowany i~jednakowy
 				\item implementacja serializacji oraz deserializacji korzystając z~trzech bibliotek
@@ -641,15 +639,14 @@ MyClass deserialize_my_class(const std::string& json_text)
 				ekranu prezentujące wygląd wygenerowanej dokumentacji (rys. \ref{docs_1} i~\ref{docs_2}).\n
 
 				\putss{./img/documentation_part_1.png}{Widok automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
-				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}}{docs_2}
-
-				\newpage
 
 				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie, pokazanych na rys. \ref{doxygen_code},
 				jest w~stanie wygenerować różnego rodzaju dokumentację. Wspomniane komentarze umieszczone są powyżej deklaracji (w~tym wypadku również definicji) i~zawierają
 				opisy parametrów szablonów (\code{@tparam}) oraz argumentów funkcji (\code{@param}). Dodatkowo w~sekcji wyróżnionej za pomocą znacznika \code{@brief}, został
 				umieszczony skrócony opis funkcji. Jeżeli opisywany obiekt zwracałby jakąś wartość jest również możliwe opisanie zarówno typu jak i~znaczenia zwracanych wartości
 				za pomocą znacznika \code{@returns}.\n
+
+				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}}{docs_2}
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
