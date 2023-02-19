@@ -1079,7 +1079,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym}{jmeter_warn}
 
-				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
+				Następną rzeczą wymagającą konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
 				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
 				zostało zdefiniowane jako plik \nonpl{CSV}, którego każdy podzielony na tokeny wiersz jest przekazywany do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
 				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych. Na rys. \ref{jmeter_config_csv} zostały przedstawione udostępnione opcje przez środowisko testowe.\n
@@ -1196,7 +1196,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			\section{Podsumowanie i~wnioski}
 
 			Biblioteka oparta na pełnej automatycznej refleksji pól, która nie odbiega wydajnościowo od bieżących rozwiązań jest możliwa do napisania korzystając
-			z~standardu C++ 20 w~2023 i~niniejsza praca jest na to dowodem. Osiągnięte wyniki są rezultatem pracy jednego programisty na przeciągu dwóch lat
+			ze standardu C++ 20 w~2023 i~niniejsza praca jest na to dowodem. Osiągnięte wyniki są rezultatem pracy jednego programisty na przeciągu dwóch lat
 			pracy, głównie skupionej dookoła prototypownia i~eksperymentowaniu. Dokonując analizy zmian (\ang{commit}) w~repozytorium\footnote{
 				Analiza zmian w~repozytorium była możliwa dzięki zastosowaniu notacji \nonpl{gitmoji}\cite{gitmoji}, która wymusza na programiście dobrą praktykę
 				ograniczania jednej zmiany (\ang{commit}), do bardzo małej porcji i~oznaczenie poprzez stosowną ikonę.
