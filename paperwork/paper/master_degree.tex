@@ -179,9 +179,9 @@
 \newcommand{\ang}[1]{\nonpl{ang. #1}}
 
 % inglish names
-\newcommand{\JSON}{\nonpl{JSON} }
-\newcommand{\HTTP}{\nonpl{HTTP} }
-\newcommand{\CRTP}{\nonpl{CRTP} }
+\newcommand{\JSON}{\nonpl{JSON}}
+\newcommand{\HTTP}{\nonpl{HTTP}}
+\newcommand{\CRTP}{\nonpl{CRTP}}
 \newcommand{\Jmeter}{\nonpl{Jmeter}\texttrademark}
 \newcommand{\serek}{\nonpl{serek}}
 
@@ -309,7 +309,7 @@
 		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność wyszukiwanych technologii według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}{json_vs_world}
 
 		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie (rys. \ref{json_vs_world}), jest on
-		najbardziej powszechnym standardem komunikacji na świecie. Ciekawą kwestią jest wyraźny spadek zainteresowaniem hasłem \JSON w~okresie od
+		najbardziej powszechnym standardem komunikacji na świecie. Ciekawą kwestią jest wyraźny spadek zainteresowaniem hasłem \JSON~w~okresie od
 		trzeciego kwartału $2020$ roku do początku $2022$, co może być spowodowane pandemią \nonpl{COVID-19}, której wpływ na tempo gospodarki światowej,
 		jest całkiem prawdopodobnie widoczny również tutaj.\n
 
@@ -605,13 +605,13 @@ MyClass deserialize_my_class(const std::string& json_text)
 				\subsubsection{Format \JSON}
 
 				Jest lekkim formatem danych wywodzącym się z~języka JavaScript. Jak pokazano na wykresie numer \ref{json_vs_world},
-				\JSON jest formatem o~największej rozpoznawalności wśród tekstowych reprezentacji danych. Swój sukces
+				\JSON~jest formatem o~największej rozpoznawalności wśród tekstowych reprezentacji danych. Swój sukces
 				zawdzięcza swojej formie: bardzo czytelnej dla człowieka, jednocześnie wydajnej dla komputerów zarówno
 				podczas przetwarzania, jak i~generowania. Cecha ta sprawia, że praktycznie każdy współcześnie używany język
 				programowania ma jego obsługę\cite{json_short} w~bibliotece standardowej lub posiada zastęp zewnętrznych
 				bibliotek.\n
 
-				Poddając \JSON usystematyzowaniu, jest to format danych o~strukturze drzewiastej, który technicznie
+				Poddając \JSON~usystematyzowaniu, jest to format danych o~strukturze drzewiastej, który technicznie
 				może być zagnieżdżony w~stopniu nieskończonym, w~przeciwieństwie do formatów płaskich, takich jak CSV.\n
 			}
 
@@ -737,7 +737,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				Jednakże C++ jest językiem, gdzie istnieje rozróżnienie na typy złożone i~proste, po których nie można dziedziczyć. Aby pokryć ten przypadek,
 				można skorzystać z~rozbudowanego modułu do metaprogramowania w~języku C++ i~napisać dwie specjalizacje. Jedna dla typów prostych, w~dużym stopniu
 				korzystając z~opisanego wcześniej rozwiązania, gdzie ilość rzeczy do przekierowania, nie jest tak duża. Drugą zaś, dla typów złożonych,
-				gdzie można wykorzystać wcześniej wspomniany wzorzec \CRTP i~dziedziczyć po typach złożonych, takich jak klasa, czy struktura.\n
+				gdzie można wykorzystać wcześniej wspomniany wzorzec \CRTP~i~dziedziczyć po typach złożonych, takich jak klasa, czy struktura.\n
 
 				Dzięki skorzystaniu ze struktury \code{std::is\_fundamental\_v<T>}\cite{std_is_fundamental}, za pomocą której jest możliwe wyciągnięcie informacji,
 				czy typ jest prosty, czy nie. Co więcej, dzięki wprowadzeniu operatora potrójnego porównania \cite{starship_operator} w~standardzie C++20, możliwe było
@@ -818,7 +818,7 @@ Konsola:
 
 				Wcześniej wspomniane wybory umożliwiły rozwiązanie wielu problemów i~wyzwań. Zawarcie referencji do ostatniego pola
 				struktury danych wewnątrz klasy okazało się nie możliwe, bez odbierania użytkownikowi biblioteki pewnych funkcjonalności.
-				Przekazywanie za pomocą wzorca projektowego \CRTP nie jest możliwe przy deklaracji klasy z~wcześniej wspomnianych powodów.\n
+				Przekazywanie za pomocą wzorca projektowego \CRTP~nie jest możliwe przy deklaracji klasy z~wcześniej wspomnianych powodów.\n
 
 				Rozwiązanie to tworzenie aliasu docelowej nazwy klasy zaraz pod definicją klasy, zawierając w~niej statyczną referencję do ostatniego pola klasy.
 				Takie rozwiązanie daje maksimum elastyczności użytkownikowi, a~także nie wprowadza żadnego zaburzenia w~interfejs tworzonej klasy.\n
@@ -905,7 +905,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 		\section{Testy wydajnościowe}
 
 		Celem sprawdzenia implementacji pod kątem wydajności, przeprowadzono badania w~środowisku, gdzie biblioteki pozwalające na przetwarzanie
-		formatu \JSON mogą się najbardziej wykazać, czyli na wejściu i~wyjściu serwerów sieciowych, w~tym wypadku \HTTP. Jak zostało wspomniane
+		formatu \JSON~mogą się najbardziej wykazać, czyli na wejściu i~wyjściu serwerów sieciowych, w~tym wypadku \HTTP. Jak zostało wspomniane
 		na samym wstępie, pochodzący z~języka \nonpl{JavaScript} format jest najpowszechniejszym formatem \cite{google_trends_json_api_vs_rest_of_the_world}
 		używanym do wymiany danych pomiędzy aplikacjami na warstwie sieciowej.
 
@@ -980,7 +980,7 @@ for(const auto& it: in.b3)
 				\end{captioned}
 
 				Druga biblioteka, jaka będzie uwzględniona podczas testów, jest biblioteka \nonpl{fc}\cite{fc_repo}, która w~dużej mierze jest obwolutą biblioteki
-				\nonpl{Boost}\cite{boost}. Jednakże w~zakresie przetwarzania formatu \JSON zapewnia własną implementację. Jej główną wadą są obiekty pośrednie
+				\nonpl{Boost}\cite{boost}. Jednakże w~zakresie przetwarzania formatu \JSON~zapewnia własną implementację. Jej główną wadą są obiekty pośrednie
 				w postaci wariantów oraz zmiennych obiektów wariantowych (\ang{mutable variant object}), które z~jednej strony zwiększają narzut konwersji,
 				jednakże z~drugiej strony dają sporą elastyczność w~zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
@@ -1086,9 +1086,9 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}{jmeter_config_csv}
 
-				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP (rys. \ref{jmeter_config_http}) oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.\n
+				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP~(rys. \ref{jmeter_config_http}) oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.\n
 
-				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP dla biblioteki \serek}{jmeter_config_http}
+				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP~dla biblioteki \serek}{jmeter_config_http}
 
 				Konfiguracja zostaje dokończona, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
 				na każdej bibliotece. Zaglądając do zakładki z~agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
@@ -1106,10 +1106,10 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				Dodatkowo zarówno klient, jak i~serwer nie znajdują się w~środowiskach wirtualnych, czy emulowanych, więc nie zostaje dołożony narzut wirtualnych kart sieciowych.\n
 
 				Zestaw testujący został wygenerowany za pomocą dedykowanego skryptu w~języku \nonpl{Python}. Składał się on z~$10'000$ próbek w~postaci poprawnych zserializowanych
-				reprezentacji w~formacie \JSON wyżej przedstawionego modelu (rys. \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266'436$ bajtów.
+				reprezentacji w~formacie \JSON~wyżej przedstawionego modelu (rys. \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266'436$ bajtów.
 				Każda z~wygenerowanych tablic posiada długość $1'000$ elementów, natomiast każda liczba została wygenerowana na pełnym swoim zakresie, zależnym od typów.\n
 
-				Sam serwer \HTTP został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i~zabezpieczające nie interferowały w~pomiary. Oznacza to rezygnację z~szyfrowania,
+				Sam serwer \HTTP~został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i~zabezpieczające nie interferowały w~pomiary. Oznacza to rezygnację z~szyfrowania,
 				a także mechanizmu \nonpl{CORS}. Jednakże eliminacja czynników potencjalnie spowalniających cały proces to nie koniec. Wymagane jest również wyeliminowanie
 				czynników mogących przyspieszyć działanie serwisu. Takim mechanizmem jest pamięć podręczna (\ang{cache}), która została wyłączona. Kolejnym elementem, który mógłby mieć negatywny
 				wpływ na wyniki, jest ustawienie obsługi nagłówka \code{Keep-Alive}. Czas podtrzymania połączenia został wydłużony maksymalnie, celem eliminacji narzutu wynikającego
@@ -1213,7 +1213,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			zdecydowanie precyzyjniej i~czytelniej dla programisty wskazuje niedoskonałości.\n
 
 			Cała implementacja jest ciekawą odmianą dla obecnych rozwiązań i~zasługuje na większe zainteresowanie w~środowisku, ponieważ istnieje wiele przesłanek, że
-			jest to rewolucja w~podejściu do programowania refleksyjnego w~języku C++. Trzeba również nadmienić, że serializacja do formatu \JSON w~przypadku tej biblioteki
+			jest to rewolucja w~podejściu do programowania refleksyjnego w~języku C++. Trzeba również nadmienić, że serializacja do formatu \JSON~w~przypadku tej biblioteki
 			jest zaledwie wstępem do jej możliwości. Zapewniony mechanizm refleksji klas otwiera możliwości do tworzenia wizytatorów do obsługi typów takich jak \nonpl{YAML}, \nonpl{SQL}
 			czy nawet \nonpl{XML}.
 		}
