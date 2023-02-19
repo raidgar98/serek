@@ -477,7 +477,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
 				biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w~implementacji własnych, niecodziennych sposobów serializacji,
 				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\cite{hash_po_angielskiemu},
-				od strony programu, najlepiej, żeby był reprezentowany binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
+				od strony programu, aby był reprezentowany w formie binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
 				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z~takimi wyzwaniami, ponieważ programista może bez problemu
 				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
@@ -501,7 +501,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 
 				Jednakże to podejście nie rozwiązuje również w~pełni problemu przedstawionego w~poprzednim podrozdziale, gdzie została wspomniana
 				możliwość zmiany struktury klasy, na co nie zareaguje sam mechanizm serializacji z~uwagi na istnienie
-				konieczności manualnego wpisania jakie pola chcemy, żeby podlegały serializacji. Podejście z~półautomatyczną refleksją
+				konieczności manualnego wpisania jakie pola chcemy, aby podlegały serializacji. Podejście z~półautomatyczną refleksją
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a~nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
@@ -759,7 +759,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje, jest możliwe. Dzięki czemu została rozwiązana przeszkoda
 				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z~typem poprzedniego pola w~klasie.\n
 
-				Teraz, żeby dostać się do pola, potrzebny jest wskaźnik na obiekt (\code{this}), a~następnie dodanie do niego posiadanego przesunięcia.
+				Teraz, aby dostać się do pola, potrzebny jest wskaźnik na obiekt (\code{this}), a~następnie dodanie do niego posiadanego przesunięcia.
 				Dodatkowo rozwiązane zostaje tutaj jeszcze jedno wyzwanie, a~mianowicie problem z~dostępem do nazwy pól.
 			}
 
@@ -936,7 +936,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 			{
 				\subsubsection{Model danych}
 
-				Żeby przetestować możliwości bibliotek, zarówno pod kątem wydajności, jak i~elastyczności, na różne struktury danych,
+				Celem przetestowania możliwości bibliotek, zarówno pod kątem wydajności, jak i~elastyczności, na różne struktury danych,
 				również model, który będzie podlegał zarówno serializacji, jak i~deserializacji musiał być nieco bardziej zróżnicowany.
 				Na całość składa się kombinacja trzech klas, które posiadają relację dziedziczenia oraz kompozycji. Co więcej, aby przy
 				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Diagram UML prezentujący
@@ -1176,7 +1176,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				Biblioteka \nonpl{jsoncpp} jednakże wydaje się wygrywać w~kategorii, która nie była brana pod uwagę przy projektowaniu badania, jednakże zostanie
 				ona wspomniana. Dokonując analizy wykresu numer \ref{sumfig_4}, można dostrzec, że przepustowość biblioteki \serek, znacząco się różni od pozostałych bibliotek.
-				Żeby dokonać uściślenia tematu, tak prezentują się odchylenia standardowe:
+				Dokonując uściślenia tematu, tak prezentują się odchylenia standardowe:
 
 				{
 					\begin{itemize}
