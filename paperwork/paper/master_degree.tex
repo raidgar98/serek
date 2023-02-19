@@ -468,7 +468,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				lub deserializacji. Kolejne wada tego rozwiązania kryje się w~mechanizmie konwersji typów, a~mianowicie jeżeli typ danego pola zostanie
 				zmieniony i~przez przypadek istnieje niejawna, możliwa konwersja między starym a~nowym typem, serializacja oraz deserializacja może
 				dyskretnie dokonywać błędnych operacji. Dobrym przykładem jest zmiana reprezentacji procentów z~liczby całkowitej od $0$ do $100$,
-				na typ zmiennoprzecinkowy od $0.0$ do $1.0$. Jeżeli podmienimy typ w~klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
+				na typ zmiennoprzecinkowy od $0,0$ do $1,0$. Jeżeli podmienimy typ w~klasie, ale nie podmienimy metody deserializacji, wszystkie wartości
 				od $0\%$ do $99\%$ zostaną zaokrąglone do wartości całkowitej: $0$. Istnieją mechanizmy pozwalające na uchronienie programisty przed takim
 				czarnym scenariuszem, na przykład w~postaci testów wzorcowych (\ang{pattern tests}), lub korzystanie w~inteligentny sposób z~szablonów,
 				które mogłyby dedukować odpowiednią metodę obsługi pola, jednakże nie są one dostarczone od razu oraz nie wynikają z~filozofii
@@ -1105,9 +1105,9 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				wybranie wyłącznie lokalnego interfejsu sieciowego, następuje izolacja od wpływu warstwy transportowej w~postaci urządzeń sieciowych czy ruchu innych urządzeń.
 				Dodatkowo zarówno klient, jak i~serwer nie znajdują się w~środowiskach wirtualnych, czy emulowanych, więc nie zostaje dołożony narzut wirtualnych kart sieciowych.\n
 
-				Zestaw testujący został wygenerowany za pomocą dedykowanego skryptu w~języku \nonpl{Python}. Składał się on z~$10'000$ próbek w~postaci poprawnych zserializowanych
-				reprezentacji w~formacie \JSON~wyżej przedstawionego modelu (rys. \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266'436$ bajtów.
-				Każda z~wygenerowanych tablic posiada długość $1'000$ elementów, natomiast każda liczba została wygenerowana na pełnym swoim zakresie, zależnym od typów.\n
+				Zestaw testujący został wygenerowany za pomocą dedykowanego skryptu w~języku \nonpl{Python}. Składał się on z~$10000$ próbek w~postaci poprawnych zserializowanych
+				reprezentacji w~formacie \JSON~wyżej przedstawionego modelu (rys. \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266436$ bajtów.
+				Każda z~wygenerowanych tablic posiada długość $1000$ elementów, natomiast każda liczba została wygenerowana na pełnym swoim zakresie, zależnym od typów.\n
 
 				Sam serwer \HTTP~został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i~zabezpieczające nie interferowały w~pomiary. Oznacza to rezygnację z~szyfrowania,
 				a także mechanizmu \nonpl{CORS}. Jednakże eliminacja czynników potencjalnie spowalniających cały proces to nie koniec. Wymagane jest również wyeliminowanie
@@ -1181,9 +1181,9 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				{
 					\begin{itemize}
 						\setlength\itemsep{-2mm}
-						\item \serek: $0.697$
-						\item \nonpl{fc}: $0.552$
-						\item \nonpl{jsoncpp}: $0.509$
+						\item \serek: $0,697$ zapytań/s
+						\item \nonpl{fc}: $0,552$ zapytań/s
+						\item \nonpl{jsoncpp}: $0,509$ zapytań/s
 					\end{itemize}
 				}
 
