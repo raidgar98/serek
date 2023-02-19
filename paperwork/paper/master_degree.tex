@@ -308,7 +308,7 @@
 
 		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność wyszukiwanych technologii według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}{json_vs_world}
 
-		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie (rysunek \ref{json_vs_world}), jest on
+		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na powyższym wykresie (rys. \ref{json_vs_world}), jest on
 		najbardziej powszechnym standardem komunikacji na świecie. Ciekawą kwestią jest wyraźny spadek zainteresowaniem hasłem \JSON w~okresie od
 		trzeciego kwartału $2020$ roku do początku $2022$, co może być spowodowane pandemią \nonpl{COVID-19}, której wpływ na tempo gospodarki światowej,
 		jest całkiem prawdopodobnie widoczny również tutaj.\n
@@ -416,7 +416,7 @@
 				Cechą charakterystyczną takich bibliotek jest sposób zapisu funkcji, które są odpowiedzialne za serializację lub deserializację
 				danej klasy, ponieważ są to najczęściej długie wielokrotnie zagnieżdżone funkcje, przekształcające po kolei wszystkie pola klasy.
 				Opis ten od razu wskazuje na najważniejszą wadę tego podejścia. W~przypadku zmiany struktury danych, na przykład poprzez usunięcie
-				lub dodanie pola, wymagana jest ingerencja w~kod w~obu funkcjach, co zostało przedstawione na rysunku \ref{manual_reflection_example}).
+				lub dodanie pola, wymagana jest ingerencja w~kod w~obu funkcjach, co zostało przedstawione na rys. \ref{manual_reflection_example}).
 				Pierwszy blok kodu obrazuje przykładową klasę, która zostanie poddana procesowi serializacji oraz deserializacji. Pierwsza funkcja
 				\code{serialize\_my\_class} posiada przepis na wspomaganą biblioteką serializację klasy, natomiast kolejna (\code{deserialize\_my\_class})
 				jej deserializację. Należy zwrócić uwagę, że usunięcie, dodanie lub edycja nazwy pola lub jego typu wymusza na programiście modyfikację
@@ -505,7 +505,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a~nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
-				Opisane korzyści można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}. Wspomniany
+				Opisane korzyści można zaobserwować na przykładzie przedstawionym na rys. \ref{half_automatic_example}. Wspomniany
 				rysunek prezentuje dwa pliki, wyróżnione za pomocą odpowiedniego komentarza. Pierwszy fragment prezentuje przykładową klasę oraz
 				jej zewnętrzną manualną refleksję z~pomocą przykładowej biblioteki. Druga część (po komentarzu \code{// MyClass.cpp}) pokazuje
 				całą implementację odpowiednio funkcji serializacji oraz deserializacji.\n
@@ -638,14 +638,14 @@ MyClass deserialize_my_class(const std::string& json_text)
 				na braku klamry, czy średnika, ponieważ w~okolicy literówki, najczęściej formatowanie jest wyraźnie inne i~przykuwa to wzrok podczas poszukiwań.\n
 
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w~formie gotowej strony www. Poniżej zrzuty
-				ekranu prezentujące wygląd wygenerowanej dokumentacji (rysunek \ref{docs_1} i~\ref{docs_2}).\n
+				ekranu prezentujące wygląd wygenerowanej dokumentacji (rys. \ref{docs_1} i~\ref{docs_2}).\n
 
 				\putss{./img/documentation_part_1.png}{Widok automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
 				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}}{docs_2}
 
 				\newpage
 
-				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie, pokazanych na rysunku numer \ref{doxygen_code},
+				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie, pokazanych na rys. \ref{doxygen_code},
 				jest w~stanie wygenerować różnego rodzaju dokumentację. Wspomniane komentarze umieszczone są powyżej deklaracji (w~tym wypadku również definicji) i~zawierają
 				opisy parametrów szablonów (\code{@tparam}) oraz argumentów funkcji (\code{@param}). Dodatkowo w~sekcji wyróżnionej za pomocą znacznika \code{@brief}, został
 				umieszczony skrócony opis funkcji. Jeżeli opisywany obiekt zwracałby jakąś wartość jest również możliwe opisanie zarówno typu jak i~znaczenia zwracanych wartości
@@ -766,7 +766,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			{
 				\subsubsection{Problem dostępu do nazwy pola}
 
-				Celem pokazania, w~jaki sposób następuje dostęp do nazwy pola i~jednocześnie podsumowania aktualnej architektury, na rysunku numer \ref{serek_summary} zamieszczony
+				Celem pokazania, w~jaki sposób następuje dostęp do nazwy pola i~jednocześnie podsumowania aktualnej architektury, na rys. \ref{serek_summary} zamieszczony
 				został przykład zapisu na podstawie poprzednich kilku akapitów, gdzie należy zwrócić uwagę na definicje typów kolejnych pól.\n
 
 				\begin{captioned}[H]
@@ -783,7 +783,7 @@ struct test_struct
 
 
 				Jak można zauważyć, celem odwołania się do referencji na poprzednie pole, konieczne jest odwołanie się do jego nazwy. Nie pozostaje to bez
-				konsekwencji, które można wykorzystać, a~zostanie to zaprezentowane, poprzez zamieszczenie kodu na rysunku numer \ref{typename_example}, który
+				konsekwencji, które można wykorzystać, a~zostanie to zaprezentowane, poprzez zamieszczenie kodu na rys. \ref{typename_example}, który
 				ma na celu wydrukować na ekranie rozczesywany (\ang{demangled}) typ pola \code{field\_1}, a~także wyjście z~tego prostego programu:\n
 
 				\begin{captioned}[H]
@@ -825,7 +825,7 @@ Konsola:
 
 				Sam alias również nie jest do końca taki prosty, ponieważ korzysta z~podobnej sztuczki co klasa odpowiedzialna, za przechowywanie
 				kolejnych pól w~klasie. Precyzując: dziedziczy po klasie, do której należy ostatnie pole klasy, dzięki czemu całość zostaje
-				zapakowane w~fasadę idealnie przeźroczystą z~wygodnym dostępem do każdego pola w~klasie. Na rysunku \ref{serek_full_example} urzeczywistniony,
+				zapakowane w~fasadę idealnie przeźroczystą z~wygodnym dostępem do każdego pola w~klasie. Na rys. \ref{serek_full_example} urzeczywistniony,
 				przykład deklaracji klasy.\n
 
 				\begin{captioned}[H]
@@ -881,7 +881,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 					\label{visitor_ex}
 				\end{captioned}
 
-				Przykład na rysunku numer \ref{visitor_ex} jest gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez bibliotekę
+				Przykład na rys. \ref{visitor_ex} jest gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez bibliotekę
 				\serek . Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
 				chcemy dokonać operacji serializacji lub deserializacji, natomiast drugim parametrem jest wizytator.
 			}
@@ -940,7 +940,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				również model, który będzie podlegał zarówno serializacji, jak i~deserializacji musiał być nieco bardziej zróżnicowany.
 				Na całość składa się kombinacja trzech klas, które posiadają relację dziedziczenia oraz kompozycji. Co więcej, aby przy
 				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Diagram UML prezentujący
-				cały model danych został umieszczony poniżej na rysunku numer \ref{uml_diagram}.
+				cały model danych został umieszczony poniżej na rys. \ref{uml_diagram}.
 
 				\putfig{./img/benchmark_model_uml_diagram.png}{Diagram UML prezentujący model testowych danych}{uml_diagram}
 			}
@@ -949,7 +949,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				\subsubsection{Biblioteki}
 
 				Podejście z~manualną refleksją pól, będzie miało swojego reprezentanta w~postaci wcześniej wspomnianej biblioteki \nonpl{jsoncpp}.
-				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Na rysunku numer \ref{jsoncpp_impl} zostanie zamieszczony jedynie fragment
+				Posiada ona standardowy interfejs wśród przedstawicieli swojej kategorii. Na rys. \ref{jsoncpp_impl} zostanie zamieszczony jedynie fragment
 				implementacji serializacji, gdzie widać serializację kolejnych pól klasy \code{B}. Objętość koniecznego kodu, aby dorównać funkcjonalnością pozostałym bibliotekom,
 				jest zdecydowanie największa. Cała zajmuje obszar w~pliku \nonpl{benchmarks/controllers/benchmark\_controllers.cpp} pomiędzy $26$ a~$141$ wierszem,
 				dając sumarycznie $115$ linii kodu.\n
@@ -984,9 +984,9 @@ for(const auto& it: in.b3)
 				w postaci wariantów oraz zmiennych obiektów wariantowych (\ang{mutable variant object}), które z~jednej strony zwiększają narzut konwersji,
 				jednakże z~drugiej strony dają sporą elastyczność w~zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
-				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym (rysunek \ref{fc_impl_header}), gdzie dokonana jest
+				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym (rys. \ref{fc_impl_header}), gdzie dokonana jest
 				pół automatyczna zewnętrzna refleksja pól wszystkich klas modelu (\code{FC\_REFLECT} oraz \code{FC\_REFLECT\_DERIVED}). Same metody
-				deserializacji oraz serializacji są w~odpowiadającej kolejności umieszczone w~całości na rysunku numer \ref{fc_impl_source}.\n
+				deserializacji oraz serializacji są w~odpowiadającej kolejności umieszczone w~całości na rys. \ref{fc_impl_source}.\n
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -1030,7 +1030,7 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 				możliwości spojrzenia w~siebie (refleksji) daje możliwość znaczącej redukcji kodu.\n
 
 				Trzecią i~jednocześnie ostatnią biblioteką jest opisana szerzej w~rozdziale numer \ref{serek} - biblioteka \serek.
-				Jej użycie jest jeszcze krótsze (patrz rysunek numer \ref{serek_impl_source}) i~doliczając dodatkowe wiersze na aliasy,
+				Jej użycie jest jeszcze krótsze (rys. \ref{serek_impl_source}) i~doliczając dodatkowe wiersze na aliasy,
 				całość zamyka się w~zaledwie $12$ liniach kodu.\n
 
 				\begin{captioned}[H]
@@ -1060,21 +1060,21 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}{jmeter_main_config}
 
-				Pierwszy panel do konfiguracji (rysunek numer \ref{jmeter_main_config}), pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja,
+				Pierwszy panel do konfiguracji (rys. \ref{jmeter_main_config}), pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja,
 				aby testy były uruchamiane sekwencyjnie, co sprawi, że wydzielone grupy wątków dla każdej z~bibliotek nie będą na siebie wpływać.\n
 
 				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków}{jmeter_thread_config}
 
-				Ustawienia każdej z~trzech grup wątków (rysunek \ref{jmeter_thread_config}) są takie same. Pozwalają sprecyzować ilość zapytań na każdym z~uruchamianych wątków, a~także ile ma się ich pojawić.
+				Ustawienia każdej z~trzech grup wątków (rys. \ref{jmeter_thread_config}) są takie same. Pozwalają sprecyzować ilość zapytań na każdym z~uruchamianych wątków, a~także ile ma się ich pojawić.
 				Ustawienie ilości zapytań na wartość ujemną sprawi, że zapytania będą wysyłane w~sposób ciągły do momentu wystąpienia punktu przerwania, na przykład czas, czy warunkowa
 				ilość powtórzeń. Na powyższym zrzucie ekranu jednak nie widnieją żadne liczby, jest to spowodowane możliwością tworzenia zmiennych i~odnoszenia się do nich w~dowolnym innym
 				komponencie.\n
 
 				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych}{jmeter_var_config}
 
-				Tworzenie zmiennych odbywa się w~dedykowanym widoku, przedstawionym na rysunku numer \ref{jmeter_var_config}. Istnieje możliwość przypisania nazw zmiennym, określenia ich wartości,
+				Tworzenie zmiennych odbywa się w~dedykowanym widoku, przedstawionym na rys. \ref{jmeter_var_config}. Istnieje możliwość przypisania nazw zmiennym, określenia ich wartości,
 				a~także zapisania krótkiego tekstu pomocy. Tajemniczy zapis w~kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
-				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia w~sposób przedstawiony na rysunku numer \ref{jmeter_warn}.
+				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia w~sposób przedstawiony na rys. \ref{jmeter_warn}.
 				Uruchomienie z~poziomu terminala daje możliwość nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
 
 				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym}{jmeter_warn}
@@ -1082,18 +1082,18 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				Następną rzeczą wymagającej konfiguracji, jest źródło danych dla zapytań. Ponieważ algorytm serwera został napisany, tak aby najpierw zdeserializował otrzymaną
 				wiadomość do wyżej opisanej struktury danych, następnie zserializował ponownie, by finalnie zwrócić tak przepakowane zapytanie jako odpowiedź. Źródła wejścia danych
 				zostało zdefiniowane jako plik \nonpl{CSV}, którego każdy podzielony na tokeny wiersz jest przekazywany do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
-				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych. Na rysunku numer \ref{jmeter_config_csv} zostały przedstawione udostępnione opcje przez środowisko testowe.\n
+				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych. Na rys. \ref{jmeter_config_csv} zostały przedstawione udostępnione opcje przez środowisko testowe.\n
 
 				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}{jmeter_config_csv}
 
-				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP (rysunek numer \ref{jmeter_config_http}) oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.\n
+				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP (rys. \ref{jmeter_config_http}) oraz sprecyzowanie ścieżek, pod jakimi dostępne są konkretne biblioteki.\n
 
 				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP dla biblioteki \serek}{jmeter_config_http}
 
 				Konfiguracja zostaje dokończona, poprzez uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
 				na każdej bibliotece. Zaglądając do zakładki z~agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
 				zostają informacji między innymi o~ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie. Wyniki
-				zostają zaprezentowane w~formie tabeli, tak jak na rysunku numer \ref{jmeter_report}.\n
+				zostają zaprezentowane w~formie tabeli, tak jak na rys. \ref{jmeter_report}.\n
 
 				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}{jmeter_report}
 			}
@@ -1106,7 +1106,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				Dodatkowo zarówno klient, jak i~serwer nie znajdują się w~środowiskach wirtualnych, czy emulowanych, więc nie zostaje dołożony narzut wirtualnych kart sieciowych.\n
 
 				Zestaw testujący został wygenerowany za pomocą dedykowanego skryptu w~języku \nonpl{Python}. Składał się on z~$10'000$ próbek w~postaci poprawnych zserializowanych
-				reprezentacji w~formacie \JSON wyżej przedstawionego modelu (patrz rysunek \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266'436$ bajtów.
+				reprezentacji w~formacie \JSON wyżej przedstawionego modelu (rys. \ref{uml_diagram}). Każda zajmuje dokładnie jedną linijkę o~średniej długości $266'436$ bajtów.
 				Każda z~wygenerowanych tablic posiada długość $1'000$ elementów, natomiast każda liczba została wygenerowana na pełnym swoim zakresie, zależnym od typów.\n
 
 				Sam serwer \HTTP został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i~zabezpieczające nie interferowały w~pomiary. Oznacza to rezygnację z~szyfrowania,
@@ -1200,7 +1200,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			pracy, głównie skupionej dookoła prototypownia i~eksperymentowaniu. Dokonując analizy zmian (\ang{commit}) w~repozytorium\footnote{
 				Analiza zmian w~repozytorium była możliwa dzięki zastosowaniu notacji \nonpl{gitmoji}\cite{gitmoji}, która wymusza na programiście dobrą praktykę
 				ograniczania jednej zmiany (\ang{commit}), do bardzo małej porcji i~oznaczenie poprzez stosowną ikonę.
-			} (rysunek numer \ref{commit}) wychodzi, że mniej niż $1\%$ wszystkich zmian (dokładnie $3$ zmiany) stanowiły optymalizacje wydajnościowe. Daje to pewien obraz,
+			} (rys. \ref{commit}) wychodzi, że mniej niż $1\%$ wszystkich zmian (dokładnie $3$ zmiany) stanowiły optymalizacje wydajnościowe. Daje to pewien obraz,
 			niedopracowania tej biblioteki, stawiając ją raczej jako dowód na działanie pomysłu (\ang{proof of concept}).\n
 
 			\putfig{./charts/pre_generated_charts/commit_percentage.png}{Udział rodzajów zmian w~całym repozytorium \serek}{commit}
