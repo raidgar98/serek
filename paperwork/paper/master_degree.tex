@@ -411,7 +411,7 @@
 			zamiany typów złożonych, jedynie typów prostych. Przykładem takiej biblioteki jest \nonpl{jsoncpp}\cite{jsoncpp_repo}.\n
 
 			{
-				\subsubsection{Wady i~zalety}
+				\subsubsection{Korzyści i zagrożenia manualnej refleksji pól}
 
 				Cechą charakterystyczną takich bibliotek jest sposób zapisu funkcji, które są odpowiedzialne za serializację lub deserializację
 				danej klasy, ponieważ są to najczęściej długie wielokrotnie zagnieżdżone funkcje, przekształcające po kolei wszystkie pola klasy.
@@ -493,7 +493,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 			wpisania lub odczytu wartości z~pól klasy. Przykładem takiej biblioteki jest \nonpl{fc}\cite{fc_repo}.\n
 
 			{
-				\subsubsection{Wady i~zalety}
+				\subsubsection{Korzyści i zagrożenia pół automatycznej refleksji pól}
 
 				Fakt ukrycia tego mechanizmu przez bibliotekę ujawnia pierwszą trudność przy wykorzystaniu tego podejścia: trudność w~ustawienia własnych
 				metod serializacji, szczególnie jeżeli biblioteka nie przewiduje takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość,
@@ -505,7 +505,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				chroni programistę przed usunięciem pola oraz zmianą typu pola, ponieważ sposób obsługi danego pola jest dedukowany przy
 				kompilacji, za każdym razem. Jednakże wciąż istnieje możliwość dodania pola, a~nie zostanie to zauważone, aż do pierwszych testów
 				przez programistę. Można to próbować rozwiązać poprzez na przykład dodatkowe sprawdzanie wielkości klasy przy kompilacji.
-				Opisane wady i~zalety można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}. Wspomniany
+				Opisane korzyści można zaobserwować na przykładzie przedstawionym na rysunku numer \ref{half_automatic_example}. Wspomniany
 				rysunek prezentuje dwa pliki, wyróżnione za pomocą odpowiedniego komentarza. Pierwszy fragment prezentuje przykładową klasę oraz
 				jej zewnętrzną manualną refleksję z~pomocą przykładowej biblioteki. Druga część (po komentarzu \code{// MyClass.cpp}) pokazuje
 				całą implementację odpowiednio funkcji serializacji oraz deserializacji.\n
