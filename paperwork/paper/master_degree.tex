@@ -325,7 +325,7 @@
 
 		Trzecim podejściem jest zastosowanie wewnętrznej refleksji. W~innych językach najczęściej jest dostarczona przez język.
 		Przykładowo w~języku Python jest ona wyrażona w~postaci pola \code{\_\_dict\_\_}, które dostarcza programiście całą klasę
-		w postaci dynamicznej struktury danych typu klucz-wartość: słownika, gdzie kluczem jest nazwa pola klasy o~typie
+		w~postaci dynamicznej struktury danych typu klucz-wartość: słownika, gdzie kluczem jest nazwa pola klasy o~typie
 		łańcucha znakowego, natomiast wartością jest konkretna wartość w~obecnej instancji klasy. Z~punktu widzenia tematu
 		niniejszej pracy, daje to pełny i~prosty wgląd w~strukturę zarówno klasy, jak i~hierarchii klas.
 	}
@@ -357,7 +357,7 @@
 			Opis, a~zarazem definicja, czym metaprogramowanie jest zostało opisane niniejszym cytatem \cite{metaprogramming_definition} (tłumaczenie własne):
 
 			\begin{quotation}
-				W językoznawstwie metajęzyk definiuje się w~następujący sposób [Słownik]:\n
+				W~językoznawstwie metajęzyk definiuje się w~następujący sposób [Słownik]:\n
 
 				„dowolny język lub system symboliczny używany do omawiania, opisywania lub analizowania
 				innego języka lub systemu symbolicznego”\n
@@ -378,7 +378,7 @@
 			\subsection{Definicja programowania refleksyjnego}
 
 			Definicję programowania zorientowanego na refleksję podaje Jonathan M. Sobel oraz Daniel P. Friedman
-			w swoim materiale \nonpl{An Introduction to Refection-Oriented Programming}\cite{reflection_definition},
+			w~swoim materiale \nonpl{An Introduction to Refection-Oriented Programming}\cite{reflection_definition},
 			gdzie możemy przeczytać (tłumaczenie własne):
 
 			\begin{quotation}
@@ -410,7 +410,7 @@
 			zamiany typów złożonych, jedynie typów prostych. Przykładem takiej biblioteki jest \nonpl{jsoncpp}\cite{jsoncpp_repo}.\n
 
 			{
-				\subsubsection{Korzyści i zagrożenia manualnej refleksji pól}
+				\subsubsection{Korzyści i~zagrożenia manualnej refleksji pól}
 
 				Cechą charakterystyczną takich bibliotek jest sposób zapisu funkcji, które są odpowiedzialne za serializację lub deserializację
 				danej klasy, ponieważ są to najczęściej długie wielokrotnie zagnieżdżone funkcje, przekształcające po kolei wszystkie pola klasy.
@@ -476,7 +476,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				Drugą stroną tego typu bibliotek jest, szczególnie dla młodych programistów, jest niski próg zrozumienia zasady działania
 				biblioteki oraz jak należy ją używać. Inną zaletą jest duża wygoda w~implementacji własnych, niecodziennych sposobów serializacji,
 				które w~przypadku dalszych rozwiązań nie jest takie oczywiste. Dobrym przykładem jest reprezentacja hasha\cite{hash_po_angielskiemu},
-				od strony programu, aby był reprezentowany w formie binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
+				od strony programu, aby był reprezentowany w~formie binarnej, ponieważ zajmuje o~wiele mniej miejsca oraz wygodnie się go przetwarza,
 				natomiast z~punktu widzenia warstwy transportowej, zdecydowanie lepszym zapisem jest forma łańcucha znaków, która jest łatwiejsza do porównania
 				przez człowieka. Biblioteki z~manualną refleksją typów naturalnie poradzą sobie z~takimi wyzwaniami, ponieważ programista może bez problemu
 				wywołać funkcję, która dokona odpowiedniej konwersji. Dalej omawiane rozwiązania wymagają sprytnego przeładowywania funkcji lub
@@ -492,7 +492,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 			wpisania lub odczytu wartości z~pól klasy. Przykładem takiej biblioteki jest \nonpl{fc}\cite{fc_repo}.\n
 
 			{
-				\subsubsection{Korzyści i zagrożenia pół automatycznej refleksji pól}
+				\subsubsection{Korzyści i~zagrożenia pół automatycznej refleksji pól}
 
 				Fakt ukrycia tego mechanizmu przez bibliotekę ujawnia pierwszą trudność przy wykorzystaniu tego podejścia: trudność w~ustawienia własnych
 				metod serializacji, szczególnie jeżeli biblioteka nie przewiduje takiego interfejsu. Natomiast, jeżeli nawet istnieje taka możliwość,
@@ -540,14 +540,14 @@ MyClass deserialize_my_class(const std::string& json_text)
 		}
 
 		{
-			\subsection{W pełni automatyczna refleksja pól}
+			\subsection{W~pełni automatyczna refleksja pól}
 
 			Rozwiązanie koncepcyjnie jest mocno zbliżone do poprzedniego, jednakże ma jedną podstawową różnicę, która rozwiązuje ostatni
 			problem dotyczący dodania nowego pola w~klasie. Jest to możliwe, ponieważ architektura oparta o~taką bibliotekę, wymusza wplecenie
 			interfejsu biblioteki w~deklarację klasy i~nieoczywiste jest dołożenie nowego pola bez skorzystania z~narzuconego interfejsu, co
 			radykalnie redukuje możliwość zaistnienia takiego problemu.\n
 
-			W momencie powstawania tej pracy autor nie ma informacji o~istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
+			W~momencie powstawania tej pracy autor nie ma informacji o~istnieniu takich rozwiązań. Dlatego niniejsza praca ma na celu
 			stworzenie takiego rozwiązania, a~także zbadanie wydajności pod kątem czasu wykonania, względem wcześniej wspomnianych rozwiązań.
 		}
 	}
@@ -714,7 +714,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 			Jednakże przejście jednej przeszkody stwarza kolejne. Pierwszym jest rozwiązanie problemu dostępu do właściwych typów pod kolejnymi polami, a~także
 			miejscem na przechowywanie referencji, która mogłaby sprawić, że cała klasa przytyje w~zależności od środowiska o~$N * 8$, lub $N * 4$ bajty,
 			gdzie $N$ jest liczbą pól. Dodatkowo wciąż jest problem z~początkiem listy, czyli referencją na ostatnie pole klasy. O~ile koniec jest oczywisty,
-			w postaci pierwszego pola, to początek już nie i~wymaga osobnego zainteresowania. Kolejnym kłopotem jest miejsce pobrania nazwy pola, co jest
+			w~postaci pierwszego pola, to początek już nie i~wymaga osobnego zainteresowania. Kolejnym kłopotem jest miejsce pobrania nazwy pola, co jest
 			konieczne, aby móc zbudować obiekt \JSON, gdzie we wcześniej prezentowanych rozwiązaniach użytkownik sam deklarował nazwę pola, lub nazwa ta
 			była w~prosty sposób wyłuskiwana przez makro.\n
 
@@ -729,7 +729,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 
 				Polega ona na zaciągnięciu do pracy wcześniej wspomnianego wzorca \CRTP, oraz publiczne dziedziczenie po każdym polu, co sprawiłoby, że
 				interfejs zostaje identyczny, dla dowolnej klasy, a~jedyne co pozostaje do zaimplementowania, to poprawne przekierowanie konstruktorów
-				i destruktorów.\n
+				i~destruktorów.\n
 
 				Jednakże C++ jest językiem, gdzie istnieje rozróżnienie na typy złożone i~proste, po których nie można dziedziczyć. Aby pokryć ten przypadek,
 				można skorzystać z~rozbudowanego modułu do metaprogramowania w~języku C++ i~napisać dwie specjalizacje. Jedna dla typów prostych, w~dużym stopniu
@@ -753,7 +753,7 @@ void require(const pointer_t& ptr, const str_v error_message = "given pointer wa
 
 				Aby zaproponować rozwiązanie, należy podać definicję statycznej referencji na pole klasy. Otóż jest to przesunięcie względem
 				adresu struktury danych. Wynika więc z~tej definicji, że jest to wartość możliwa do określenia, jeszcze podczas kompilacji,
-				a to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje, jest możliwe. Dzięki czemu została rozwiązana przeszkoda
+				a~to zaś implikuje możliwość przekazania go jako argument szablonu. Co jak się okazuje, jest możliwe. Dzięki czemu została rozwiązana przeszkoda
 				przechowywania adresu do poprzedniego pola klasy, jest on po prostu przechowywany jako liczba (przesunięcie) z~typem poprzedniego pola w~klasie.\n
 
 				Teraz, aby dostać się do pola, potrzebny jest wskaźnik na obiekt (\code{this}), a~następnie dodanie do niego posiadanego przesunięcia.
@@ -807,7 +807,7 @@ Konsola:
 			\end{captioned}
 
 				Wydobycie nazwy pola może nastąpić z~rozczesanej nazwy pola, którą bajecznie prosto uzyskać, ponieważ jest ona zawarta
-				w tekstowej reprezentacji szablonu.
+				w~tekstowej reprezentacji szablonu.
 			}
 
 			{
@@ -978,7 +978,7 @@ for(const auto& it: in.b3)
 
 				Druga biblioteka, jaka będzie uwzględniona podczas testów, jest biblioteka \nonpl{fc}\cite{fc_repo}, która w~dużej mierze jest obwolutą biblioteki
 				\nonpl{Boost}\cite{boost}. Jednakże w~zakresie przetwarzania formatu \JSON~zapewnia własną implementację. Jej główną wadą są obiekty pośrednie
-				w postaci wariantów oraz zmiennych obiektów wariantowych (\ang{mutable variant object}), które z~jednej strony zwiększają narzut konwersji,
+				w~postaci wariantów oraz zmiennych obiektów wariantowych (\ang{mutable variant object}), które z~jednej strony zwiększają narzut konwersji,
 				jednakże z~drugiej strony dają sporą elastyczność w~zakresie tworzenia dowolnie zagnieżdżonych obiektów.\n
 
 				Ciekawsze fragmenty dotyczące tej implementacji znajdują się w~pliku nagłówkowym (rys. \ref{fc_impl_header}), gdzie dokonana jest
@@ -999,7 +999,7 @@ FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
 				\end{captioned}
 
 				Biblioteka w~głównej mierze bazuje na makrach, które są rozwijane do specjalizacji klasy \code{fc::reflector}, która później jest
-				wykorzystywana przy refleksji podczas przejść z~i na formę tekstową. Stosowana jest tutaj notacja listy bąbelkowej, która umożliwia
+				wykorzystywana przy refleksji podczas przejść z~i~na formę tekstową. Stosowana jest tutaj notacja listy bąbelkowej, która umożliwia
 				tworzenie wielu list w~zakresie jednego makra. Ostatnim elementem podczas omawiania tej biblioteki jest prezentacja implementacji metod.\n
 
 				\begin{captioned}[H]
@@ -1107,7 +1107,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				Każda z~wygenerowanych tablic posiada długość $1000$ elementów, natomiast każda liczba została wygenerowana na pełnym swoim zakresie, zależnym od typów.\n
 
 				Sam serwer \HTTP~został tak skonfigurowany, aby domyślne mechanizmy optymalizujące i~zabezpieczające nie interferowały w~pomiary. Oznacza to rezygnację z~szyfrowania,
-				a także mechanizmu \nonpl{CORS}. Jednakże eliminacja czynników potencjalnie spowalniających cały proces to nie koniec. Wymagane jest również wyeliminowanie
+				a~także mechanizmu \nonpl{CORS}. Jednakże eliminacja czynników potencjalnie spowalniających cały proces to nie koniec. Wymagane jest również wyeliminowanie
 				czynników mogących przyspieszyć działanie serwisu. Takim mechanizmem jest pamięć podręczna (\ang{cache}), która została wyłączona. Kolejnym elementem, który mógłby mieć negatywny
 				wpływ na wyniki, jest ustawienie obsługi nagłówka \code{Keep-Alive}. Czas podtrzymania połączenia został wydłużony maksymalnie, celem eliminacji narzutu wynikającego
 				z~tworzenia i~zamykania połączenia.\n
@@ -1130,7 +1130,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				Prezentacja danych powinna się rozpocząć od przeglądu ogólnych charakterystyk zbioru. Poniżej kilka wykresów, obrazujących zebrane dane.
 				Pierwsze dwa prezentują wartości w~milisekundach, odnosząc się do czasu trwania opisanej operacji. Dwa kolejne prezentują wartości skumulowane
 				w~postaci przepustowości, określanej jako ilość zapytań na sekundę. W~przypadku tych ostatnich trzeba zaznaczyć, że dziedzina (sekunda trwania testu),
-				została skrócona o~wartość pierwszą i~ostatnią, jest to spowodowane metodologią wyliczania, gdzie od czasu zapytania (w milisekundach) był odejmowany
+				została skrócona o~wartość pierwszą i~ostatnią, jest to spowodowane metodologią wyliczania, gdzie od czasu zapytania (w~milisekundach) był odejmowany
 				czas pierwszego pomiaru, a~następnie dochodziło do zaokrąglenia do pełnych sekund, uzyskując w~ten sposób przyporządkowanie każdego pomiaru do konkretnej sekundy trwania testu.
 				Ponieważ test nie zaczynał się o~okrągłej sekundzie, ilość zapytań w~pierwszej i~ostatniej sekundzie była wartością skrajną (zdecydowanie mniejszą niż reszta pomiarów).
 
@@ -1167,9 +1167,9 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				Mimo opisanego przygotowania i~próby zniwelowania wpływu czynników zewnętrznych nie udało się ich pozbyć całkowicie. Świadczy o~tym różnica pomiędzy czasem
 				zmierzonym przez oprogramowanie \Jmeter, a~sumą czasów serializacji i~deserializacji zmierzonych przez serwer. Mimo, że dane wejściowe i~sposób ich dostarczenia
-				do biblioteki były identyczne we wszystkich trzech przypadkach, czasy wynikające z~powyższej różnicy są różne. Najbardziej oczywiste wyjaśnienie w postaci niezmierzonego czasu
+				do biblioteki były identyczne we wszystkich trzech przypadkach, czasy wynikające z~powyższej różnicy są różne. Najbardziej oczywiste wyjaśnienie w~postaci niezmierzonego czasu
 				pobrania przez serwer zapytania i~wysłania ciała odpowiedzi tłumaczy powstałą różnicę, jednakże nie tłumaczy, dlaczego jest ona różna w~przypadku każdej z~bibliotek.
-				Przy założeniu, że poprzednie wyjaśnienie jest prawdą, a~za czas transferów w obie strony uznamy najmniejszą różnicy w~czasie ($17$ sekund dla biblioteki \nonpl{fc}), to wciąż
+				Przy założeniu, że poprzednie wyjaśnienie jest prawdą, a~za czas transferów w~obie strony uznamy najmniejszą różnicy w~czasie ($17$ sekund dla biblioteki \nonpl{fc}), to wciąż
 				pozostaje do wyjaśnienia $8$ niezidentyfikowanych dodatkowych sekund dla biblioteki \nonpl{jsoncpp} oraz $3$ naddatkowe sekundy dla biblioteki \serek.\n
 
 				Kolejną wartą omówienia sprawą jest sromotna porażka biblioteki \nonpl{fc}. Mimo podjęcia kilku prób optymalizacji poprzez przeszukanie przykładów, dokumentacji
