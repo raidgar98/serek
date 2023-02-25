@@ -283,7 +283,7 @@
 
 		{
 			\begin{flushright}
-				\it Mamie i przyjaciołom, którzy pomogli w ciężkich chwilach.
+				\it Mamie i przyjaciołom, którzy pomogli w potrzebie.
 			\end{flushright}
 		}
 
@@ -301,7 +301,7 @@
 
 			\vspace*{1cm}
 
-			Chciałbym podziękować \citeauthor{scihub}, założycielce projektu \nonpl{Sci-Hub} \cite{scihub}, portalu, który zapewnia
+			Chciałbym podziękować Pani Elbakyan, założycielce projektu \nonpl{Sci-Hub} \cite{scihub}, który zapewnia
 			bezpłatny dostęp do artykułów naukowych.
 		\end{center}
 
@@ -334,7 +334,7 @@
 		umożliwiają iterowanie po elementach struktur danych, czy ich serializację, jednakże nie są one wciąż wdrożone do
 		standardu \cite*{cpp_extension_reflexpr_short}.\n
 
-		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność wyszukiwanych technologii według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}}{json_vs_world}
+		\putfig{./charts/output_with_charts_as_images/json_vs_other_formats.png}{ Popularność wyszukiwanych technologii według strony Google \cite*{google_trends_json_api_vs_rest_of_the_world}.}{json_vs_world}
 
 		Niniejsza praca skupia się wyłącznie na formacie \JSON\cite*{json_iso}, ponieważ jak można zauważyć na rys. \ref{json_vs_world}, jest on
 		najbardziej powszechnym standardem komunikacji sieciowej na świecie. Ciekawą kwestią jest wyraźny spadek zainteresowaniem hasłem \JSON~w~okresie od
@@ -582,7 +582,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 	{
 		\section{Cel i~zakres pracy}
 
-		Celem pracy jest stworzenie eksperymentalnej biblioteki \serek oraz przeprowadzenie testów wydajnościowych względem powszechnie
+		Celem pracy jest stworzenie eksperymentalnej biblioteki \serek~oraz przeprowadzenie testów wydajnościowych względem powszechnie
 		używanych współcześnie bibliotek odpowiedzialnych za obsługę serializacji i~deserializacji do formatu \JSON.
 
 		{
@@ -665,7 +665,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				Ostatnim zintegrowanym narzędziem deweloperskim jest automatyczne generowanie interaktywnej dokumentacji w~formie gotowej strony www. Poniżej zrzuty
 				ekranu prezentujące wygląd wygenerowanej dokumentacji (rys. \ref{docs_1} i~\ref{docs_2}).\n
 
-				\putss{./img/documentation_part_1.png}{Widok automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem}{docs_1}
+				\putss{./img/documentation_part_1.png}{Widok automatycznej dokumentacji na spis wszystkich przestrzeni nazw w~projekcie wraz z~krótkim opisem.}{docs_1}
 
 				Całość opiera się o~narzędzie \nonpl{Doxygen}\cite{doxygen_docs}, które za pomocą specjalnych komentarzy w~kodzie, pokazanych na rys. \ref{doxygen_code},
 				jest w~stanie wygenerować różnego rodzaju dokumentację. Wspomniane komentarze umieszczone są powyżej deklaracji (w~tym wypadku również definicji) i~zawierają
@@ -673,7 +673,7 @@ MyClass deserialize_my_class(const std::string& json_text)
 				umieszczony skrócony opis funkcji. Jeżeli opisywany obiekt zwracałby jakąś wartość jest również możliwe opisanie zarówno typu jak i~znaczenia zwracanych wartości
 				za pomocą znacznika \code{@returns}.\n
 
-				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}}{docs_2}
+				\putss{./img/documentation_part_2.png}{Widok automatycznej dokumentacji na opis funkcji \code{serek::require}.}{docs_2}
 
 				\begin{captioned}[H]
 					\begin{lstlisting}[frame=single]
@@ -901,12 +901,12 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 	}
 };
 					\end{lstlisting}
-					\caption{ Przykład implementacji wizytatora, spełniającego wymagania biblioteki \serek, wraz z~zdefiniowaną obsługą własnego typu \code{hash_t}}
+					\caption{ Przykład implementacji wizytatora, spełniającego wymagania biblioteki \serek, wraz z~zdefiniowaną obsługą własnego typu \code{hash\_t}.}
 					\label{visitor_ex}
 				\end{captioned}
 
 				Przykład na rys. \ref{visitor_ex} jest gotowym do użycia wizytatorem na dowolnym obiekcie poddanym refleksji, przez bibliotekę
-				\serek . Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
+				\serek. Można go użyć za pomocą dostarczonej funkcji \code{serek::visit}, gdzie pierwszym parametrem jest obiekt, na którym
 				chcemy dokonać operacji serializacji lub deserializacji, natomiast drugim parametrem jest wizytator.
 			}
 		}
@@ -966,7 +966,7 @@ struct hash_json_serializer : public serek::deserial::json::json_visitor_deseria
 				testach uwzględnić typy tablicowe, zostały one zawarte jako tablice typów prostych, jak również złożonych. Diagram UML prezentujący
 				cały model danych został umieszczony poniżej na rys. \ref{uml_diagram}.
 
-				\putfig{./img/benchmark_model_uml_diagram.png}{Diagram UML prezentujący model testowych danych}{uml_diagram}
+				\putfig{./img/benchmark_model_uml_diagram.png}{Diagram UML prezentujący model testowych danych.}{uml_diagram}
 			}
 
 			{
@@ -999,7 +999,7 @@ for(const auto& it: in.b3)
 }
 // ...
 					\end{lstlisting}
-					\caption{ Fragment implementacji serializacji przy wykorzystaniu biblioteki \nonpl{jsoncpp}}
+					\caption{ Fragment implementacji serializacji przy wykorzystaniu biblioteki \nonpl{jsoncpp}.}
 					\label{jsoncpp_impl}
 				\end{captioned}
 
@@ -1022,7 +1022,7 @@ FC_REFLECT(fc_model_t::A, (a1)(a2)(a3)(a4)(a5));
 FC_REFLECT(fc_model_t::B, (b1)(b2)(b3));
 FC_REFLECT_DERIVED(fc_model_t::C, (fc_model_t::A), (c1)(c2));
 					\end{lstlisting}
-					\caption{ Fragment nagłówka z~definicją refleksji przy wykorzystaniu biblioteki \nonpl{fc}}
+					\caption{ Fragment nagłówka z~definicją refleksji przy wykorzystaniu biblioteki \nonpl{fc}.}
 					\label{fc_impl_header}
 				\end{captioned}
 
@@ -1046,7 +1046,7 @@ void fc_benchmark_controller::serialize(const model_t& in, std::string& out) con
 	out = fc::json::to_string(mvo);
 }
 					\end{lstlisting}
-					\caption{ Implementacje funkcji do serializacji i~deserializacji przy wykorzystaniu biblioteki \nonpl{fc}}
+					\caption{ Implementacje funkcji do serializacji i~deserializacji przy wykorzystaniu biblioteki \nonpl{fc}.}
 					\label{fc_impl_source}
 				\end{captioned}
 
@@ -1070,7 +1070,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 	out = serek::serial::json::serialize(in);
 }
 					\end{lstlisting}
-					\caption{ Implementacje odpowiednio funkcji do deserializacji i~serializacji przy wykorzystaniu biblioteki \serek}
+					\caption{ Implementacje odpowiednio funkcji do deserializacji i~serializacji przy wykorzystaniu biblioteki \serek.}
 					\label{serek_impl_source}
 				\end{captioned}
 			}
@@ -1083,26 +1083,26 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				tworzenie złożonych wielokrotnie zagnieżdżonych struktur warunkowych i~pętel wykonujących wielokrotne logowania kończąc na tworzeniu interaktywnych
 				raportów w~formie stron wwww. Specyfika tego badania wymaga jedynie części z~wymienionych powyżej możliwości.
 
-				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu}{jmeter_main_config}
+				\putss{./img/jmeter_ss/main_pane.png}{ Widok ogólnej konfiguracji całego testu.}{jmeter_main_config}
 
 				Pierwszy panel do konfiguracji (rys. \ref{jmeter_main_config}), pozwala wybrać sposób uruchamiania kolejnych grup wątków. Została wybrana opcja,
 				aby testy były uruchamiane sekwencyjnie, co sprawi, że wydzielone grupy wątków dla każdej z~bibliotek nie będą na siebie wpływać.\n
 
-				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków}{jmeter_thread_config}
+				\putss{./img/jmeter_ss/thread_group_config.png}{ Konfiguracja grupy wątków.}{jmeter_thread_config}
 
 				Ustawienia każdej z~trzech grup wątków (rys. \ref{jmeter_thread_config}) są takie same. Pozwalają one sprecyzować ilość zapytań na każdym z~uruchamianych wątków,
 				a~także ile ma się ich pojawić. Ustawienie ilości zapytań na wartość ujemną sprawi, że zapytania będą wysyłane w~sposób ciągły do momentu wystąpienia punktu przerwania,
 				na przykład czas, czy manualne przerwanie operatora. Na powyższym zrzucie ekranu jednak nie widnieją żadne liczby, jest to spowodowane możliwością tworzenia zmiennych
 				i~odnoszenia się do nich w~dowolnym innym komponencie.\n
 
-				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych}{jmeter_var_config}
+				\putss{./img/jmeter_ss/variables.png}{ Konfiguracja zmiennych.}{jmeter_var_config}
 
 				Tworzenie zmiennych odbywa się w~dedykowanym widoku, przedstawionym na rys. \ref{jmeter_var_config}. Istnieje możliwość przypisania nazw zmiennym, określenia ich wartości,
 				a~także zapisania krótkiego tekstu pomocy. Tajemniczy zapis w~kolumnie wartości jest spowodowany sposobem uruchamiania testów wydajnościowych za pomocą programu \Jmeter,
 				ponieważ powinno się to odbywać z~poziomu terminala, o~czym informuje nas sama aplikacji podczas jej uruchomienia w~sposób przedstawiony na rys. \ref{jmeter_warn}.
 				Uruchomienie z~poziomu terminala daje możliwość nadpisania domyślnych wartości poprzez dodanie odpowiednich parametrów do polecenia (za pomocą flagi \code{-J nazwa\_pola=nowa\_wartość}).\n
 
-				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym}{jmeter_warn}
+				\putss{./img/jmeter_ss/jmeter_gui_warn.png}{ Ostrzeżenie dotyczące nieprzeprowadzania testów wydajnościowych w~trybie graficznym.}{jmeter_warn}
 
 				\newpage
 
@@ -1111,18 +1111,18 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 				zostało zdefiniowane jako plik \nonpl{CSV}, którego każdy podzielony na tokeny wiersz jest przekazywany do każdego wątku niezależnie od siebie. Dzięki takiemu rozwiązaniu
 				każda biblioteka zostanie uczciwie przetestowana takim samym zestawem danych. Na rys. \ref{jmeter_config_csv} zostały przedstawione udostępnione opcje przez środowisko testowe.\n
 
-				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań}{jmeter_config_csv}
+				\putss{./img/jmeter_ss/csv_config.png}{ Konfiguracja punktu źródła danych do zapytań.}{jmeter_config_csv}
 
 				Ostatnimi miejscami do uzupełnienia jest globalna konfiguracja klienta \HTTP~(rys. \ref{jmeter_config_http}) oraz sprecyzowanie ścieżek sieciowych, pod jakimi dostępne są konkretne biblioteki.\n
 
-				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP~dla biblioteki \serek}{jmeter_config_http}
+				\putss{./img/jmeter_ss/http_serek_config.png}{ Konfiguracja klienta \HTTP~dla biblioteki \serek.}{jmeter_config_http}
 
 				Konfiguracja zostaje dokończona, poprzez próbne uruchomienie testów wydajnościowych na bardzo małej próbie zaledwie stu próbek
 				na każdej bibliotece. Zaglądając do zakładki z~agregowanym raportem, można podejrzeć szybkie statystyki stworzone przez aplikację. Wyświetlone
 				zostają informacje między innymi o~ilości próbek wysłanej do każdej biblioteki, najkrótszym, najdłuższym, średnim oraz środkowym czasie zapytania. Wyniki
 				zostają zaprezentowane w~formie tabeli, tak jak na rys. \ref{jmeter_report}.\n
 
-				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację}{jmeter_report}
+				\putss{./img/jmeter_ss/aggregate_report.png}{ Szybki raport wygenerowany przez aplikację.}{jmeter_report}
 			}
 
 			{
@@ -1166,24 +1166,24 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 
 				{
 					\putfig{./charts/pre_generated_charts/total_request_time_per_library_summary.png}{
-						Zestawienie agregowanych charakterystyk opisujących całkowity czas wykonania zapytania, dla różnych bibliotek
+						Zestawienie agregowanych charakterystyk opisujących całkowity czas wykonania zapytania, dla różnych bibliotek.
 					}{sumfig_1}
 				}
 
 				{
 					\putfig{./charts/pre_generated_charts/total_serial_and_deserial_library_summmary.png}{
-						Zestawienie sumarycznych czasów serializacji, deserializacji, całego zapytania oraz ich różnicy
+						Zestawienie sumarycznych czasów serializacji, deserializacji, całego zapytania oraz ich różnicy.
 					}{sumfig_2}
 				}
 
 				{
 					\putfig{./charts/pre_generated_charts/throughput_summary_per_library_summary.png}{
-						Zestawienie agregowanych charakterystyk opisujących przepustowość, dla różnych bibliotek
+						Zestawienie agregowanych charakterystyk opisujących przepustowość, dla różnych bibliotek.
 					}{sumfig_3}
 				}
 
 				{
-					\putfig{./charts/output_with_charts_as_images/throughput_per_library.png}{ Wykres przepustowości cząstkowej, dla \Delta t  = 1s}{sumfig_4}
+					\putfig{./charts/output_with_charts_as_images/throughput_per_library.png}{ Wykres przepustowości cząstkowej, dla {\Delta t  = 1s}.}{sumfig_4}
 				}
 			}
 
@@ -1235,7 +1235,7 @@ void serek_benchmark_controller::serialize(const model_t& in, std::string& out) 
 			\nonpl{gitmoji}\cite{gitmoji}, która wymusza na programiście dobrą praktykę ograniczania jednej zmiany (\ang{commit}), do bardzo małej porcji
 			i~oznaczenie poprzez stosowną ikonę.
 
-			\putfig{./charts/pre_generated_charts/commit_percentage.png}{Udział rodzajów zmian w~całym repozytorium \serek}{commit}
+			\putfig{./charts/pre_generated_charts/commit_percentage.png}{Udział rodzajów zmian w~całym repozytorium \serek.}{commit}
 
 			\newpage
 
